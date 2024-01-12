@@ -8,6 +8,15 @@ const BookWrapper = styled.Text`
   gap: 5px;
 `;
 
+const BookTitle = styled.Text`
+  color: #000;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
 const BookImage = styled.Image`
   width: 50px;
   height: 50px;
@@ -16,5 +25,14 @@ const BookImage = styled.Image`
 `;
 
 export const BookCard = () => {
-  return <BookWrapper>Bir kitap</BookWrapper>;
+  return (
+    <BookWrapper>
+      <BookImage
+        source={{
+          uri: "https://img.freepik.com/free-photo/book-composition-with-open-book_23-2147690555.jpg",
+        }}
+      />
+      <BookTitle />
+    </BookWrapper>
+  );
 };
