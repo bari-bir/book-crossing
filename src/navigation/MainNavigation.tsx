@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
-import { BookList } from "../pages/BookList";
+import { BookList } from "../screens/BookList";
 import {StyleSheet} from "react-native";
 
 const Stack = createNativeStackNavigator();
@@ -24,7 +24,8 @@ export const MainNavigation = () => {
 
 const styles = StyleSheet.create({
     mavigator:{
-
-    backgroundColor: "#FFF",
+        paddingHorizontal: 32,
+        backgroundColor: "#fff",
+        marginTop: 9,
     }
 });

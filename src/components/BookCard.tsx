@@ -6,16 +6,16 @@ export const BookCard = () => {
 
     return (
         <View style={styles.bookContainer}>
-            <Text>rwgeger</Text>
+            <Text>ergreg</Text>
         </View>
     )
 }
 
 const styles =StyleSheet.create({
     bookContainer: {
+        paddingHorizontal: 11,
+        paddingBottom: 5,
         paddingTop: 10,
-        paddingEnd: 5,
-        paddingVertical: 11,
         backgroundColor: '#f1f1f1',
         borderRadius: 5
     }
