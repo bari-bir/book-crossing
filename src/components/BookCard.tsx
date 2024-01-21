@@ -1,14 +1,11 @@
-import { StyleSheet, View, Text, ImageBackground } from "react-native"
+import { StyleSheet, View, Text, Image } from "react-native"
 import { SvgUri } from "react-native-svg"
 import BookTest from "../../assets/book-test.png"
-import DotIcon from "../../assets/svg/dotIcon.svg"
 
 export const BookCard = () => {
     return (
         <View style={styles.bookContainer}>
-            <ImageBackground source={BookTest} resizeMode={"contain"} style={styles.bookImage}>
-                <View style={styles.imageStyle} />
-            </ImageBackground>
+            <Image source={BookTest} style={styles.bookImage} />
             <View style={styles.bookInfo}>
                 <View style={styles.bookTopInfo}>
                     <View style={styles.bookTextBlock}>
@@ -44,11 +41,10 @@ const styles = StyleSheet.create({
     bookImage: {
         width: "100%",
         height: 111,
-        objectPosition: "center",
     },
     imageStyle: {
         borderRadius: 5,
-        background: "lightgray 50%",
+        background: "red 50%",
     },
     bookInfo: {
         marginTop: 10,
