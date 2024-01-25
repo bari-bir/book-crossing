@@ -46,12 +46,11 @@ const styles = StyleSheet.create({
     tabBar: {
         position: "absolute",
         bottom: 20,
-        paddingHorizontal: 49,
-        paddingVertical: 20,
+        paddingVertical: 10,
+        height: 53,
         borderRadius: 50,
         backgroundColor: "#666",
         gap: 40,
-        height: 73,
     },
     tabIcon: {
         width: 33,
