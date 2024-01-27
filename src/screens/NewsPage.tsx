@@ -5,7 +5,7 @@ import { SafeAreaView, ScrollView, View } from "react-native"
 export const NewsPage = () => {
     return (
         <SafeAreaView>
-            <ScrollView style={{ flexGrow: 1, marginTop: 103, paddingHorizontal: 16 }}>
+            <ScrollView style={{ flexGrow: 1, paddingHorizontal: 16 }}>
                 <BookList>
                     <BookCard />
                     <BookCard />

@@ -23,6 +23,5 @@ export const MainNavigation = () => {
 const styles = StyleSheet.create({
     navigator: {
         backgroundColor: "#fff",
-        marginTop: 9,
     },
 })

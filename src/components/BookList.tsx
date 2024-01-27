@@ -1,9 +1,15 @@
 import React from "react"
 import { BookCard } from "./BookCard"
 import { Animated, StyleSheet, View, ScrollView, SafeAreaView } from "react-native"
+import { BookListHeader } from "./BookListHeader"
 
 export const BookList = ({ children }: { children: React.ReactNode }) => {
-    return <View style={styles.bookWrapper}>{children}</View>
+    return (
+        <View>
+            <BookListHeader />
+            <View style={styles.bookWrapper}>{children}</View>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
