@@ -1,5 +1,5 @@
 import React from "react"
-import { Image, StyleSheet, View } from "react-native"
+import { Image, StyleSheet, View, Text } from "react-native"
 import SettingImg from "../../assets/setting.png"
 import LocationImg from "../../assets/location.png"
 
@@ -9,8 +9,10 @@ export const BookListHeader = () => {
             <Image source={SettingImg} />
             <Image source={LocationImg} />
 
-            {/*TODO add input search*/}
-            <View></View>
+            <View style={styles.bookSearch}>
+                <Text>ergerg</Text>
+                {/* <InputEvent type="text" /> */}
+            </View>
         </View>
     )
 }
@@ -24,5 +26,14 @@ const styles = StyleSheet.create({
         marginBottom: 21,
         gap: 10,
         height: 41,
+    },
+    bookSearch: {
+        flex: 1,
+        paddingVertical: 11,
+        height: 44,
+        paddingLeft: 15,
+        paddingRight: 9,
+        bordeRadius: 5,
+        backgroundColor: "#D9D9D9",
     },
 })
