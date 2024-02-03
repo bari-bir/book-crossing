@@ -3,7 +3,9 @@ import { NewsPage } from "../screens/NewsPage"
 import { Image, StyleSheet, View } from "react-native"
 import NewsIconActive from "../../assets/svg/newsIcon-active.png"
 import NewsIconDisactive from "../../assets/svg/newsIcon-disactive.png"
-import { BookDetail } from "../screens/BookDetail"
+import FavoriteIconActive from "../../assets/svg/favoriteIcon-active.png"
+import FavoriteIconDisactive from "../../assets/svg/favoriteIcon-disactive.png"
+import { Favorite } from "../screens/Favorite"
 
 const Tab = createBottomTabNavigator()
 
@@ -26,14 +28,14 @@ export const TabNavigator = () => {
             />
             <Tab.Screen
                 name="BookDetail"
-                component={BookDetail}
+                component={Favorite}
                 options={{
                     tabBarItemStyle: {
                         height: 0,
                     },
                     tabBarIcon: ({ focused }) => (
                         <View>
-                            <Image source={focused ? NewsIconActive : NewsIconDisactive} resizeMode="contain" style={styles.tabIcon} />
+                            <Image source={focused ? FavoriteIconActive : FavoriteIconDisactive} resizeMode="contain" style={styles.tabIcon} />
                         </View>
                     ),
                 }}
