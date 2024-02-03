@@ -6,7 +6,7 @@ export const Header = ({ title, isBack }: { title: string; isBack: boolean }) =>
         <View style={styles.header}>
             {isBack ? <Image source={BackImg} /> : null}
             <View style={styles.titleBlock}>
-                <Text>{title}</Text>
+                <Text style={styles.titleText}>{title}</Text>
             </View>
         </View>
     )
@@ -14,7 +14,9 @@ export const Header = ({ title, isBack }: { title: string; isBack: boolean }) =>
 
 const styles = StyleSheet.create({
     header: {
+        flex: 1,
         marginTop: 22,
+        marginBottom: 20,
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
@@ -23,7 +25,12 @@ const styles = StyleSheet.create({
     },
     titleBlock: {
         flex: 1,
+        alignItems: "center",
         textAlign: "center",
+    },
+    titleText: {
         fontSize: 24,
+        fontWeight: "500",
+        lineHeight: 29,
     },
 })

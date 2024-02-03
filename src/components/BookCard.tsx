@@ -1,11 +1,14 @@
 import { StyleSheet, View, Text, Image } from "react-native"
 import { SvgUri } from "react-native-svg"
 import BookTest from "../../assets/book-test.png"
+import HeartActive from "../../assets/heart-active.png"
+import HeartDisactive from "../../assets/heart-disactive.png"
 
-export const BookCard = () => {
+export const BookCard = ({ isFavorite = false }: { isFavorite?: boolean }) => {
     return (
         <View style={styles.bookContainer}>
             <Image source={BookTest} style={styles.bookImage} />
+            <View style={styles.favoriteBlock}>{isFavorite ? <Image style={styles.favoriteIcon} source={HeartActive} /> : <Image style={styles.favoriteIcon} source={HeartDisactive} />}</View>
             <View style={styles.bookInfo}>
                 <View style={styles.bookTopInfo}>
                     <View style={styles.bookTextBlock}>
@@ -37,9 +40,11 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         backgroundColor: "#f1f1f1",
         borderRadius: 5,
+        position: "relative",
     },
     bookImage: {
         width: "100%",
+        borderRadius: 5,
         height: 111,
     },
     imageStyle: {
@@ -84,5 +89,21 @@ const styles = StyleSheet.create({
     },
     bookBottomInfo: {
         marginTop: 5,
+    },
+    favoriteBlock: {
+        position: "absolute",
+        top: 12,
+        right: 11,
+        width: 38,
+        height: 38,
+        backgroundColor: "#C8C8C8CC",
+        borderRadius: 100,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    favoriteIcon: {
+        width: 21,
+        height: 21,
     },
 })

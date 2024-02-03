@@ -46,11 +46,10 @@ export const TabNavigator = () => {
 
 const styles = StyleSheet.create({
     tabBar: {
-        position: "absolute",
-        bottom: 20,
-        paddingVertical: 10,
-        height: 53,
-        borderRadius: 50,
+        paddingVertical: 20,
+        height: 73,
+        borderTopLeftRadius: 50,
+        borderTopRightRadius: 50,
         backgroundColor: "#666",
         gap: 40,
     },
