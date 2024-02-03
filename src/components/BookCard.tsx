@@ -16,7 +16,7 @@ export const BookCard = ({ isFavorite = false }: { isFavorite?: boolean }) => {
                         <Text style={{ ...styles.bookTittleText, fontSize: 10 }}>2020</Text>
                     </View>
                     <View style={styles.bookDots}>
-                        {/*<SvgUri uri={DotIcon} width={9} height={9} /> TDOO add svg*/}
+                        {/*<SvgUri uri={DotIcon} width={9} height={9} /> TDOO add tabbar-icons*/}
                         <Text style={{ ...styles.bookTittleText, fontSize: 10 }}>○ ○ ○</Text>
                     </View>
                 </View>

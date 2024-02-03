@@ -1,11 +1,12 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { NewsPage } from "../screens/NewsPage"
 import { Image, StyleSheet, View } from "react-native"
-import NewsIconActive from "../../assets/svg/newsIcon-active.png"
-import NewsIconDisactive from "../../assets/svg/newsIcon-disactive.png"
-import FavoriteIconActive from "../../assets/svg/favoriteIcon-active.png"
-import FavoriteIconDisactive from "../../assets/svg/favoriteIcon-disactive.png"
+import NewsIconActive from "../../assets/tabbar-icons/newsIcon-active.png"
+import NewsIconDisactive from "../../assets/tabbar-icons/newsIcon-disactive.png"
+import FavoriteIconActive from "../../assets/tabbar-icons/favoriteIcon-active.png"
+import FavoriteIconDisactive from "../../assets/tabbar-icons/favoriteIcon-disactive.png"
 import { Favorite } from "../screens/Favorite"
+import { CreateAnnouncement } from "../screens/CreateAnnouncement"
 
 const Tab = createBottomTabNavigator()
 
@@ -29,6 +30,20 @@ export const TabNavigator = () => {
             <Tab.Screen
                 name="BookDetail"
                 component={Favorite}
+                options={{
+                    tabBarItemStyle: {
+                        height: 0,
+                    },
+                    tabBarIcon: ({ focused }) => (
+                        <View>
+                            <Image source={focused ? FavoriteIconActive : FavoriteIconDisactive} resizeMode="contain" style={styles.tabIcon} />
+                        </View>
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="CreateAnnouncement"
+                component={CreateAnnouncement}
                 options={{
                     tabBarItemStyle: {
                         height: 0,
