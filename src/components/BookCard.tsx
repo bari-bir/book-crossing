@@ -1,8 +1,8 @@
 import { StyleSheet, View, Text, Image } from "react-native"
 import { SvgUri } from "react-native-svg"
-import BookTest from "../../assets/book-test.png"
-import HeartActive from "../../assets/heart-active.png"
-import HeartDisactive from "../../assets/heart-disactive.png"
+import BookTest from "../../assets/images/book-test.png"
+import HeartActive from "../../assets/images/heart-active.png"
+import HeartDisactive from "../../assets/images/heart-disactive.png"
 
 export const BookCard = ({ isFavorite = false }: { isFavorite?: boolean }) => {
     return (

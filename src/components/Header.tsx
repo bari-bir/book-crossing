@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, View } from "react-native"
-import BackImg from "../../assets/back.png"
+import BackImg from "../../assets/images/back.png"
 
 export const Header = ({ title, isBack }: { title: string; isBack: boolean }) => {
     return (

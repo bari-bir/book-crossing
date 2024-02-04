@@ -1,9 +1,11 @@
-import { Image, View, Text, StyleSheet } from "react-native"
-import UploadImage from "../../assets/uploadImg.png"
+import { Image, View, Text, StyleSheet, TextInput } from "react-native"
+import UploadImage from "../../assets/images/uploadImg.png"
 import { Header } from "../components/Header"
 import { Page } from "../layouts/page"
+import { useState } from "react"
 
 export const CreateAnnouncement = () => {
+    const [title, setTitle] = useState<string>("")
     return (
         <Page>
             <Header title={"Create Announcement"} isBack={false} />
@@ -11,12 +13,48 @@ export const CreateAnnouncement = () => {
                 <Image source={UploadImage} style={{ width: 155, height: 153 }} />
                 <Text style={styles.uploadText}>Upload the photo</Text>
             </View>
-            <View style={styles.infoValues}></View>
+            <View style={styles.infoValues}>
+                <View style={styles.infoWrapper}>
+                    <TextInput style={{ ...styles.infoBlock, flex: 5, ...styles.infoText }} value={title} onChangeText={setTitle} placeholder={"Title"} />
+                    <View style={{ ...styles.infoBlock, flex: 1, display: "flex", justifyContent: "center" }}>
+                        <Text style={styles.infoText}>Year</Text>
+                    </View>
+                </View>
+                <View style={styles.infoWrapper}>
+                    <TextInput style={{ ...styles.infoBlock, flex: 5, ...styles.infoText }} value={title} onChangeText={setTitle} placeholder={"Category"} />
+                    <View style={{ ...styles.infoBlock, flex: 1, display: "flex", justifyContent: "center" }}>
+                        <Text style={styles.infoText}>City</Text>
+                    </View>
+                </View>
+            </View>
         </Page>
     )
 }
 
 const styles = StyleSheet.create({
+    infoWrapper: {
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "row",
+        gap: 12,
+        marginBottom: 20,
+        justifyContent: "space-between",
+        position: "relative",
+    },
+    infoText: {
+        fontSize: 12,
+        fontWeight: "400",
+    },
+    infoBlock: {
+        height: 32,
+        borderRadius: 2,
+        backgroundColor: "#fff",
+        borderColor: "rgba(0, 0, 0, 0.5)",
+        borderStyle: "solid",
+        borderWidth: 1,
+        paddingLeft: 6,
+        position: "relative",
+    },
     uploadBlock: {
         marginTop: 8,
         height: 260,

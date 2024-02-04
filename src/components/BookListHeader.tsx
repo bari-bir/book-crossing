@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import { Image, StyleSheet, View, Text, TextInput } from "react-native"
-import SettingImg from "../../assets/setting.png"
-import LocationImg from "../../assets/location.png"
-import SearchImg from "../../assets/search.png"
-import ClearImg from "../../assets/clear.png"
+import SettingImg from "../../assets/images/setting.png"
+import LocationImg from "../../assets/images/location.png"
+import SearchImg from "../../assets/images/search.png"
+import ClearImg from "../../assets/images/clear.png"
 
 export const BookListHeader = () => {
     const [search, setSearch] = useState<string>("")
