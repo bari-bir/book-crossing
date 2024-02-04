@@ -1,11 +1,16 @@
-import { Image, View, Text, StyleSheet, TextInput } from "react-native"
+import { Image, View, Text, StyleSheet, TextInput, Button } from "react-native"
 import UploadImage from "../../assets/images/uploadImg.png"
+import TitleImage from "../../assets/images/title.png"
+import CategoryImage from "../../assets/images/category.png"
+import LocationInfoImage from "../../assets/images/location-info.png"
+import CalendarImage from "../../assets/images/calendar.png"
 import { Header } from "../components/Header"
 import { Page } from "../layouts/page"
 import { useState } from "react"
 
 export const CreateAnnouncement = () => {
     const [title, setTitle] = useState<string>("")
+    const [description, setDescription] = useState<string>("")
     return (
         <Page>
             <Header title={"Create Announcement"} isBack={false} />
@@ -19,19 +24,64 @@ export const CreateAnnouncement = () => {
                     <View style={{ ...styles.infoBlock, flex: 1, display: "flex", justifyContent: "center" }}>
                         <Text style={styles.infoText}>Year</Text>
                     </View>
+                    <Image style={{ ...styles.infoImage, right: 75 }} source={TitleImage} />
+                    <Image style={{ ...styles.infoImage, right: 5 }} source={CalendarImage} />
                 </View>
                 <View style={styles.infoWrapper}>
                     <TextInput style={{ ...styles.infoBlock, flex: 5, ...styles.infoText }} value={title} onChangeText={setTitle} placeholder={"Category"} />
                     <View style={{ ...styles.infoBlock, flex: 1, display: "flex", justifyContent: "center" }}>
                         <Text style={styles.infoText}>City</Text>
                     </View>
+                    <Image style={{ ...styles.infoImage, right: 75 }} source={CategoryImage} />
+                    <Image style={{ ...styles.infoImage, right: 5 }} source={LocationInfoImage} />
                 </View>
+                <View>
+                    <TextInput value={description} onChangeText={setDescription} multiline={true} numberOfLines={10} style={styles.infoTextArea} placeholder="Type  a  message here ..." />
+                </View>
+            </View>
+
+            <View style={styles.btnSend}>
+                <Text style={styles.btnText}>Send</Text>
             </View>
         </Page>
     )
 }
 
 const styles = StyleSheet.create({
+    btnText: {
+        color: "#fff",
+        fontSize: 16,
+        fontWeight: "700",
+    },
+    btnSend: {
+        marginTop: 18,
+        marginBottom: 13,
+        marginLeft: "auto",
+        marginRight: "auto",
+        width: 260,
+        height: 40,
+        borderRadius: 5,
+        backgroundColor: "#525DDD",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    infoTextArea: {
+        height: 136,
+        backgroundColor: "#fff",
+        paddingTop: 8,
+        paddingLeft: 6,
+        borderStyle: "solid",
+        borderColor: "rgba(0, 0, 0, 0.5)",
+        borderWidth: 1,
+        borderRadius: 2,
+        textAlignVertical: "top",
+    },
+    infoImage: {
+        width: 17,
+        height: 19,
+        position: "absolute",
+    },
     infoWrapper: {
         display: "flex",
         alignItems: "center",
