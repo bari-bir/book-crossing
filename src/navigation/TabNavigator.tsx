@@ -7,7 +7,10 @@ import FavoriteIconActive from "../../assets/images/tabbar-icons/favoriteIcon-ac
 import FavoriteIconDisactive from "../../assets/images/tabbar-icons/favoriteIcon-disactive.png"
 import CreateIconDisactive from "../../assets/images/tabbar-icons/createIcon-disactive.png"
 import CreateIconActive from "../../assets/images/tabbar-icons/createIcon-active.png"
+import MessageIconAcitve from "../../assets/images/tabbar-icons/message-active.png"
+import MessageIconDisacitve from "../../assets/images/tabbar-icons/message-disactive.png"
 import { Favorite } from "../screens/Favorite"
+import { Message } from "../screens/Message"
 import { CreateAnnouncement } from "../screens/CreateAnnouncement"
 
 const Tab = createBottomTabNavigator()
@@ -30,6 +33,20 @@ export const TabNavigator = () => {
                 }}
             />
             <Tab.Screen
+                name="BookDetail"
+                component={Favorite}
+                options={{
+                    tabBarItemStyle: {
+                        height: 0,
+                    },
+                    tabBarIcon: ({ focused }) => (
+                        <View>
+                            <Image source={focused ? FavoriteIconActive : FavoriteIconDisactive} resizeMode="contain" style={styles.tabIcon} />
+                        </View>
+                    ),
+                }}
+            />
+            <Tab.Screen
                 name="CreateAnnouncement"
                 component={CreateAnnouncement}
                 options={{
@@ -44,15 +61,15 @@ export const TabNavigator = () => {
                 }}
             />
             <Tab.Screen
-                name="BookDetail"
-                component={Favorite}
+                name="Message"
+                component={Message}
                 options={{
                     tabBarItemStyle: {
                         height: 0,
                     },
                     tabBarIcon: ({ focused }) => (
                         <View>
-                            <Image source={focused ? FavoriteIconActive : FavoriteIconDisactive} resizeMode="contain" style={styles.tabIcon} />
+                            <Image source={focused ? MessageIconAcitve : MessageIconDisacitve} resizeMode="contain" style={styles.tabIcon} />
                         </View>
                     ),
                 }}
