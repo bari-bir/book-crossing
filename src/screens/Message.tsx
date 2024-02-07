@@ -19,14 +19,44 @@ export const Message = () => {
                 <View style={styles.contentWrapper}>
                     <Image style={styles.userProfileImage} source={ProfileImage} />
                     <View>
-                        <Text>Akbota Test</Text>
-                        <Text>Want to change the book!</Text>
+                        <Text style={styles.userNameText}>Akbota Test</Text>
+                        <Text style={styles.userDescr}>Want to change the book!</Text>
                     </View>
                 </View>
                 <View>
-                    <Text>13:44</Text>
+                    <Text style={styles.userDescr}>13:44</Text>
+                    <View style={styles.notification}>
+                        <Text style={styles.notificationText}>1</Text>
+                    </View>
+                </View>
+            </View>
+            <View style={styles.contentBlock}>
+                <View style={styles.contentWrapper}>
+                    <Image style={styles.userProfileImage} source={ProfileImage} />
                     <View>
-                        <Text>1</Text>
+                        <Text style={styles.userNameText}>Akbota Test</Text>
+                        <Text style={styles.userDescr}>Want to change the book!</Text>
+                    </View>
+                </View>
+                <View>
+                    <Text style={styles.userDescr}>13:44</Text>
+                    <View style={styles.notification}>
+                        <Text style={styles.notificationText}>1</Text>
+                    </View>
+                </View>
+            </View>
+            <View style={styles.contentBlock}>
+                <View style={styles.contentWrapper}>
+                    <Image style={styles.userProfileImage} source={ProfileImage} />
+                    <View>
+                        <Text style={styles.userNameText}>Akbota Test</Text>
+                        <Text style={styles.userDescr}>Want to change the book!</Text>
+                    </View>
+                </View>
+                <View>
+                    <Text style={styles.userDescr}>13:44</Text>
+                    <View style={styles.notification}>
+                        <Text style={styles.notificationText}>1</Text>
                     </View>
                 </View>
             </View>
@@ -60,6 +90,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "space-between",
+        marginBottom: 5,
     },
     contentWrapper: {
         display: "flex",
@@ -71,5 +102,33 @@ const styles = StyleSheet.create({
         width: 65,
         height: 65,
         borderRadius: 100,
+    },
+    userNameText: {
+        fontSize: 12,
+        fontWeight: "600",
+        lineHeight: 15,
+        marginBottom: 11,
+        color: "#0045CA",
+    },
+    userDescr: {
+        fontSize: 9,
+        fontWeight: "500",
+        lineHeight: 10,
+        color: "#0045CA",
+    },
+    notification: {
+        width: 16,
+        height: 16,
+        borderRadius: 100,
+        backgroundColor: "#5461F4",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 10,
+    },
+    notificationText: {
+        color: "#fff",
+        fontSize: 10,
+        fontWeight: "700",
     },
 })
