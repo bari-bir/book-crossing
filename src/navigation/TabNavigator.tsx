@@ -9,9 +9,12 @@ import CreateIconDisactive from "../../assets/images/tabbar-icons/createIcon-dis
 import CreateIconActive from "../../assets/images/tabbar-icons/createIcon-active.png"
 import MessageIconAcitve from "../../assets/images/tabbar-icons/message-active.png"
 import MessageIconDisacitve from "../../assets/images/tabbar-icons/message-disactive.png"
+import RequestIconAction from "../../assets/images/tabbar-icons/requestIcon-active.png"
+import RequestIconDisaction from "../../assets/images/tabbar-icons/requestIcon-disactive.png"
 import { Favorite } from "../screens/Favorite"
 import { Message } from "../screens/Message"
 import { CreateAnnouncement } from "../screens/CreateAnnouncement"
+import { Request } from "../screens/Request"
 
 const Tab = createBottomTabNavigator()
 
@@ -70,6 +73,20 @@ export const TabNavigator = () => {
                     tabBarIcon: ({ focused }) => (
                         <View>
                             <Image source={focused ? MessageIconAcitve : MessageIconDisacitve} resizeMode="contain" style={styles.tabIcon} />
+                        </View>
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Request"
+                component={Request}
+                options={{
+                    tabBarItemStyle: {
+                        height: 0,
+                    },
+                    tabBarIcon: ({ focused }) => (
+                        <View>
+                            <Image source={focused ? RequestIconAction : RequestIconDisaction} resizeMode="contain" style={styles.tabIcon} />
                         </View>
                     ),
                 }}
