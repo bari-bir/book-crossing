@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native"
 import { StyleSheet } from "react-native"
 import { TabNavigator } from "./TabNavigator"
+import { BookDetail } from "../screens/BookDetail"
 
 const Stack = createNativeStackNavigator()
 
@@ -15,6 +16,7 @@ export const MainNavigation = () => {
                     contentStyle: styles.navigator,
                 }}>
                 <Stack.Screen name="Root" component={TabNavigator} />
+                <Stack.Screen name={"BookDetail"} component={BookDetail} />
             </Stack.Navigator>
         </NavigationContainer>
     )
