@@ -3,57 +3,100 @@ import React, { useState } from "react"
 import { Page } from "../layouts/page"
 import { Header } from "../components/Header"
 import BookImage from "../../assets/images/book-test.png"
+import Tabs from "@ant-design/react-native/lib/tabs"
+import Button from "@ant-design/react-native/lib/button"
+import { TabData } from "@ant-design/react-native/es/tabs/PropsType"
 
 export const Request = () => {
-    const [tabInfo, setTabInfo] = useState<{ type: string }>({ type: "request" })
+    const [tabInfo, setTabInfo] = useState<TabData>({ title: "Request" })
+    const [tabs] = useState<{ title: string }[]>([{ title: "Request" }, { title: "Announcement" }])
+
+    function onChangeTabs(tab: TabData) {
+        setTabInfo(tab)
+    }
+
     return (
         <Page>
-            <Header title={"Request"} isBack={false} />
-            <View style={{ ...styles.requestTabs }}>
-                <Text>Requests</Text>
-                <Text>Announcement</Text>
-            </View>
+            <Header title={String(tabInfo.title)} isBack={false} />
+            <View style={{ flex: 1, height: "auto" }}>
+                <Tabs tabs={tabs} tabBarUnderlineStyle={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }} onTabClick={(e) => onChangeTabs(e)}>
+                    {/*Request*/}
+                    <View>
+                        <View style={styles.requestBlock}>
+                            <Image style={styles.requestBookImg} source={BookImage} />
 
-            <View style={styles.requestBlock}>
-                <Image style={styles.requestBookImg} source={BookImage} />
+                            <View style={styles.requestInfo}>
+                                <Text style={styles.requestInfoTitle}>Akbota Zhumakhanbet</Text>
+                                <Text style={styles.requestInfoDescr}>The standard Lorem Ipsum passage, used since "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ...</Text>
 
-                <View style={styles.requestInfo}>
-                    <Text>Akbota Zhumakhanbet</Text>
-                    <Text>The standard Lorem Ipsum passage, used since "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ...</Text>
+                                {/* ADD BUTTONS */}
+                                <View style={styles.requestBtn}>
+                                    <Button style={styles.btnWrapper}>
+                                        <Text style={{ fontSize: 9, fontWeight: "700", color: "#222" }}>Review</Text>
+                                    </Button>
+                                    <Button type="primary" style={styles.btnWrapper}>
+                                        <Text style={{ fontSize: 9, fontWeight: "700", color: "#fff" }}>Accept</Text>
+                                    </Button>
+                                </View>
+                            </View>
+                        </View>
+                        <View style={styles.requestBlock}>
+                            <Image style={styles.requestBookImg} source={BookImage} />
 
-                    {/* ADD BUTTONS */}
-                </View>
+                            <View style={styles.requestInfo}>
+                                <Text style={styles.requestInfoTitle}>Akbota Zhumakhanbet</Text>
+                                <Text style={styles.requestInfoDescr}>The standard Lorem Ipsum passage, used since "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ...</Text>
+
+                                {/* ADD BUTTONS */}
+                                <View style={styles.requestBtn}>
+                                    <Button style={styles.btnWrapper}>
+                                        <Text style={{ fontSize: 9, fontWeight: "700", color: "#222" }}>Review</Text>
+                                    </Button>
+                                    <Button type="primary" style={styles.btnWrapper}>
+                                        <Text style={{ fontSize: 9, fontWeight: "700", color: "#fff" }}>Accept</Text>
+                                    </Button>
+                                </View>
+                            </View>
+                        </View>
+                        <View style={styles.requestBlock}>
+                            <Image style={styles.requestBookImg} source={BookImage} />
+
+                            <View style={styles.requestInfo}>
+                                <Text style={styles.requestInfoTitle}>Akbota Zhumakhanbet</Text>
+                                <Text style={styles.requestInfoDescr}>The standard Lorem Ipsum passage, used since "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ...</Text>
+
+                                {/* ADD BUTTONS */}
+                                <View style={styles.requestBtn}>
+                                    <Button style={styles.btnWrapper}>
+                                        <Text style={{ fontSize: 9, fontWeight: "700", color: "#222" }}>Review</Text>
+                                    </Button>
+                                    <Button type="primary" style={styles.btnWrapper}>
+                                        <Text style={{ fontSize: 9, fontWeight: "700", color: "#fff" }}>Accept</Text>
+                                    </Button>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                    {/*Announcement*/}
+                    <View>
+                        <View style={styles.requestBlock}>
+                            <Image style={styles.requestBookImg} source={BookImage} />
+
+                            <View style={styles.requestInfo}>
+                                <Text>Akbota Zhumakhanbet</Text>
+                                <Text>The standard Lorem Ipsum passage, used since "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ...</Text>
+
+                                {/* ADD BUTTONS */}
+                            </View>
+                        </View>
+                    </View>
+                </Tabs>
             </View>
         </Page>
     )
 }
 
 const styles = StyleSheet.create({
-    requestTabs: {
-        marginTop: 20,
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        paddingBottom: 7,
-
-        /**
-         * @TODO add tab for request and announcement
-         */
-        "&::before": {
-            content: "",
-            position: "absolute",
-            top: 0,
-            display: "flex",
-            flex: 1,
-            width: "100%",
-            height: 1,
-            backgroundColor: "#C2BEBE",
-        },
-    },
-    requestTab: {
-        width: "50%",
-    },
     requestBlock: {
         marginTop: 13,
         paddingVertical: 8,
@@ -70,8 +113,33 @@ const styles = StyleSheet.create({
     requestBookImg: {
         height: 85,
         width: 85,
+        borderRadius: 10,
     },
     requestInfo: {
         flex: 1,
+    },
+    requestInfoTitle: {
+        fontSize: 14,
+        fontWeight: "500",
+        marginBottom: 7,
+    },
+    requestInfoDescr: {
+        fontSize: 8,
+        fontWeight: "300",
+        marginBottom: 8,
+    },
+    requestBtn: {
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "row",
+        gap: 6,
+        justifyContent: "flex-end",
+    },
+    btnWrapper: {
+        fontSize: 9,
+        fontWeight: "700",
+        height: 25,
+        paddingVertical: 6,
+        paddingHorizontal: 0,
     },
 })
