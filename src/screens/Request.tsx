@@ -4,6 +4,7 @@ import { Page } from "../layouts/page"
 import { Header } from "../components/Header"
 import Tabs from "@ant-design/react-native/lib/tabs"
 import Modal from "@ant-design/react-native/lib/modal"
+import Provider from "@ant-design/react-native/lib/provider"
 import { TabData } from "@ant-design/react-native/es/tabs/PropsType"
 import { RequestBlock } from "../components/RequestBlock"
 
@@ -21,30 +22,34 @@ export const Request = () => {
     }
 
     return (
-        <Page>
-            <Header title={String(tabInfo.title)} isBack={false} />
-            <View style={{ flex: 1, height: "auto" }}>
-                <Tabs tabs={tabs} tabBarUnderlineStyle={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }} onTabClick={(e) => onChangeTabs(e)}>
-                    {/*Request*/}
-                    <View>
-                        <View style={{ marginTop: 13 }}>
-                            <RequestBlock onClickReview={onClickReview} isRequest />
-                            <RequestBlock onClickReview={onClickReview} isRequest />
-                            <RequestBlock onClickReview={onClickReview} isRequest />
+        <>
+            <Page>
+                <Header title={String(tabInfo.title)} isBack={false} />
+                <View style={{ flex: 1, height: "auto" }}>
+                    <Tabs tabs={tabs} tabBarUnderlineStyle={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }} onTabClick={(e) => onChangeTabs(e)}>
+                        {/*Request*/}
+                        <View>
+                            <View style={{ marginTop: 13 }}>
+                                <RequestBlock onClickReview={onClickReview} isRequest />
+                                <RequestBlock onClickReview={onClickReview} isRequest />
+                                <RequestBlock onClickReview={onClickReview} isRequest />
+                            </View>
                         </View>
-                    </View>
-                    {/*Announcement*/}
-                    <View>
-                        <View style={{ marginTop: 13 }}>
-                            <RequestBlock onClickReview={onClickReview} isRequest={false} />
+                        {/*Announcement*/}
+                        <View>
+                            <View style={{ marginTop: 13 }}>
+                                <RequestBlock onClickReview={onClickReview} isRequest={false} />
+                            </View>
                         </View>
-                    </View>
-                </Tabs>
-            </View>
-            <Modal popup visible={visibleModal} animationType={"slide-up"} onClose={() => setVisibleModal(false)}>
-                Hello
-            </Modal>
-        </Page>
+                    </Tabs>
+                </View>
+            </Page>
+            <Provider>
+                <Modal popup visible={visibleModal} animationType={"slide-up"} onClose={() => setVisibleModal(false)}>
+                    <Text>Hello first modal</Text>
+                </Modal>
+            </Provider>
+        </>
     )
 }
 
