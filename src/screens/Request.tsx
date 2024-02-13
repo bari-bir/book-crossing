@@ -45,7 +45,7 @@ export const Request = () => {
                 </View>
             </Page>
             <Provider>
-                <Modal popup visible={visibleModal} animationType={"slide-up"} onClose={() => setVisibleModal(false)}>
+                <Modal visible={visibleModal} animationType={"slide-up"} onClose={() => setVisibleModal(false)}>
                     <Text>Hello first modal</Text>
                 </Modal>
             </Provider>
