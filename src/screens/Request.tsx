@@ -7,8 +7,11 @@ import Modal from "@ant-design/react-native/lib/modal"
 import Provider from "@ant-design/react-native/lib/provider"
 import { TabData } from "@ant-design/react-native/es/tabs/PropsType"
 import { RequestBlock } from "../components/RequestBlock"
+import { useSelector } from "react-redux"
 
 export const Request = () => {
+    const store = useSelector((state) => state.tabbar.isVisible)
+
     const [tabInfo, setTabInfo] = useState<TabData>({ title: "Request" })
     const [tabs] = useState<{ title: string }[]>([{ title: "Request" }, { title: "Announcement" }])
     const [visibleModal, setVisibleModal] = useState<boolean>(false)
@@ -22,7 +25,7 @@ export const Request = () => {
     }
 
     return (
-        <>
+        <Provider>
             <Page>
                 <Header title={String(tabInfo.title)} isBack={false} />
                 <View style={{ flex: 1, height: "auto" }}>
@@ -43,13 +46,11 @@ export const Request = () => {
                         </View>
                     </Tabs>
                 </View>
-            </Page>
-            <Provider>
-                <Modal visible={visibleModal} animationType={"slide-up"} onClose={() => setVisibleModal(false)}>
+                <Modal popup maskClosable visible={visibleModal} animationType={"slide-up"} onClose={() => setVisibleModal(false)}>
                     <Text>Hello first modal</Text>
                 </Modal>
-            </Provider>
-        </>
+            </Page>
+        </Provider>
     )
 }
 

@@ -20,7 +20,17 @@ const Tab = createBottomTabNavigator()
 
 export const TabNavigator = () => {
     return (
-        <Tab.Navigator initialRouteName="Home" screenOptions={{ headerShown: false, tabBarShowLabel: false, tabBarStyle: styles.tabBar, tabBarHideOnKeyboard: true }}>
+        <Tab.Navigator
+            initialRouteName="Home"
+            screenOptions={{
+                headerShown: false,
+                tabBarShowLabel: false,
+                tabBarStyle: {
+                    ...styles.tabBar,
+                    display: "flex",
+                },
+                tabBarHideOnKeyboard: true,
+            }}>
             <Tab.Screen
                 name="News"
                 component={NewsPage}
