@@ -15,10 +15,12 @@ import { Favorite } from "../screens/Favorite"
 import { Message } from "../screens/Message"
 import { CreateAnnouncement } from "../screens/CreateAnnouncement"
 import { Request } from "../screens/Request"
+import { useAppSelector } from "../hooks/store"
 
 const Tab = createBottomTabNavigator()
 
 export const TabNavigator = () => {
+    const isVisibleTabBar = useAppSelector((state) => state.tabbar.isVisible)
     return (
         <Tab.Navigator
             initialRouteName="Home"
@@ -27,7 +29,7 @@ export const TabNavigator = () => {
                 tabBarShowLabel: false,
                 tabBarStyle: {
                     ...styles.tabBar,
-                    display: "flex",
+                    display: isVisibleTabBar ? "flex" : "none",
                 },
                 tabBarHideOnKeyboard: true,
             }}>
