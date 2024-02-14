@@ -16,7 +16,7 @@ export const MainNavigation = () => {
                     contentStyle: styles.navigator,
                 }}>
                 <Stack.Screen name="Root" component={TabNavigator} />
-                <Stack.Screen name={"BookDetail"} component={BookDetail} />
+                <Stack.Screen name={"BookDetail"} component={BookDetail} options={({ route }) => ({ id: route.params.id })} />
             </Stack.Navigator>
         </NavigationContainer>
     )
