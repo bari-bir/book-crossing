@@ -3,22 +3,25 @@ import { BookCard } from "../components/BookCard"
 import { BookListHeader } from "../components/BookListHeader"
 import { Page } from "../layouts/page"
 import type { NativeStackScreenProps } from "@react-navigation/native-stack"
+import { RootStackParamList } from "../navigation/MainNavigation"
 
-export const NewsPage = ({ navigation }: { navigation: NativeStackScreenProps }) => {
+type Props = NativeStackScreenProps<RootStackParamList, "BookDetail">
+
+export const NewsPage = ({ navigation }: Props) => {
     return (
         <Page>
             <BookListHeader />
             <BookList>
-                <BookCard />
-                <BookCard />
-                <BookCard />
-                <BookCard />
-                <BookCard />
-                <BookCard />
-                <BookCard />
-                <BookCard />
-                <BookCard />
-                <BookCard />
+                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
+                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
+                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
+                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
+                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
+                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
+                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
+                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
+                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
+                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
             </BookList>
         </Page>
     )

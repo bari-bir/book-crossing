@@ -4,9 +4,9 @@ import BookTest from "../../assets/images/book-test.png"
 import HeartActive from "../../assets/images/heart-active.png"
 import HeartDisactive from "../../assets/images/heart-disactive.png"
 
-export const BookCard = ({ isFavorite = false }: { isFavorite?: boolean }) => {
+export const BookCard = ({ isFavorite = false, onNavigate }: { isFavorite?: boolean; onNavigate: () => void }) => {
     return (
-        <View style={styles.bookContainer}>
+        <View style={styles.bookContainer} on={() => onNavigate()}>
             <Image source={BookTest} style={styles.bookImage} />
             <View style={styles.favoriteBlock}>{isFavorite ? <Image style={styles.favoriteIcon} source={HeartActive} /> : <Image style={styles.favoriteIcon} source={HeartDisactive} />}</View>
             <View style={styles.bookInfo}>
