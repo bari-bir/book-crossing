@@ -1,34 +1,35 @@
-import { StyleSheet, View, Text, Image } from "react-native"
-import { SvgUri } from "react-native-svg"
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native"
 import BookTest from "../../assets/images/book-test.png"
 import HeartActive from "../../assets/images/heart-active.png"
 import HeartDisactive from "../../assets/images/heart-disactive.png"
 
 export const BookCard = ({ isFavorite = false, onNavigate }: { isFavorite?: boolean; onNavigate: () => void }) => {
     return (
-        <View style={styles.bookContainer} on={() => onNavigate()}>
-            <Image source={BookTest} style={styles.bookImage} />
-            <View style={styles.favoriteBlock}>{isFavorite ? <Image style={styles.favoriteIcon} source={HeartActive} /> : <Image style={styles.favoriteIcon} source={HeartDisactive} />}</View>
-            <View style={styles.bookInfo}>
-                <View style={styles.bookTopInfo}>
-                    <View style={styles.bookTextBlock}>
-                        <Text style={styles.bookTittleText}>Кемел адам</Text>
-                        <Text style={{ ...styles.bookTittleText, fontSize: 10 }}>2020</Text>
+        <TouchableOpacity onPress={() => onNavigate()}>
+            <View style={styles.bookContainer}>
+                <Image source={BookTest} style={styles.bookImage} />
+                <View style={styles.favoriteBlock}>{isFavorite ? <Image style={styles.favoriteIcon} source={HeartActive} /> : <Image style={styles.favoriteIcon} source={HeartDisactive} />}</View>
+                <View style={styles.bookInfo}>
+                    <View style={styles.bookTopInfo}>
+                        <View style={styles.bookTextBlock}>
+                            <Text style={styles.bookTittleText}>Кемел адам</Text>
+                            <Text style={{ ...styles.bookTittleText, fontSize: 10 }}>2020</Text>
+                        </View>
+                        <View style={styles.bookDots}>
+                            {/*<SvgUri uri={DotIcon} width={9} height={9} /> TDOO add tabbar-icons*/}
+                            <Text style={{ ...styles.bookTittleText, fontSize: 10 }}>○ ○ ○</Text>
+                        </View>
                     </View>
-                    <View style={styles.bookDots}>
-                        {/*<SvgUri uri={DotIcon} width={9} height={9} /> TDOO add tabbar-icons*/}
-                        <Text style={{ ...styles.bookTittleText, fontSize: 10 }}>○ ○ ○</Text>
+                    <View style={{ ...styles.bookTopInfo, ...styles.bookBottomInfo }}>
+                        <View>
+                            <Text>Саморазвитие</Text>
+                            <Text>20.01.2024</Text>
+                        </View>
+                        <Text>10:47</Text>
                     </View>
-                </View>
-                <View style={{ ...styles.bookTopInfo, ...styles.bookBottomInfo }}>
-                    <View>
-                        <Text>Саморазвитие</Text>
-                        <Text>20.01.2024</Text>
-                    </View>
-                    <Text>10:47</Text>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
