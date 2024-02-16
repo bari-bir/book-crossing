@@ -38,7 +38,7 @@ export const Request = () => {
             <Page>
                 <Header title={String(tabInfo.title)} isBack={false} />
                 <View style={{ flex: 1, height: "auto" }}>
-                    <Tabs tabs={tabs} tabBarUnderlineStyle={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }} onTabClick={(e) => onChangeTabs(e)}>
+                    <Tabs tabs={tabs} tabBarUnderlineStyle={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }} onTabClick={(e) => onChangeTabs(e)} onChange={(e) => onChangeTabs(e)}>
                         {/*Request*/}
                         <View>
                             <View style={{ marginTop: 13 }}>

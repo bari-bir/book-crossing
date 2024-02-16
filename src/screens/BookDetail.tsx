@@ -1,10 +1,29 @@
 import { ImageBackground, Text, View, StyleSheet, Image } from "react-native"
 import BookImage from "../../assets/images/book-test.png"
 import HeartDisactive from "../../assets/images/heart-disactive.png"
+import Icon from "@ant-design/react-native/lib/icon"
+import { useEffect, useState } from "react"
+import { loadAsync } from "expo-font"
+// import { outlineGlyphMap, OutlineGlyphMapType } from "@ant-design/icons-react-native/lib/outline"
 
 export const BookDetail = () => {
+    const [fontLoaded, setFontLoaded] = useState<boolean>(false)
+
+    useEffect(() => {
+        _loadAssets()
+    }, [])
+
+    async function _loadAssets() {
+        await loadAsync({
+            antoutline: require("@ant-design/icons-react-native/fonts/antoutline.ttf"),
+            antfill: require("@ant-design/icons-react-native/fonts/antfill.ttf"),
+        })
+        setFontLoaded(true)
+    }
+
     return (
         <ImageBackground style={styles.backImg} resizeMode="contain" source={BookImage}>
+            <Icon name={"close-circle"} />
             <View style={styles.bookWrapper}>
                 <View style={styles.bookInfo}>
                     <Text style={styles.bookTitle}>Кемел адам</Text>
