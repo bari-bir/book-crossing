@@ -21,7 +21,7 @@ export const MainNavigation = () => {
                     contentStyle: styles.navigator,
                 }}>
                 <Stack.Screen name="Root" component={TabNavigator} />
-                <Stack.Screen name={"BookDetail"} component={BookDetail} />
+                <Stack.Screen name="BookDetail" component={BookDetail} />
             </Stack.Navigator>
         </NavigationContainer>
     )

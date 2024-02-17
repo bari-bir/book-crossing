@@ -16,7 +16,7 @@ import { Message } from "../screens/Message"
 import { CreateAnnouncement } from "../screens/CreateAnnouncement"
 import { Request } from "../screens/Request"
 import { useAppSelector } from "../hooks/store"
-import { BookCard } from "../components/BookCard"
+// import { BookExchange } from "../screens/BookExchange"
 
 const Tab = createBottomTabNavigator()
 
@@ -34,6 +34,16 @@ export const TabNavigator = () => {
                 },
                 tabBarHideOnKeyboard: true,
             }}>
+            {/* TODO add exchange route <Tab.Screen
+                name="BookExchange"
+                initialParams={{ bookId: "1" }}
+                component={BookExchange}
+                options={{
+                    tabBarItemStyle: {
+                        display: "none",
+                    },
+                }}
+            /> */}
             <Tab.Screen
                 name="News"
                 component={NewsPage}

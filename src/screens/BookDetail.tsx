@@ -91,7 +91,7 @@ export const BookDetail = () => {
                         ))}
                     </View>
 
-                    <Button type="primary" style={styles.btnExchange}>
+                    <Button type="primary" style={styles.btnExchange} onPress={() => navigation.navigate("BookExchange", { bookId: "1" })}>
                         Exchange
                     </Button>
                 </View>
