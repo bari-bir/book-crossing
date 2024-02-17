@@ -7,21 +7,21 @@ import { RootStackParamList } from "../navigation/MainNavigation"
 
 type Props = NativeStackScreenProps<RootStackParamList, "BookDetail">
 
-export const NewsPage = ({ navigation }: Props) => {
+export const NewsPage = () => {
     return (
         <Page>
             <BookListHeader />
             <BookList>
-                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
-                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
-                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
-                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
-                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
-                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
-                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
-                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
-                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
-                <BookCard onNavigate={() => navigation.push("BookDetail", { bookId: "1" })} />
+                <BookCard />
+                <BookCard />
+                <BookCard />
+                <BookCard />
+                <BookCard />
+                <BookCard />
+                <BookCard />
+                <BookCard />
+                <BookCard />
+                <BookCard />
             </BookList>
         </Page>
     )

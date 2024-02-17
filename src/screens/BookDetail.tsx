@@ -4,7 +4,6 @@ import HeartDisactive from "../../assets/images/heart-disactive.png"
 import Icon from "@ant-design/react-native/lib/icon"
 import { useEffect, useState } from "react"
 import { loadAsync } from "expo-font"
-// import { outlineGlyphMap, OutlineGlyphMapType } from "@ant-design/icons-react-native/lib/outline"
 
 export const BookDetail = () => {
     const [fontLoaded, setFontLoaded] = useState<boolean>(false)
@@ -19,6 +18,9 @@ export const BookDetail = () => {
             antfill: require("@ant-design/icons-react-native/fonts/antfill.ttf"),
         })
         setFontLoaded(true)
+    }
+    if (!fontLoaded) {
+        return <Text>Load font</Text>
     }
 
     return (

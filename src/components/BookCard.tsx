@@ -2,10 +2,17 @@ import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native"
 import BookTest from "../../assets/images/book-test.png"
 import HeartActive from "../../assets/images/heart-active.png"
 import HeartDisactive from "../../assets/images/heart-disactive.png"
+import { CompositeNavigationProp, useNavigation } from "@react-navigation/native"
+import type { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack"
+import { RootStackParamList } from "../navigation/MainNavigation"
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs"
 
-export const BookCard = ({ isFavorite = false, onNavigate }: { isFavorite?: boolean; onNavigate: () => void }) => {
+type NavigateType = CompositeNavigationProp<BottomTabNavigationProp<RootStackParamList, "Root">, NativeStackNavigationProp<RootStackParamList, "BookDetail">>
+
+export const BookCard = ({ isFavorite = false }: { isFavorite?: boolean }) => {
+    const navigation = useNavigation<NavigateType>()
     return (
-        <TouchableOpacity onPress={() => onNavigate()}>
+        <TouchableOpacity onPress={() => navigation.navigate("BookDetail", { bookId: "1" })}>
             <View style={styles.bookContainer}>
                 <Image source={BookTest} style={styles.bookImage} />
                 <View style={styles.favoriteBlock}>{isFavorite ? <Image style={styles.favoriteIcon} source={HeartActive} /> : <Image style={styles.favoriteIcon} source={HeartDisactive} />}</View>

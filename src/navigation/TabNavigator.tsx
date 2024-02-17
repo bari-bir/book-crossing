@@ -16,6 +16,7 @@ import { Message } from "../screens/Message"
 import { CreateAnnouncement } from "../screens/CreateAnnouncement"
 import { Request } from "../screens/Request"
 import { useAppSelector } from "../hooks/store"
+import { BookCard } from "../components/BookCard"
 
 const Tab = createBottomTabNavigator()
 
@@ -48,7 +49,7 @@ export const TabNavigator = () => {
                 }}
             />
             <Tab.Screen
-                name="BookDetail"
+                name="Favorite"
                 component={Favorite}
                 options={{
                     tabBarItemStyle: {
