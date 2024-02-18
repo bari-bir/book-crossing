@@ -3,10 +3,12 @@ import { NavigationContainer, DefaultTheme } from "@react-navigation/native"
 import { StyleSheet } from "react-native"
 import { TabNavigator } from "./TabNavigator"
 import { BookDetail } from "../screens/BookDetail"
+import { BookExchange } from "../screens/BookExchange"
 
 export type RootStackParamList = {
     Root: undefined
     BookDetail: { bookId: string }
+    BookExchange: { bookId: string }
 }
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
@@ -22,6 +24,7 @@ export const MainNavigation = () => {
                 }}>
                 <Stack.Screen name="Root" component={TabNavigator} />
                 <Stack.Screen name="BookDetail" component={BookDetail} />
+                <Stack.Screen name="BookExchange" component={BookExchange} />
             </Stack.Navigator>
         </NavigationContainer>
     )

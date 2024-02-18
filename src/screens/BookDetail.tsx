@@ -62,7 +62,7 @@ export const BookDetail = () => {
             </Carousel>
             <View style={styles.backImg}>
                 <TouchableOpacity style={{ ...styles.closeIcon, top: -height + 45 }} onPress={() => navigation.goBack()}>
-                    <Icon style={{ color: "#fff" }} name={"close"} />
+                    <Icon name="close" style={{ color: "#fff" }} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => goToCarousel(carousel.selectIndex - 1)} style={{ ...styles.arrowWrapper, top: -height / 2, left: 14 }}>
                     <Icon name="left" size={"md"} color={"#adadad"} />
@@ -118,9 +118,11 @@ const styles = StyleSheet.create({
     closeIcon: {
         position: "absolute",
         right: 24,
-        paddingHorizontal: 10,
+        height: 32,
+        width: 32,
+        justifyContent: "center",
+        alignItems: "center",
         borderRadius: 100,
-        paddingVertical: 10,
         backgroundColor: "rgba(217, 217, 217, 0.5)",
     },
     bookWrapper: {
