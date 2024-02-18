@@ -68,7 +68,7 @@ export const Request = () => {
                             <Text style={styles.userNameText}>Akbota Zhumakhanbet</Text>
 
                             <View style={styles.requestBtn}>
-                                <Button style={styles.btnWrapper} onPress={() => onClickReview(true)}>
+                                <Button style={{...styles.btnWrapper, borderWidth: 1}} onPress={() => onClickReview(true)}>
                                     <Text style={{ fontSize: 9, fontWeight: "700", color: "#222" }}>Review</Text>
                                 </Button>
                                 <Button type="primary" style={{ ...styles.btnWrapper, backgroundColor: "#525DDD" }}>
@@ -127,6 +127,7 @@ const styles = StyleSheet.create({
         fontSize: 9,
         fontWeight: "700",
         height: 25,
+        borderWidth: 0,
         paddingVertical: 6,
         paddingHorizontal: 0,
     },

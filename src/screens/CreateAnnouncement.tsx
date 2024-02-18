@@ -1,12 +1,9 @@
-import { Image, View, Text, StyleSheet, TextInput, Button } from "react-native"
+import { Image, View, Text, StyleSheet, TextInput } from "react-native"
 import UploadImage from "../../assets/images/uploadImg.png"
-import TitleImage from "../../assets/images/title.png"
-import CategoryImage from "../../assets/images/category.png"
-import LocationInfoImage from "../../assets/images/location-info.png"
-import CalendarImage from "../../assets/images/calendar.png"
 import { Header } from "../components/Header"
 import { Page } from "../layouts/page"
 import { useState } from "react"
+import Icon from "@ant-design/react-native/lib/icon"
 
 export const CreateAnnouncement = () => {
     const [title, setTitle] = useState<string>("")
@@ -24,16 +21,17 @@ export const CreateAnnouncement = () => {
                     <View style={{ ...styles.infoBlock, flex: 1, display: "flex", justifyContent: "center" }}>
                         <Text style={styles.infoText}>Year</Text>
                     </View>
-                    <Image style={{ ...styles.infoImage, right: 75 }} source={TitleImage} />
-                    <Image style={{ ...styles.infoImage, right: 5 }} source={CalendarImage} />
+                    <Icon name="pic-center" style={{ ...styles.infoImage, right: 75 }} />
+                    <Icon name="calendar" style={{ ...styles.infoImage, right: 5 }} />
                 </View>
                 <View style={styles.infoWrapper}>
                     <TextInput style={{ ...styles.infoBlock, flex: 5, ...styles.infoText }} value={title} onChangeText={setTitle} placeholder={"Category"} />
                     <View style={{ ...styles.infoBlock, flex: 1, display: "flex", justifyContent: "center" }}>
                         <Text style={styles.infoText}>City</Text>
                     </View>
-                    <Image style={{ ...styles.infoImage, right: 75 }} source={CategoryImage} />
-                    <Image style={{ ...styles.infoImage, right: 5 }} source={LocationInfoImage} />
+                
+                    <Icon name="appstore" style={{ ...styles.infoImage, right: 75 }} />
+                    <Icon name="environment" style={{ ...styles.infoImage, right: 5 }} />
                 </View>
                 <View>
                     <TextInput value={description} onChangeText={setDescription} multiline={true} numberOfLines={10} style={styles.infoTextArea} placeholder="Type  a  message here ..." />
@@ -78,9 +76,11 @@ const styles = StyleSheet.create({
         textAlignVertical: "top",
     },
     infoImage: {
-        width: 17,
-        height: 19,
+        width: 20,
+        height: '100%',
+        color: "#F24E1E",
         position: "absolute",
+        top: 5,
     },
     infoWrapper: {
         display: "flex",

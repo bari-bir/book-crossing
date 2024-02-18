@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
         justifyContent: "flex-end",
     },
     btnWrapper: {
+        borderWidth: 0,
         fontSize: 9,
         fontWeight: "700",
         height: 25,

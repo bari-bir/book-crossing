@@ -4,12 +4,11 @@ import HeartDisactive from "../../assets/images/heart-disactive.png"
 import Button from "@ant-design/react-native/lib/button"
 import Carousel from "@ant-design/react-native/lib/carousel"
 import Icon from "@ant-design/react-native/lib/icon"
-import { useEffect, useRef, useState } from "react"
-import { loadAsync } from "expo-font"
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs"
 import { CompositeNavigationProp, useNavigation } from "@react-navigation/native"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack"
 import { RootStackParamList } from "../navigation/MainNavigation"
+import { useRef, useState } from "react"
 
 type NavigateType = CompositeNavigationProp<BottomTabNavigationProp<RootStackParamList, "Root">, NativeStackNavigationProp<RootStackParamList, "BookDetail">>
 
@@ -18,23 +17,10 @@ export const BookDetail = () => {
     const carouselElement = useRef<Carousel>(null)
     const navigation = useNavigation<NavigateType>()
     const [dataList, setDataList] = useState<number[]>([1, 2, 3])
-    const [fontLoaded, setFontLoaded] = useState<boolean>(false)
     const [carousel, setCarousel] = useState<{ selectIndex: number; autoplay: boolean }>({
         selectIndex: 0,
         autoplay: false,
     })
-
-    useEffect(() => {
-        _loadAssets()
-    }, [])
-
-    async function _loadAssets() {
-        await loadAsync({
-            antoutline: require("@ant-design/icons-react-native/fonts/antoutline.ttf"),
-            antfill: require("@ant-design/icons-react-native/fonts/antfill.ttf"),
-        })
-        setFontLoaded(true)
-    }
 
     function onHorizontalSelectedIndexChange(index: number) {
         /**
@@ -47,10 +33,6 @@ export const BookDetail = () => {
         const indexCarousel = index < 0 ? 2 : index > 2 ? 0 : index
         carouselElement.current?.goTo(indexCarousel)
         setCarousel((carousel) => ({ ...carousel, selectIndex: indexCarousel }))
-    }
-
-    if (!fontLoaded) {
-        return <Text>Load font</Text>
     }
 
     return (
@@ -171,6 +153,7 @@ const styles = StyleSheet.create({
         height: 16,
     },
     btnExchange: {
+        borderWidth: 0,
         marginTop: 24,
         backgroundColor: "#525DDD",
     },
