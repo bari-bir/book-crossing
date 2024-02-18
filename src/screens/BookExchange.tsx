@@ -1,10 +1,12 @@
 import Icon from "@ant-design/react-native/lib/icon"
 import Carousel from "@ant-design/react-native/lib/carousel"
-import { TouchableOpacity, View, StyleSheet, Image, Text } from "react-native"
+import { TouchableOpacity, View, StyleSheet, Image, Text, TextInput } from "react-native"
 import BookImage from "../../assets/images/book-test.png"
 import HeartDisactive from "../../assets/images/heart-disactive.png"
 import { useRef, useState } from "react"
 import { useNavigation } from "@react-navigation/native"
+import UserProfileImage from "../../assets/images/profile.png"
+import Button from "@ant-design/react-native/lib/button"
 
 export const BookExchange = () => {
     const carouselElement = useRef<Carousel>(null)
@@ -15,6 +17,7 @@ export const BookExchange = () => {
     const [info, setInfo] = useState<{ images: number[] }>({
         images: [1, 2, 3],
     })
+    const [description, setDescription] = useState<string>("")
 
     function onHorizontalSelectedIndexChange(index: number) {
         setCarouselInfo((carousel) => ({ ...carousel, selectIndex: index }))
@@ -61,7 +64,24 @@ export const BookExchange = () => {
                     </View>
                 </View>
 
-                <View></View>
+                <View style={styles.subInfo}>
+                    <Image style={styles.subUserProfileImage} source={UserProfileImage} resizeMode="contain" />
+                    <View style={{ flex: 1 }}>
+                        <View style={{ height: 136 }}>
+                            <TextInput value={description} onChangeText={setDescription} multiline={true} numberOfLines={10} style={styles.infoTextArea} placeholder="Type  a  message here ..." />
+                            <Icon name="paper-clip" style={styles.clipIcon} />
+                        </View>
+                        <View style={{ ...styles.footer, marginTop: 12 }}>
+                            <Text style={{ ...styles.footerText, color: "#525DDD" }}>Delete draft</Text>
+                            <View style={styles.footer}>
+                                <Text style={styles.footerText}>Draft saves at 7:00 PM</Text>
+                                <Button style={styles.footerBtn} type="primary">
+                                    <Text style={styles.footerBtnText}>Send</Text>
+                                </Button>
+                            </View>
+                        </View>
+                    </View>
+                </View>
             </View>
         </View>
     )
@@ -133,4 +153,57 @@ const styles = StyleSheet.create({
         width: 16,
         height: 16,
     },
+    subInfo: {
+        marginTop: 35,
+        gap: 10,
+        flexDirection: "row",
+        alignItems: "flex-start",
+    },
+    subUserProfileImage: {
+        height: 50,
+        width: 50,
+        borderRadius: 100,
+    },
+    infoTextArea: {
+        flex: 1,
+        backgroundColor: "#fff",
+        paddingTop: 8,
+        paddingLeft: 6,
+        borderStyle: "solid",
+        borderColor: "rgba(0, 0, 0, 0.5)",
+        borderWidth: 1,
+        borderRadius: 2,
+        textAlignVertical: "top",
+    },
+    clipIcon: {
+        position: "absolute",
+        top: 5,
+        right: 5,
+        color: "#111",
+    },
+    footer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        gap: 10,
+        alignItems: "center",
+    },
+    footerText: {
+        fontWeight: "400",
+        fontSize: 13,
+        color: "rgba(0, 0, 0, .5)",
+    },
+    footerBtn: {
+        height: 23,
+        width: 78,
+        paddingHorizontal: 20,
+        paddingVertical: 5,
+        borderWidth: 0,
+        backgroundColor: "#525DDD",
+    },
+    footerBtnText: {
+        color: "#fff",
+        fontSize: 10,
+        fontWeight: "900",
+        lineHeight: 12,
+    }
 })
