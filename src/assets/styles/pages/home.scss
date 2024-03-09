@@ -1,0 +1,24 @@
+.home {
+  .ant-input-group-addon {
+    border-left: 1px solid #00000066 !important;
+    
+    .ant-btn {
+      background: transparent;
+      padding: 11px 9px;
+      border: none;
+
+      &:hover {
+        background-color: transparent
+      }
+    }
+  }
+
+  .book-list {
+    margin-top: 20px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+}
