@@ -3,6 +3,8 @@ import { Home } from "./pages/Home.tsx"
 import "./assets/styles/global.scss"
 import { TabbarMenu } from "./components/TabbarMenu.tsx"
 import { Favorite } from "./pages/Favorite.tsx"
+import { CreateAnnouncement } from "./pages/CreateAnnouncement.tsx"
+import { Message } from "./pages/Message.tsx"
 
 function App() {
     return (
@@ -10,6 +12,8 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/favorute" element={<Favorite />} />
+                <Route path="/create-annoucement" element={<CreateAnnouncement />} />
+                <Route path="/message" element={<Message />} />
             </Routes>
             <div style={{ height: 80 }} />
             <TabbarMenu />

@@ -1,11 +1,9 @@
-import { ConfigProvider, Input } from "antd"
 import { useState } from "react"
 import "../assets/styles/pages/home.scss"
 import { BookCard } from "../components/BookCard"
+import { CustomSearch } from "../components/CustomSearch"
 
-const { Search } = Input
 export const Home = () => {
-    const [search, setSearch] = useState<string>("")
     const [dataList] = useState([
         {
             title: "Кемел адам",
@@ -18,16 +16,7 @@ export const Home = () => {
 
     return (
         <div className="home container">
-            <ConfigProvider
-                theme={{
-                    components: {
-                        Input: {
-                            ...styles.searchInput,
-                        },
-                    },
-                }}>
-                <Search placeholder="Поиск в Алматы " allowClear value={search} onChange={(e) => setSearch(e.target.value)} />
-            </ConfigProvider>
+            <CustomSearch />
 
             <div className="book-list">
                 <BookCard {...dataList[0]} />
@@ -38,15 +27,4 @@ export const Home = () => {
             </div>
         </div>
     )
-}
-
-const styles = {
-    searchInput: {
-        colorBgContainer: "#D9D9D9",
-        activeBorderColor: "#00000066",
-        addonBg: "#D9D9D9",
-        paddingBlock: 11,
-        hoverBorderColor: "transparent",
-        activeShadow: "transparent",
-    },
 }
