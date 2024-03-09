@@ -1,3 +1,4 @@
+import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import "../assets/styles/components/bookCard.scss";
 
 interface IBook {
@@ -6,9 +7,10 @@ interface IBook {
   description: string;
   year: number;
   url: string;
+  isFavorite?: boolean;
 }
 
-export const BookCard = ({ title, category, url, year }: IBook) => {
+export const BookCard = ({ title, category, url, year, isFavorite }: IBook) => {
   return (
     <div className="book">
       <div className="image">
@@ -20,11 +22,18 @@ export const BookCard = ({ title, category, url, year }: IBook) => {
         </p>
         <p className="category">{category}</p>
         <div className="book-createTime">
-            <p>13.01.2024</p>
-            <p>17:05</p>
+          <p>13.01.2024</p>
+          <p>17:05</p>
         </div>
+      </div>
+
+      <div className="favorite">
+        {isFavorite ? (
+          <HeartFilled className="icon active" />
+        ) : (
+          <HeartOutlined className="icon" />
+        )}
       </div>
     </div>
   );
 };
-

@@ -3,6 +3,7 @@
   border-radius: 5px;
   background-color: #f1f1f1;
   flex: 1;
+  position: relative;
 
   .image {
     width: 133px;
@@ -36,14 +37,34 @@
     }
 
     .book-createTime {
-        display: flex; 
-        align-items: center; 
-        justify-content: space-between;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-        p {
-            font-size: 10px; 
-            line-height: 8px;
-        }
+      p {
+        font-size: 10px;
+        line-height: 8px;
+      }
+    }
+  }
+
+  .favorite {
+    position: absolute;
+    top: 13px;
+    right: 11px;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background-color: rgba(200, 200, 200, 0.8);
+    display: grid;
+    place-content: center;
+
+    .icon {
+      font-size: 12px;
+
+      &.active {
+        color: red;
+      }
     }
   }
 }
