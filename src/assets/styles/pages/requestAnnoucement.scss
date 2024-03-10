@@ -1,0 +1,57 @@
+.request {
+    .tabs {
+        .ant-tabs-nav-list {
+            width: 100%;
+        }
+        .ant-tabs-tab {
+            flex: 1;
+        }
+    }
+
+    .book-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .book {
+            padding: 8px;
+            background-color: #f6f5f5;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 10px;
+
+            .book-img {
+                width: 85px;
+                height: 85px;
+                object-fit: contain;
+                border-radius: 8px;
+            }
+            .book-info {
+                display: flex;
+                flex-direction: column;
+                gap: 7px;
+
+                .title {
+                    font-size: 13.54px;
+                    line-height: 16.42px;
+                }
+
+                .desc {
+                    font-size: 10px;
+                    font-weight: 400;
+                    line-height: 13px;
+                }
+
+                .book-btn {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                    flex-direction: row;
+                    gap: 5px;
+                }
+            }
+        }
+    }
+}

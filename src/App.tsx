@@ -9,7 +9,7 @@ import { RequestAnnoucement } from "./pages/RequestAnnoucement.tsx"
 
 function App() {
     return (
-        <div style={{ width: "100%", marginTop: 9 }}>
+        <div style={{ width: "100%", marginTop: 30 }}>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/favorute" element={<Favorite />} />
