@@ -17,7 +17,9 @@ export const TabbarMenu = () => {
             <NavLink to="/message" className={({ isActive }) => (isActive ? "active-link" : "")}>
                 <MessageOutlined className="menu-icon" />
             </NavLink>
-            <BookOutlined className="menu-icon" />
+            <NavLink to="/request-annoucement" className={({ isActive }) => (isActive ? "active-link" : "")}>
+                <BookOutlined className="menu-icon" />
+            </NavLink>
         </div>
     )
 }
