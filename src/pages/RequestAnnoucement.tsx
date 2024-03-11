@@ -1,11 +1,15 @@
-import { Button, Tabs, TabsProps } from "antd"
+import { Button, Drawer, Tabs, TabsProps } from "antd"
 import { Header } from "../components/Header"
 import { useState } from "react"
 import "../assets/styles/pages/requestAnnoucement.scss"
 
 export const RequestAnnoucement = () => {
     const [headerTitle, setHeaderTitle] = useState<string>("Request")
+    const [showDrawer, setShowDrawer] = useState<boolean>(false)
 
+    /**
+     * @TODO add props for drawer
+     */
     const items: TabsProps["items"] = [
         {
             key: "1",
@@ -24,6 +28,10 @@ export const RequestAnnoucement = () => {
             <Header title={headerTitle} />
 
             <Tabs className="tabs" centered defaultActiveKey="1" items={items} onChange={(e) => (e === "1" ? setHeaderTitle("Request") : setHeaderTitle("Annoucement"))} />
+
+            <Drawer open={showDrawer} onClose={() => setShowDrawer(false)}>
+                Test
+            </Drawer>
         </div>
     )
 }
