@@ -7,21 +7,22 @@ export const RequestAnnoucement = () => {
     const [headerTitle, setHeaderTitle] = useState<string>("Request")
     const [showDrawer, setShowDrawer] = useState<boolean>(false)
 
-    /**
-     * @TODO add props for drawer
-     */
     const items: TabsProps["items"] = [
         {
             key: "1",
             label: "Request",
-            children: <TabChild isRequest />,
+            children: <TabChild isRequest openDrawer={openDrawer} />,
         },
         {
             key: "2",
             label: "Annoucement",
-            children: <TabChild />,
+            children: <TabChild openDrawer={openDrawer} />,
         },
     ]
+
+    function openDrawer() {
+        setShowDrawer(true)
+    }
 
     return (
         <div className="request container">
@@ -29,14 +30,14 @@ export const RequestAnnoucement = () => {
 
             <Tabs className="tabs" centered defaultActiveKey="1" items={items} onChange={(e) => (e === "1" ? setHeaderTitle("Request") : setHeaderTitle("Annoucement"))} />
 
-            <Drawer open={showDrawer} onClose={() => setShowDrawer(false)}>
+            <Drawer open={showDrawer} onClose={() => setShowDrawer(false)} placement="bottom">
                 Test
             </Drawer>
         </div>
     )
 }
 
-const TabChild = ({ isRequest = false }: { isRequest?: boolean }) => {
+const TabChild = ({ isRequest = false, openDrawer }: { isRequest?: boolean; openDrawer: () => void }) => {
     return (
         <div className="book-wrapper">
             <div className="book">
@@ -46,7 +47,7 @@ const TabChild = ({ isRequest = false }: { isRequest?: boolean }) => {
                     <p className="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel quidem commodi, enim sequi eligendi exercitationem quos? A ab sed quam magni molestiae earum quasi, ad fugiat voluptatem repudiandae accusamus enim.</p>
 
                     <div className="book-btn">
-                        <Button>{isRequest ? "Review" : "Remove"}</Button>
+                        <Button onClick={openDrawer}>{isRequest ? "Review" : "Remove"}</Button>
                         <Button type="primary">{isRequest ? "Accept" : "Delete"}</Button>
                     </div>
                 </div>
