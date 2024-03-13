@@ -15,4 +15,20 @@
             padding-bottom: 5px;
         }
     }
+
+    .info {
+        margin-top: 32px;
+        padding: 27px 20px 21px 20px;
+        background-color: #e2dddd;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .info-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+    }
 }

@@ -1,4 +1,4 @@
-import { CloudUploadOutlined, FormOutlined } from "@ant-design/icons"
+import { AppstoreOutlined, CloudUploadOutlined, FormOutlined } from "@ant-design/icons"
 import { Header } from "../components/Header"
 import { Input, Upload, UploadProps, DatePicker, Select } from "antd"
 import "../assets/styles/pages/createAnnoucement.scss"
@@ -9,7 +9,7 @@ const { Option } = Select
 const { TextArea } = Input
 
 export const CreateAnnouncement = () => {
-    const [category, setCategory] = useState<string>("")
+    const [category, setCategory] = useState<string | null>()
     const draggerProps: UploadProps = {
         name: "pngurls",
         accept: "images/*",
@@ -39,16 +39,19 @@ export const CreateAnnouncement = () => {
 
             <div className="info container">
                 <div className="info-wrapper">
-                    <Input type="text" placeholder="Title" suffix={<FormOutlined />} />
-                    <DatePicker type="year" onChange={(value) => console.log(value)} />
+                    <Input style={{ flex: 5 }} type="text" placeholder="Title" suffix={<FormOutlined style={{ color: "#BFBFBF" }} />} />
+                    <DatePicker style={{ flex: 1 }} type="year" placeholder="year" onChange={(value) => console.log(value)} />
                 </div>
                 <div className="info-wrapper">
-                    <Select value={category} onChange={setCategory}>
+                    <Select style={{ flex: 1 }} placeholder="Category" value={category} onChange={setCategory} suffixIcon={<AppstoreOutlined style={{ color: "#BFBFBF" }} />}>
+                        <Option value="classic">Classic</Option>
+                    </Select>
+                    <Select style={{ flex: 1 }} placeholder="City" value={category} onChange={setCategory}>
                         <Option value="classic">Classic</Option>
                     </Select>
                 </div>
 
-                <TextArea showCount placeholder="Type  a  message here ..."></TextArea>
+                <TextArea placeholder="Type  a  message here ..." style={{ height: 136 }}></TextArea>
             </div>
         </div>
     )
