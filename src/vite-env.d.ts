@@ -3,3 +3,8 @@
 interface Window {
   ReactNativeWebView: any;
 }
+
+interface IResponse {
+  result_code: number, 
+  result_msg: string, 
+}

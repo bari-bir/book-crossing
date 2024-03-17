@@ -1,30 +1,29 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "../assets/styles/pages/home.scss"
 import { BookCard } from "../components/BookCard"
 import { CustomSearch } from "../components/CustomSearch"
+import { AnnouncementAPI, announcementInfo } from "../api/announcementApi"
+import { Empty } from "antd"
 
 export const Home = () => {
-    const [dataList] = useState([
-        {
-            title: "Кемел адам",
-            category: "Саморазвитие",
-            description: "Кемел адам",
-            year: 2020,
-            url: "https://ir.ozone.ru/s3/multimedia-6/c350/6741077010.jpg",
-        },
-    ])
+    const [dataList, setDataList] = useState<announcementInfo[]>([])
+    const { fetchData } = AnnouncementAPI()
+
+    useEffect(() => {
+        fetchData({}).then((res) => {
+            if (res.result_code === 0) {
+                setDataList(res.data)
+            }
+        })
+    }, [])
 
     return (
         <div className="home container">
             <CustomSearch />
 
-            <div className="book-list">
-                <BookCard {...dataList[0]} />
-                <BookCard {...dataList[0]} />
-                <BookCard {...dataList[0]} />
-                <BookCard {...dataList[0]} />
-                <BookCard {...dataList[0]} />
-            </div>
+            <div className="book-list">{dataList.length ? dataList.map(item => (
+                <BookCard  {...item}/>
+            )) : <Empty />}</div>
         </div>
     )
 }

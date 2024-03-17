@@ -6,15 +6,15 @@ interface IBook {
     category: string
     description: string
     year: number
-    url: string
+    images: string[]
     isFavorite?: boolean
 }
 
-export const BookCard = ({ title, category, url, year, isFavorite }: IBook) => {
+export const BookCard = ({ title, category, year, images, isFavorite }: IBook) => {
     return (
         <div className="book">
             <div className="image">
-                <img src={url} alt="book" />
+                <img src={images[0]} alt="book" />
             </div>
             <div className="book-Info">
                 <p className="book-title">
