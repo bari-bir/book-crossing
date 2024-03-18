@@ -25,12 +25,12 @@ const useApi = <T>(url: string, method: string = "POST"): UseApiResult<T> => {
                 return res.data
             })
             .catch((err) => {
+                alert(JSON.stringify(err));
                 if (err.response.status === 401) {
-                    console.log("401 error")
-                    localStorage.setItem("token", "")
+                    localStorage.setItem("token", "")   
                     dispatch(setHasLogin(false))
                     if (window.ReactNativeWebView) {
-                        window.ReactNativeWebView.postMessage(JSON.stringify({ key: "401 error" }))
+                        window.ReactNativeWebView.postMessage(JSON.stringify({ key: "401" }))
                     }
                 }
                 dispatch(setError(err))

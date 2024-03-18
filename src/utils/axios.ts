@@ -5,7 +5,7 @@ interface ApiResponse<T> {
 }
 
 const instance: AxiosInstance = axios.create({
-    baseURL: "https://api.birkitap.kz/",
+    baseURL: import.meta.env.VITE_API_URL,
     timeout: 15000,
     headers: {
         "Content-Type": "application/json",

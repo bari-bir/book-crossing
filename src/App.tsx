@@ -6,8 +6,16 @@ import { Favorite } from "./pages/Favorite.tsx"
 import { CreateAnnouncement } from "./pages/CreateAnnouncement.tsx"
 import { Message } from "./pages/Message.tsx"
 import { RequestAnnoucement } from "./pages/RequestAnnoucement.tsx"
+import { useLayoutEffect } from "react"
 
 function App() {
+    useLayoutEffect(() => {
+        document.addEventListener("DOMContentLoaded", function () {
+            window.addEventListener("message", (message) => {
+                localStorage.setItem("token", JSON.stringify(message.data))
+            })
+        })
+    }, [])
 
     return (
         <div style={{ width: "100%", marginTop: 30 }}>

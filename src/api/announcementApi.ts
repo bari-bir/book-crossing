@@ -2,7 +2,7 @@ import useApi from "../hooks/useApi"
 
 export type announcementInfo = {
     title: string
-    category: string
+    category: string | null,
     description: string
     year: number
     images: string[]

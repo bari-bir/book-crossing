@@ -3,7 +3,7 @@ import "../assets/styles/components/bookCard.scss"
 
 interface IBook {
     title: string
-    category: string
+    category: string | null
     description: string
     year: number
     images: string[]
@@ -13,9 +13,11 @@ interface IBook {
 export const BookCard = ({ title, category, year, images, isFavorite }: IBook) => {
     return (
         <div className="book">
-            <div className="image">
-                <img src={images[0]} alt="book" />
-            </div>
+            {images && (
+                <div className="image">
+                    <img src={images[0]} alt="book" />
+                </div>
+            )}
             <div className="book-Info">
                 <p className="book-title">
                     {title} <span className="book-year">{year}</span>
