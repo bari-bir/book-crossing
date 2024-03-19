@@ -21,6 +21,7 @@ const _infoTemp = {
     year: 0,
     images: [],
     description: "",
+    location: null,
 }
 
 export const CreateAnnouncement = () => {
@@ -154,10 +155,10 @@ export const CreateAnnouncement = () => {
                             </Option>
                         ))}
                     </Select>
-                    <Select style={{ flex: 1 }} placeholder="City">
-                        <Option value="almaty">Almaty</Option>
-                        <Option value="astana">Astana</Option>
-                        <Option value="shymkent">Shymkent</Option>
+                    <Select style={{ flex: 1 }} placeholder="City" value={info.location} onChange={(e) => setInfo({ ...info, location: e})}>
+                        <Option value="Almaty">Almaty</Option>
+                        <Option value="Astana">Astana</Option>
+                        <Option value="Shymkent">Shymkent</Option>
                     </Select>
                 </div>
 

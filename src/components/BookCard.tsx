@@ -1,21 +1,42 @@
 import { HeartFilled, HeartOutlined } from "@ant-design/icons"
 import "../assets/styles/components/bookCard.scss"
+import { CloudImage } from "./CloudImage"
+import { FavoriteApi } from "../api/favoriteApi"
+import { announcementInfo } from "../api/announcementApi"
 
-interface IBook {
-    title: string
-    category: string | null
-    description: string
-    year: number
-    images: string[]
-    isFavorite?: boolean
+interface IBook extends announcementInfo {
+    onFavorite: (e: boolean) => void
 }
 
-export const BookCard = ({ title, category, year, images, isFavorite }: IBook) => {
+export const BookCard = ({ id, favoriteId, title, category, year, images, isFavorite, onFavorite }: IBook) => {
+    const { fetchData: fetchCreateFavoriteData } = FavoriteApi("create")
+    const { fetchData: fetchDeleteFavoriteData } = FavoriteApi("delete")
+
+    const onClickFavorite = () => {
+        if (!isFavorite) {
+            fetchCreateFavoriteData({
+                announcementId: id,
+            }).then((res) => {
+                if (res.result_code === 0) {
+                    onFavorite(true)
+                }
+            })
+        } else {
+            fetchDeleteFavoriteData({
+                favoriteId,
+            }).then((res) => {
+                if (res.result_code === 0) {
+                    onFavorite(false)
+                }
+            })
+        }
+    }
+
     return (
         <div className="book">
             {images && (
                 <div className="image">
-                    <img src={images[0]} alt="book" />
+                    <CloudImage src={images[0]} height={111} width={"100%"} />
                 </div>
             )}
             <div className="book-Info">
@@ -29,7 +50,7 @@ export const BookCard = ({ title, category, year, images, isFavorite }: IBook) =
                 </div>
             </div>
 
-            <div className="favorite">{isFavorite ? <HeartFilled className="icon active" /> : <HeartOutlined className="icon" />}</div>
+            <div className="favorite">{isFavorite ? <HeartFilled onClick={onClickFavorite} className="icon active" /> : <HeartOutlined onClick={onClickFavorite} className="icon" />}</div>
         </div>
     )
 }

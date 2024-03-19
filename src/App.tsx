@@ -20,7 +20,7 @@ function App() {
                     <Route path="/message" element={<Message />} />
                     <Route path="/request-annoucement" element={<RequestAnnoucement />} />
                 </Routes>
-                <div style={{ height: 80 }} />
+                <div style={{ height: 100 }} />
                 <TabbarMenu />
             </div>
         </AntApp>

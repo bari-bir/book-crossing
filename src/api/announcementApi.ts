@@ -1,8 +1,12 @@
 import useApi from "../hooks/useApi"
 
 export type announcementInfo = {
+    id?: string
+    isFavorite?: boolean
+    favoriteId?: string
     title: string
     category: string | null
+    location: string | null
     description: string
     year: number
     images: string[]
