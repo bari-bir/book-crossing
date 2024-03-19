@@ -7,7 +7,7 @@ import { Empty } from "antd"
 
 export const Home = () => {
     const [dataList, setDataList] = useState<announcementInfo[]>([])
-    const { fetchData } = AnnouncementAPI()
+    const { fetchData } = AnnouncementAPI('list')
 
     useEffect(() => {
         fetchData({}).then((res) => {
@@ -15,6 +15,7 @@ export const Home = () => {
                 setDataList(res.data)
             }
         })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
