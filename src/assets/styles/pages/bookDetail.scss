@@ -1,0 +1,129 @@
+.book-detail {
+    width: 100%;
+    height: 100%;
+
+    .book-carousel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        width: 100%;
+
+        .icon-bg {
+            z-index: 101;
+            color: #fff;
+            background-color: rgba(217, 217, 217, 0.5);
+            border-radius: 100%;
+        }
+        .back-icon {
+            padding: 10px;
+            font-size: 15px;
+            position: absolute;
+            top: 15px;
+            right: 16px;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 5px;
+            border-radius: 100%;
+            font-size: 25px;
+            &.left {
+                left: 16px;
+            }
+
+            &.right {
+                right: 16px;
+            }
+        }
+
+        .img {
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+            object-position: center;
+        }
+    }
+
+    .book-info {
+        position: absolute;
+        bottom: 25px;
+        left: 0;
+        z-index: 101;
+        margin: 0 16px;
+        padding: 16px 25px 25px 25px;
+        background-color: #ffffff;
+        border-radius: 20px;
+        box-sizing: border-box;
+        width: calc(100% - 32px);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .book-headInfo {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+            justify-content: center;
+
+            .book-title {
+                font-size: 20px;
+                font-weight: 500;
+                line-height: 25px;
+            }
+
+            .book-year {
+                font-weight: 500;
+                font-size: 15px;
+                line-height: 18px;
+            }
+
+            .book-cateogyr {
+                font-size: 12px;
+                line-height: 17px;
+            }
+        }
+
+        .book-subInfo {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 25px;
+
+            .book-descr {
+                font-weight: 300;
+                font-size: 13px;
+                line-height: 15px;
+                flex: 1;
+            }
+
+            .favorite {
+                width: 30px;
+                height: 30px;
+                border-radius: 100%;
+                background-color: rgba(200, 200, 200, 0.8);
+                display: grid;
+                place-content: center;
+
+                .icon {
+                    font-size: 15px;
+
+                    &.active {
+                        color: red;
+                    }
+                }
+            }
+        }
+    }
+    .btn-exchange {
+        height: 40px;
+        background-color: #525ddd;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 20px;
+    }
+}

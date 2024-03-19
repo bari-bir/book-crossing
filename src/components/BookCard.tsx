@@ -3,22 +3,25 @@ import "../assets/styles/components/bookCard.scss"
 import { CloudImage } from "./CloudImage"
 import { FavoriteApi } from "../api/favoriteApi"
 import { announcementInfo } from "../api/announcementApi"
+import { useNavigate } from "react-router-dom"
 
 interface IBook extends announcementInfo {
-    onFavorite: (e: boolean) => void
+    onFavorite: () => void
 }
 
 export const BookCard = ({ id, favoriteId, title, category, year, images, isFavorite, onFavorite }: IBook) => {
+    const navigate = useNavigate()
     const { fetchData: fetchCreateFavoriteData } = FavoriteApi("create")
     const { fetchData: fetchDeleteFavoriteData } = FavoriteApi("delete")
 
-    const onClickFavorite = () => {
+    const onClickFavorite = (e: KonvaMouseEvent) => {
+        e.stopPropagation()
         if (!isFavorite) {
             fetchCreateFavoriteData({
                 announcementId: id,
             }).then((res) => {
                 if (res.result_code === 0) {
-                    onFavorite(true)
+                    onFavorite()
                 }
             })
         } else {
@@ -26,16 +29,20 @@ export const BookCard = ({ id, favoriteId, title, category, year, images, isFavo
                 favoriteId,
             }).then((res) => {
                 if (res.result_code === 0) {
-                    onFavorite(false)
+                    onFavorite()
                 }
             })
         }
     }
 
     return (
-        <div className="book">
+        <div
+            className="book"
+            onClick={() => {
+                navigate(`/book/${id}?isFavorite=${isFavorite ? true : false}`)
+            }}>
             {images && (
-                <div className="image">
+                <div className="image" onClick={(e) => e.stopPropagation()}>
                     <CloudImage src={images[0]} height={111} width={"100%"} />
                 </div>
             )}

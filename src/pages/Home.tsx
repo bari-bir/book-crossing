@@ -29,9 +29,11 @@ export const Home = () => {
                 const favoriteList = res.data
                 setDataList((dataList) =>
                     dataList.map((item) => {
-                        if (item.id && favoriteList.some((favorite) => favorite.announcement === item.id)) {
+                        const favoriteData = favoriteList.find((favorite) => favorite.announcement === item.id)
+                        if (item.id && favoriteData) {
                             return {
                                 ...item,
+                                favoriteId: favoriteData.id,
                                 isFavorite: true,
                             }
                         }
@@ -46,7 +48,7 @@ export const Home = () => {
         <div className="home container">
             <CustomSearch />
 
-            <div className="book-list">{dataList.length ? dataList.map((item) => <BookCard key={item.id} {...item} onFavorite={(e: boolean) => setIsFavorite(e)} />) : <Empty />}</div>
+            <div className="book-list">{dataList.length ? dataList.map((item) => <BookCard key={item.id} {...item} onFavorite={() => setIsFavorite(favorite => favorite = !favorite)} />) : <Empty />}</div>
         </div>
     )
 }
