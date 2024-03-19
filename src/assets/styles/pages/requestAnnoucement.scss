@@ -3,6 +3,11 @@
         .ant-tabs-nav-list {
             width: 100%;
         }
+        .ant-tabs-tab-btn {
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 21px;
+        }
         .ant-tabs-tab {
             flex: 1;
         }
@@ -22,16 +27,17 @@
             align-items: flex-start;
             gap: 10px;
 
-            .book-img {
+            img {
                 width: 85px;
                 height: 85px;
-                object-fit: contain;
+                object-fit: cover;
                 border-radius: 8px;
             }
             .book-info {
                 display: flex;
                 flex-direction: column;
                 gap: 7px;
+                width: 100%;
 
                 .title {
                     font-size: 13.54px;
@@ -93,17 +99,15 @@
         gap: 20px;
 
         .imgs {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            justify-content: space-between;
-            flex-direction: row;
+            // display: flex;
+            // gap: 20px;
+            // align-items: center;
+            // justify-content: space-between;
+            // flex-direction: row;
 
-            .book-img {
-                width: 88px;
-                height: 88px;
+            img {
                 border-radius: 5px;
-                object-fit: contain;
+                object-fit: cover;
             }
         }
 

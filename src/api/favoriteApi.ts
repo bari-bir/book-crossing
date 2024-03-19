@@ -10,8 +10,8 @@ interface IFavorite extends IResponse {
     data: favoriteInfo[],
 } 
 
-export function FavoriteApi(url: string) {
-    const {res, fetchData} = useApi<IFavorite>(`bookcrossing/favorite/${url}`); 
+export function FavoriteApi(url: string, method: string = "POST") {
+    const {res, fetchData} = useApi<IFavorite>(`bookcrossing/favorite/${url}`, method); 
 
     return {
         res, 

@@ -17,7 +17,6 @@ function App() {
                     <Route path="/favorute" element={<Favorite />} />
                     <Route path="/create-annoucement" element={<CreateAnnouncement />} />
                     <Route path="/message" element={<Message />} />
-                    <Route path="/message" element={<Message />} />
                     <Route path="/request-annoucement" element={<RequestAnnoucement />} />
                 </Routes>
                 <div style={{ height: 100 }} />

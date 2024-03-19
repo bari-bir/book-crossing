@@ -16,8 +16,8 @@ export interface IAnnouncement extends IResponse {
     data: announcementInfo[]
 }
 
-export function AnnouncementAPI(url: string) {
-    const { res, fetchData } = useApi<IAnnouncement>(`/bookcrossing/announcement/${url}`)
+export function AnnouncementAPI(url: string, method: string = "POST") {
+    const { res, fetchData } = useApi<IAnnouncement>(`/bookcrossing/announcement/${url}`, method)
 
     return {
         res,

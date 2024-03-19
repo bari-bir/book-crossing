@@ -1,35 +1,57 @@
-import { Button, Drawer, Space, Tabs, TabsProps } from "antd"
+import { App, Button, Carousel, Drawer, Empty, Space, Tabs, TabsProps } from "antd"
 import { Header } from "../components/Header"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import UserProfile from "../assets/images/userProfile.png"
 import "../assets/styles/pages/requestAnnoucement.scss"
+import { AnnouncementAPI, announcementInfo } from "../api/announcementApi"
+import { CloudImage } from "../components/CloudImage"
+import { RequestAPI } from "../api/requestApi"
+import http from "../utils/axios"
 
 export const RequestAnnoucement = () => {
     const [headerTitle, setHeaderTitle] = useState<string>("Request")
     const [showDrawer, setShowDrawer] = useState<boolean>(false)
+    const [requestInfo, setRequestInfo] = useState<announcementInfo>()
+    const [isAnnouncementDelete, setIsAnnouncementDelete] = useState<boolean>(false)
+    const { message } = App.useApp()
 
     const items: TabsProps["items"] = [
         {
             key: "1",
             label: "Request",
-            children: <TabChild isRequest openDrawer={openDrawer} />,
+            children: <TabChild isRequest openDrawerOrRemoveAnnoucement={openDrawerOrRemoveAnnoucement} />,
         },
         {
             key: "2",
-            label: "Annoucement",
-            children: <TabChild openDrawer={openDrawer} />,
+            label: "My annoucement",
+            children: <TabChild openDrawerOrRemoveAnnoucement={openDrawerOrRemoveAnnoucement} isAnnoucementDelete={isAnnouncementDelete} />,
         },
     ]
 
-    function openDrawer() {
-        setShowDrawer(true)
+    async function openDrawerOrRemoveAnnoucement(announcementInfo: announcementInfo, isRequest: boolean) {
+        if (isRequest) {
+            setRequestInfo(announcementInfo)
+            setShowDrawer(true)
+        } else {
+            http({
+                url: `/bookcrossing/announcement/delete?id=${announcementInfo.id}`,
+                method: "DELETE",
+            })
+                .then(() => {
+                    setIsAnnouncementDelete(true)
+                    message.success("Succesfully deleted announcement")
+                })
+                .catch((err) => {
+                    message.error(err.message.slice(0, 20))
+                })
+        }
     }
 
     return (
         <div className="request container">
             <Header title={headerTitle} />
 
-            <Tabs className="tabs" centered defaultActiveKey="1" items={items} onChange={(e) => (e === "1" ? setHeaderTitle("Request") : setHeaderTitle("Annoucement"))} />
+            <Tabs className="tabs" centered defaultActiveKey="1" items={items} onChange={(e) => (e === "1" ? setHeaderTitle("Request") : setHeaderTitle("My annoucement"))} />
 
             <Drawer
                 open={showDrawer}
@@ -43,23 +65,18 @@ export const RequestAnnoucement = () => {
                     </Space>
                 }>
                 <div className="drawer-wrapper">
-                    <h1 className="user-name">Akbota Zhumakhanbet</h1>
+                    <h1 className="user-name">{requestInfo?.title}</h1>
                     <div className="btns">
-                        <Button>Review</Button>
+                        <Button>Share</Button>
                         <Button type="primary">Accept</Button>
                     </div>
 
                     <div className="drawer-content">
                         <div className="imgs">
-                            <img className="book-img" src="https://ir.ozone.ru/s3/multimedia-6/c350/6741077010.jpg" alt="book img" />
-                            <img className="book-img" src="https://ir.ozone.ru/s3/multimedia-6/c350/6741077010.jpg" alt="book img" />
-                            <img className="book-img" src="https://ir.ozone.ru/s3/multimedia-6/c350/6741077010.jpg" alt="book img" />
+                            <Carousel style={{ width: "100%" }}>{requestInfo?.images.length ? requestInfo.images.map((image, i) => <CloudImage key={i} src={image} width="100%" height={88} />) : <Empty />}</Carousel>
                         </div>
 
-                        <p className="descr">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                            ad minim
-                        </p>
+                        <p className="descr">{requestInfo?.description}</p>
                     </div>
                 </div>
             </Drawer>
@@ -67,58 +84,72 @@ export const RequestAnnoucement = () => {
     )
 }
 
-const TabChild = ({ isRequest = false, openDrawer }: { isRequest?: boolean; openDrawer: () => void }) => {
+const TabChild = ({ isRequest = false, openDrawerOrRemoveAnnoucement, isAnnoucementDelete = false }: { isRequest?: boolean; isAnnoucementDelete?: boolean; openDrawerOrRemoveAnnoucement: (annoucementInfo: announcementInfo, isRequest: boolean) => void }) => {
+    interface IAnnouncementRequestFilter extends announcementInfo {
+        requestId?: string
+    }
+
+    const [myAnnoucementList, setMyAnnoucementList] = useState<announcementInfo[]>([])
+    const [announcementFilterRequestList, setAnnouncementFilterRequestList] = useState<IAnnouncementRequestFilter[]>([])
+    const { fetchData: fetchMyAnnoucementData } = AnnouncementAPI("my/list")
+    const { fetchData: fetchAnnoucementData } = AnnouncementAPI("list")
+    const { fetchData: fetchRequestData } = RequestAPI("me/list")
+    const dataList = [isRequest ? announcementFilterRequestList : myAnnoucementList][0]
+
+    useEffect(() => {
+        loadData()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAnnoucementDelete])
+
+    const loadData = async () => {
+        if (!isRequest) {
+            fetchMyAnnoucementData({}).then((res) => {
+                if (res.result_code === 0) {
+                    setMyAnnoucementList(res.data)
+                }
+            })
+        } else {
+            let annoucementList: announcementInfo[] = []
+            await fetchAnnoucementData({}).then((res) => {
+                if (res.result_code === 0) {
+                    annoucementList = res.data
+                }
+            })
+            fetchRequestData({}).then((res) => {
+                if (res.result_code === 0) {
+                    const requestList: announcementInfo[] = []
+                    annoucementList.forEach((item) => {
+                        const request = res.data.find((request) => request.announcement === item.id)
+                        if (request && request.id) {
+                            requestList.push(item)
+                        }
+                    })
+                    setAnnouncementFilterRequestList(requestList)
+                }
+            })
+        }
+    }
+
     return (
         <div className="book-wrapper">
-            <div className="book">
-                <img className="book-img" src="https://ir.ozone.ru/s3/multimedia-6/c350/6741077010.jpg" alt="book" />
-                <div className="book-info">
-                    <h3 className="title">Akbota Zhumakhanbet</h3>
-                    <p className="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel quidem commodi, enim sequi eligendi exercitationem quos? A ab sed quam magni molestiae earum quasi, ad fugiat voluptatem repudiandae accusamus enim.</p>
+            {myAnnoucementList.length || announcementFilterRequestList.length ? (
+                dataList.map(({ id, images, title, description }, index) => (
+                    <div key={id} className="book">
+                        <CloudImage src={images[0]} width={85} height={85} />
+                        <div className="book-info">
+                            <h3 className="title">{title}</h3>
+                            <p className="desc">{description}</p>
 
-                    <div className="book-btn">
-                        <Button onClick={openDrawer}>{isRequest ? "Review" : "Remove"}</Button>
-                        <Button type="primary">{isRequest ? "Accept" : "Delete"}</Button>
+                            <div className="book-btn">
+                                <Button onClick={() => openDrawerOrRemoveAnnoucement(dataList[index], isRequest)}>{isRequest ? "Review" : "Remove"}</Button>
+                                <Button type="primary">{isRequest ? "Accept" : "Edit"}</Button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div className="book">
-                <img className="book-img" src="https://ir.ozone.ru/s3/multimedia-6/c350/6741077010.jpg" alt="book" />
-                <div className="book-info">
-                    <h3 className="title">Akbota Zhumakhanbet</h3>
-                    <p className="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel quidem commodi, enim sequi eligendi exercitationem quos? A ab sed quam magni molestiae earum quasi, ad fugiat voluptatem repudiandae accusamus enim.</p>
-
-                    <div className="book-btn">
-                        <Button>{isRequest ? "Review" : "Remove"}</Button>
-                        <Button type="primary">{isRequest ? "Accept" : "Delete"}</Button>
-                    </div>
-                </div>
-            </div>
-
-            <div className="book">
-                <img className="book-img" src="https://ir.ozone.ru/s3/multimedia-6/c350/6741077010.jpg" alt="book" />
-                <div className="book-info">
-                    <h3 className="title">Akbota Zhumakhanbet</h3>
-                    <p className="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel quidem commodi, enim sequi eligendi exercitationem quos? A ab sed quam magni molestiae earum quasi, ad fugiat voluptatem repudiandae accusamus enim.</p>
-
-                    <div className="book-btn">
-                        <Button>{isRequest ? "Review" : "Remove"}</Button>
-                        <Button type="primary">{isRequest ? "Accept" : "Delete"}</Button>
-                    </div>
-                </div>
-            </div>
-            <div className="book">
-                <img className="book-img" src="https://ir.ozone.ru/s3/multimedia-6/c350/6741077010.jpg" alt="book" />
-                <div className="book-info">
-                    <h3 className="title">Akbota Zhumakhanbet</h3>
-                    <p className="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel quidem commodi, enim sequi eligendi exercitationem quos? A ab sed quam magni molestiae earum quasi, ad fugiat voluptatem repudiandae accusamus enim.</p>
-
-                    <div className="book-btn">
-                        <Button>{isRequest ? "Review" : "Remove"}</Button>
-                        <Button type="primary">{isRequest ? "Accept" : "Delete"}</Button>
-                    </div>
-                </div>
-            </div>
+                ))
+            ) : (
+                <Empty />
+            )}
         </div>
     )
 }

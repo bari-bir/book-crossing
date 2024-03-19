@@ -1,7 +1,7 @@
 import http from "../utils/axios"
 import { useState } from "react"
 import { useAppDispatch } from "./useStore"
-import { setHasLogin, setLoading, setError } from "../redux/features/mainSlice"
+import {  setLoading, setError } from "../redux/features/mainSlice"
 import { App } from "antd"
 
 
@@ -32,9 +32,9 @@ const useApi = <T>(url: string, method: string = "POST"): UseApiResult<T> => {
                 return res.data
             })
             .catch((err) => {
-                if (err.response.status === 401) {
+                console.log(err);
+                if (err.response?.status === 401) {
                     localStorage.setItem("token", "")
-                    dispatch(setHasLogin(false))
                     if (window.ReactNativeWebView) {
                         window.ReactNativeWebView.postMessage(JSON.stringify({ key: "401" }))
                     }
