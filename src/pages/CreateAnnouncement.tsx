@@ -1,14 +1,15 @@
 import { AppstoreOutlined, CloudUploadOutlined, FormOutlined } from "@ant-design/icons"
 import { Header } from "../components/Header"
-import { Input, Upload, UploadProps, DatePicker, Select, Button, App } from "antd"
+import { Input, Upload, UploadProps, DatePicker, Select, Button, App, Carousel, GetProp } from "antd"
 import "../assets/styles/pages/createAnnoucement.scss"
 import { useEffect, useState } from "react"
 import { AnnouncementAPI, announcementInfo } from "../api/announcementApi"
 import { GenreAPI, genre } from "../api/genreApi"
-import { UploadRequestOption } from "rc-upload/lib/interface"
 import http from "../utils/axios"
 import { RcFile } from "antd/es/upload"
 import { CloudImage } from "../components/CloudImage"
+
+type FileType = Parameters<GetProp<UploadProps, "customRequest">>[0]
 
 const { Dragger } = Upload
 const { Option } = Select
@@ -28,7 +29,6 @@ export const CreateAnnouncement = () => {
     const { message } = App.useApp()
     const [genreList, setGenreList] = useState<genre[]>([])
     const [info, setInfo] = useState<announcementInfo>(_infoTemp)
-    const [uploadImages, setUploadImages] = useState<string[]>([])
 
     const draggerProps: UploadProps = {
         name: "file",
@@ -39,11 +39,18 @@ export const CreateAnnouncement = () => {
         beforeUpload: (e) => beforeUpload(e),
     }
 
-    const uploadFile = async (file: UploadRequestOption<string | Blob>) => {
-        const currentFile = file.file
+    const uploadFile = async (file: FileType) => {
+        const currentFile = file.file as RcFile
         if (!currentFile) {
             console.log("file is empty")
             return
+        }
+
+        const isLt10M: boolean = currentFile.size / 1024 / 1024 < 1
+
+        if (!isLt10M) {
+            message.error("File size small than 1mb")
+            return false
         }
 
         const param = new FormData()
@@ -64,7 +71,7 @@ export const CreateAnnouncement = () => {
              *
              */
             const urlImage = `${import.meta.env.VITE_API_URL}/public/get_resource?name=${res.data.data.path}`
-            setUploadImages((images) => [...images, urlImage])
+            setInfo({ ...info, images: [...info.images, urlImage] })
 
             return true
         } else {
@@ -94,7 +101,6 @@ export const CreateAnnouncement = () => {
     const onSubmit = () => {
         const data = {
             ...info,
-            images: uploadImages,
             year: new Date(info.year).getFullYear(),
         }
         fetchAnnoucementData(data).then((res) => {
@@ -122,13 +128,17 @@ export const CreateAnnouncement = () => {
             </div>
 
             <div className="dragger">
-                {uploadImages.map((item, i) => (
-                    <CloudImage src={item} key={i} />
-                ))}
-                <Dragger {...draggerProps} style={{ backgroundColor: "#D9D9D9" }}>
-                    <CloudUploadOutlined className="upload-icon" />
-                    <p className="upload-text">Upload the photo</p>
-                </Dragger>
+                <Carousel>
+                    {info.images.map((item, i) => (
+                        <CloudImage src={item} key={i} height={258} width="100%" />
+                    ))}
+                    <div className="dragger-wrapper">
+                        <Dragger {...draggerProps}>
+                            <CloudUploadOutlined className="upload-icon" />
+                            <p className="upload-text">Upload the photo</p>
+                        </Dragger>
+                    </div>
+                </Carousel>
             </div>
 
             <div className="info container">
@@ -139,7 +149,7 @@ export const CreateAnnouncement = () => {
                 <div className="info-wrapper">
                     <Select style={{ flex: 1 }} placeholder="Category" value={info.category} onChange={(e) => setInfo({ ...info, category: e })} suffixIcon={<AppstoreOutlined style={{ color: "#BFBFBF" }} />}>
                         {genreList.map((genre) => (
-                            <Option key={genre.id} value={genre.title.toLowerCase()}>
+                            <Option key={genre.id} value={genre.title}>
                                 {genre.title}
                             </Option>
                         ))}

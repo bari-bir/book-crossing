@@ -9,11 +9,9 @@ import { RequestAnnoucement } from "./pages/RequestAnnoucement.tsx"
 import { App as AntApp } from "antd"
 
 function App() {
-
-
     return (
         <AntApp message={{top: 30}}>
-            <div style={{ width: "100%", marginTop: 50 }}>
+            <div style={{ width: "100%"}}>
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/favorute" element={<Favorite />} />

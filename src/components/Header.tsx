@@ -19,6 +19,7 @@ const styles: { header: React.CSSProperties; iconBack: React.CSSProperties; titl
         top: "50%",
         left: "0",
         transform: "translateY(-50%)",
+        fontSize: 25,
     },
     title: {
         textAlign: "center",
