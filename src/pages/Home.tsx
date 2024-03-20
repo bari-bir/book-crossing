@@ -8,6 +8,7 @@ import { FavoriteApi } from "../api/favoriteApi"
 
 export const Home = () => {
     const [dataList, setDataList] = useState<announcementInfo[]>([])
+    const [searchValue, setSearchValue] = useState<string>("")
     const { fetchData: fetchAnnouncementData } = AnnouncementAPI("list")
     const { fetchData: fetchFavoriteData } = FavoriteApi("list")
     const [isFavorite, setIsFavorite] = useState<boolean>(false)
@@ -39,18 +40,30 @@ export const Home = () => {
         })
     }
 
+    const onSearch = (searchValue: string) => {
+        setSearchValue(searchValue)
+    }
+
+    const searchList = (): announcementInfo[] => {
+        if (searchValue.length > 0) {
+            return dataList.filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
+        }
+
+        return dataList
+    }
+
     useEffect(() => {
         loadData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isFavorite])
 
     return (
         <div className="home container">
-            <CustomSearch />
+            <CustomSearch onSearch={onSearch} />
 
             <div className="book-list">
-                {dataList.length ? (
-                    dataList.map((item) => (
+                {searchList().length ? (
+                    searchList().map((item) => (
                         <BookCard key={item.id} {...item} onFavorite={() => setIsFavorite((favorite) => (favorite = !favorite))} />
                     ))
                 ) : (

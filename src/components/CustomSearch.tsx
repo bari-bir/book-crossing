@@ -1,11 +1,21 @@
 import { ConfigProvider, Input } from "antd"
 import { useState } from "react"
-import "../assets/styles/components/search.scss";
+import "../assets/styles/components/search.scss"
+
+type propsInfo = {
+    placeholder?: string
+    onSearch: (value: string) => void
+}
 
 const { Search } = Input
 
-export const CustomSearch = () => {
+export const CustomSearch = ({ placeholder = "Поиск в Алматы", onSearch }: propsInfo) => {
     const [search, setSearch] = useState<string>("")
+
+    const onChangeSearch = (value: string) => {
+        onSearch(value)
+        setSearch(value)
+    }
 
     return (
         <div className="search">
@@ -17,7 +27,7 @@ export const CustomSearch = () => {
                         },
                     },
                 }}>
-                <Search placeholder="Поиск в Алматы " allowClear value={search} onChange={(e) => setSearch(e.target.value)} />
+                <Search placeholder={placeholder} allowClear value={search} onChange={(e) => onChangeSearch(e.target.value)} />
             </ConfigProvider>
         </div>
     )

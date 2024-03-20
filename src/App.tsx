@@ -13,13 +13,13 @@ import { BookExchange } from "./pages/BookExchange.tsx"
 function App() {
     return (
         <AntApp message={{ top: 30 }}>
-            <div style={{ width: "100%" }}>
+            <div style={{ width: "100%", marginTop: 10 }}>
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/favorute" element={<Favorite />} />
-                    <Route path="/create-annoucement" element={<CreateAnnouncement />} />
+                    <Route path="/create-announcement/:id" element={<CreateAnnouncement />} />
                     <Route path="/message" element={<Message />} />
-                    <Route path="/request-annoucement" element={<RequestAnnoucement />} />
+                    <Route path="/request-annoucement/" element={<RequestAnnoucement />} />
                     <Route path="/book/:id" element={<BookDetail />} />
                     <Route path="/book-exchange/:id" element={<BookExchange />} />
                 </Routes>

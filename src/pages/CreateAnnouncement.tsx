@@ -8,6 +8,8 @@ import { GenreAPI, genre } from "../api/genreApi"
 import http from "../utils/axios"
 import { RcFile } from "antd/es/upload"
 import { CloudImage } from "../components/CloudImage"
+import { useParams } from "react-router-dom"
+import dayjs, { Dayjs } from "dayjs"
 
 type FileType = Parameters<GetProp<UploadProps, "customRequest">>[0]
 
@@ -25,11 +27,14 @@ const _infoTemp = {
 }
 
 export const CreateAnnouncement = () => {
+    const { id } = useParams()
     const { fetchData: fetchGenreData } = GenreAPI()
+    const { fetchData: fetchGetAnnouncementData } = AnnouncementAPI(`/get?id=${id}`, "GET")
     const { fetchData: fetchAnnoucementData } = AnnouncementAPI("create")
     const { message } = App.useApp()
     const [genreList, setGenreList] = useState<genre[]>([])
     const [info, setInfo] = useState<announcementInfo>(_infoTemp)
+    const [time, setTime] = useState<Dayjs | null>(null)
 
     const draggerProps: UploadProps = {
         name: "file",
@@ -103,7 +108,7 @@ export const CreateAnnouncement = () => {
     const onSubmit = () => {
         const data = {
             ...info,
-            year: new Date(info.year).getFullYear(),
+            year: dayjs(time).get("year"),
         }
         fetchAnnoucementData(data).then((res) => {
             if (res.result_code === 0) {
@@ -115,8 +120,18 @@ export const CreateAnnouncement = () => {
 
     const onDeleteImage = (e: KonvaMouseEvent, image: string) => {
         e.stopPropagation()
-        
-        setInfo({ ...info, images: info.images.filter(item => item !== image) })
+
+        setInfo({ ...info, images: info.images.filter((item) => item !== image) })
+    }
+
+    const loadData = () => {
+        fetchGetAnnouncementData(null).then((res) => {
+            if (res.result_code === 0) {
+                const annoucementInfo: announcementInfo = JSON.parse(JSON.stringify(res.data))
+                setTime(dayjs(new Date(annoucementInfo.year, 0, 1)))
+                setInfo(annoucementInfo)
+            }
+        })
     }
 
     useEffect(() => {
@@ -125,6 +140,10 @@ export const CreateAnnouncement = () => {
                 setGenreList(res.data)
             }
         })
+
+        if (id && id !== "add") {
+            loadData()
+        }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -163,13 +182,7 @@ export const CreateAnnouncement = () => {
                         onChange={(e) => setInfo({ ...info, title: e.target.value })}
                         suffix={<FormOutlined style={{ color: "#BFBFBF" }} />}
                     />
-                    <DatePicker
-                        style={{ flex: 1 }}
-                        picker="year"
-                        placeholder="year"
-                        value={info.year}
-                        onChange={(e) => setInfo({ ...info, year: e })}
-                    />
+                    <DatePicker style={{ flex: 1 }} picker="year" placeholder="year" format="YYYY" value={time} onChange={(e) => setTime(e)} />
                 </div>
                 <div className="info-wrapper">
                     <Select

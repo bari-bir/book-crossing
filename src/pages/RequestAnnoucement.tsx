@@ -7,6 +7,7 @@ import { AnnouncementAPI, announcementInfo } from "../api/announcementApi"
 import { CloudImage } from "../components/CloudImage"
 import { RequestAPI } from "../api/requestApi"
 import http from "../utils/axios"
+import { useNavigate } from "react-router-dom"
 
 export const RequestAnnoucement = () => {
     const [headerTitle, setHeaderTitle] = useState<string>("Request")
@@ -96,6 +97,12 @@ export const RequestAnnoucement = () => {
     )
 }
 
+
+
+interface IAnnouncementRequestFilter extends announcementInfo {
+    requestId?: string
+}
+
 const TabChild = ({
     isRequest = false,
     openDrawerOrRemoveAnnoucement,
@@ -105,22 +112,14 @@ const TabChild = ({
     isAnnoucementDelete?: boolean
     openDrawerOrRemoveAnnoucement: (annoucementInfo: announcementInfo, isRequest: boolean) => void
 }) => {
-    interface IAnnouncementRequestFilter extends announcementInfo {
-        requestId?: string
-    }
-
+    const navigate = useNavigate();
     const [myAnnoucementList, setMyAnnoucementList] = useState<announcementInfo[]>([])
     const [announcementFilterRequestList, setAnnouncementFilterRequestList] = useState<IAnnouncementRequestFilter[]>([])
     const { fetchData: fetchMyAnnoucementData } = AnnouncementAPI("my/list")
     const { fetchData: fetchAnnoucementData } = AnnouncementAPI("list")
     const { fetchData: fetchRequestData } = RequestAPI("me/list")
     const dataList = [isRequest ? announcementFilterRequestList : myAnnoucementList][0]
-
-    useEffect(() => {
-        loadData()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isAnnoucementDelete])
-
+    
     const loadData = async () => {
         if (!isRequest) {
             fetchMyAnnoucementData({}).then((res) => {
@@ -150,6 +149,18 @@ const TabChild = ({
         }
     }
 
+    const onLink = (announcementIndex: number) => {
+        if(!isRequest) {
+            navigate(`/create-announcement/${dataList[announcementIndex].id}`)
+        }
+    }
+
+    useEffect(() => {
+        loadData()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAnnoucementDelete])
+
+
     return (
         <div className="book-wrapper">
             {myAnnoucementList.length || announcementFilterRequestList.length ? (
@@ -164,7 +175,7 @@ const TabChild = ({
                                 <Button onClick={() => openDrawerOrRemoveAnnoucement(dataList[index], isRequest)}>
                                     {isRequest ? "Review" : "Remove"}
                                 </Button>
-                                <Button type="primary">{isRequest ? "Accept" : "Edit"}</Button>
+                                <Button type="primary" onClick={() => onLink(index)}>{isRequest ? "Accept" : "Edit"}</Button>
                             </div>
                         </div>
                     </div>
