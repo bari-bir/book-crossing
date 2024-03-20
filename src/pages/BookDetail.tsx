@@ -1,19 +1,16 @@
-import {Button, Carousel } from "antd"
+import { Button, Carousel } from "antd"
 import { AnnouncementAPI, announcementInfo } from "../api/announcementApi"
-import { CloseOutlined, HeartFilled, HeartOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons"
+import { CloseOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons"
 import "../assets/styles/pages/bookDetail.scss"
 import { CarouselRef } from "antd/es/carousel"
 import { useEffect, useState } from "react"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
-import { FavoriteApi, favoriteInfo } from "../api/favoriteApi"
+import { LikeAndDislike } from "../components/LikeAndDislike"
 
 export const BookDetail = () => {
     const navigate = useNavigate()
     const { id } = useParams()
     const location = useLocation()
-    const { fetchData: fetchCreateFavoriteData } = FavoriteApi("create")
-    const { fetchData: fetchDeleteFavoriteData } = FavoriteApi("delete")
-    const { fetchData: fetchFavoriteData } = FavoriteApi("list")
     const { fetchData: fetchGetAnnoucementData } = AnnouncementAPI(`get?id=${id}`, "GET")
     let carouselRef: CarouselRef | null = null
     const [info, setInfo] = useState<announcementInfo>({
@@ -25,46 +22,24 @@ export const BookDetail = () => {
         year: 0,
         location: "",
     })
-    const [favoriteInfo, setFavoriteInfo] = useState<favoriteInfo>({
-        id: "",
-        announcement: "",
-        creator: "",
-    });
 
     const onClickFavorite = (isFavoriteValue: boolean) => {
-        if (!isFavoriteValue) {
-            fetchDeleteFavoriteData({
-                favoriteId: favoriteInfo.id,
-            }).then((res) => {
-                if (res.result_code === 0) {
-                    setInfo({ ...info, isFavorite: isFavoriteValue })
-                }
-            })
-        } else {
-            fetchCreateFavoriteData({
-                announcementId: id,
-            }).then((res) => {
-                if (res.result_code === 0) {
-                    setInfo({ ...info, isFavorite: isFavoriteValue })
-                }
-            })
-        }
+        setInfo({ ...info, isFavorite: isFavoriteValue })
     }
 
     const loadData = async () => {
         await fetchGetAnnoucementData(null).then((res) => {
             if (res.result_code === 0) {
+                console.log(location);
                 const isFavorite = new URLSearchParams(location.search).get("isFavorite")
-                setInfo({ ...res.data, isFavorite: isFavorite === "true" } as unknown as announcementInfo)
-            }
-        })
+                const favoriteId = new URLSearchParams(location.search).get("favoriteId")
+                const annoucementData: announcementInfo = JSON.parse(JSON.stringify(res.data));
 
-        fetchFavoriteData({}).then((res) => {
-            if (res.result_code === 0) {
-                const favorite = res.data.find((item) => item.announcement === id)
-                if (favorite && favorite.announcement.length) {
-                    setFavoriteInfo(favorite)
-                } 
+                if (isFavorite === "true" && typeof favoriteId === "string") {
+                    setInfo({ ...annoucementData, isFavorite: isFavorite === "true", favoriteId: favoriteId })
+                } else {
+                    setInfo({ ...annoucementData, isFavorite: false })
+                }
             }
         })
     }
@@ -96,7 +71,12 @@ export const BookDetail = () => {
                 <div className="book-subInfo">
                     <p className="book-descr">{info.description}</p>
 
-                    <div className="favorite">{info.isFavorite ? <HeartFilled onClick={() => onClickFavorite(false)} className="icon active" /> : <HeartOutlined onClick={() => onClickFavorite(true)} className="icon" />}</div>
+                    <LikeAndDislike
+                        isFavorite={info.isFavorite}
+                        onClickFavorite={onClickFavorite}
+                        announcementId={info.id}
+                        favoriteId={info.favoriteId}
+                    />
                 </div>
 
                 <Button type="primary" className="btn-exchange">

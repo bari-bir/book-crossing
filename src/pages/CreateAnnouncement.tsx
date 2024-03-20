@@ -144,25 +144,48 @@ export const CreateAnnouncement = () => {
 
             <div className="info container">
                 <div className="info-wrapper">
-                    <Input style={{ flex: 4 }} name="title" type="text" placeholder="Title" value={info.title} onChange={(e) => setInfo({ ...info, title: e.target.value })} suffix={<FormOutlined style={{ color: "#BFBFBF" }} />} />
-                    <DatePicker style={{ flex: 1 }} picker="year" placeholder="year" value={info.year} onChange={(e) => setInfo({ ...info, year: e })} />
+                    <Input
+                        style={{ flex: 4 }}
+                        name="title"
+                        type="text"
+                        placeholder="Title"
+                        value={info.title}
+                        onChange={(e) => setInfo({ ...info, title: e.target.value })}
+                        suffix={<FormOutlined style={{ color: "#BFBFBF" }} />}
+                    />
+                    <DatePicker
+                        style={{ flex: 1 }}
+                        picker="year"
+                        placeholder="year"
+                        value={info.year}
+                        onChange={(e) => setInfo({ ...info, year: e })}
+                    />
                 </div>
                 <div className="info-wrapper">
-                    <Select style={{ flex: 1 }} placeholder="Category" value={info.category} onChange={(e) => setInfo({ ...info, category: e })} suffixIcon={<AppstoreOutlined style={{ color: "#BFBFBF" }} />}>
+                    <Select
+                        style={{ flex: 1 }}
+                        placeholder="Category"
+                        value={info.category}
+                        onChange={(e) => setInfo({ ...info, category: e })}
+                        suffixIcon={<AppstoreOutlined style={{ color: "#BFBFBF" }} />}>
                         {genreList.map((genre) => (
                             <Option key={genre.id} value={genre.title}>
                                 {genre.title}
                             </Option>
                         ))}
                     </Select>
-                    <Select style={{ flex: 1 }} placeholder="City" value={info.location} onChange={(e) => setInfo({ ...info, location: e})}>
+                    <Select style={{ flex: 1 }} placeholder="City" value={info.location} onChange={(e) => setInfo({ ...info, location: e })}>
                         <Option value="Almaty">Almaty</Option>
                         <Option value="Astana">Astana</Option>
                         <Option value="Shymkent">Shymkent</Option>
                     </Select>
                 </div>
 
-                <TextArea placeholder="Type  a  message here ..." style={{ height: 136 }} value={info.description} onChange={(e) => setInfo({ ...info, description: e.target.value })}></TextArea>
+                <TextArea
+                    placeholder="Type  a  message here ..."
+                    style={{ height: 136 }}
+                    value={info.description}
+                    onChange={(e) => setInfo({ ...info, description: e.target.value })}></TextArea>
             </div>
             <Button className="btn-send" type="primary" onClick={onSubmit}>
                 Send

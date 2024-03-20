@@ -47,7 +47,15 @@ export const Favorite = () => {
         <div className="favorite container">
             <Header title="Favorite" />
 
-            <div className="book-list">{dataList.length ? dataList.map((item) => <BookCard key={item.id} {...item}  isFavorite={true} onFavorite={() => setIsFavorite(favorite => favorite = !favorite)} />) : <Empty />}</div>
+            <div className="book-list">
+                {dataList.length ? (
+                    dataList.map((item) => (
+                        <BookCard key={item.id} {...item} isFavorite={true} onFavorite={() => setIsFavorite((favorite) => (favorite = !favorite))} />
+                    ))
+                ) : (
+                    <Empty />
+                )}
+            </div>
         </div>
     )
 }

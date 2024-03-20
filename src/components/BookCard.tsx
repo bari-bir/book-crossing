@@ -1,7 +1,6 @@
-import { HeartFilled, HeartOutlined } from "@ant-design/icons"
 import "../assets/styles/components/bookCard.scss"
 import { CloudImage } from "./CloudImage"
-import { FavoriteApi } from "../api/favoriteApi"
+import { LikeAndDislike } from "./LikeAndDislike"
 import { announcementInfo } from "../api/announcementApi"
 import { useNavigate } from "react-router-dom"
 
@@ -11,35 +10,12 @@ interface IBook extends announcementInfo {
 
 export const BookCard = ({ id, favoriteId, title, category, year, images, isFavorite, onFavorite }: IBook) => {
     const navigate = useNavigate()
-    const { fetchData: fetchCreateFavoriteData } = FavoriteApi("create")
-    const { fetchData: fetchDeleteFavoriteData } = FavoriteApi("delete")
-
-    const onClickFavorite = (e: KonvaMouseEvent) => {
-        e.stopPropagation()
-        if (!isFavorite) {
-            fetchCreateFavoriteData({
-                announcementId: id,
-            }).then((res) => {
-                if (res.result_code === 0) {
-                    onFavorite()
-                }
-            })
-        } else {
-            fetchDeleteFavoriteData({
-                favoriteId,
-            }).then((res) => {
-                if (res.result_code === 0) {
-                    onFavorite()
-                }
-            })
-        }
-    }
 
     return (
         <div
             className="book"
             onClick={() => {
-                navigate(`/book/${id}?isFavorite=${isFavorite ? true : false}`)
+                navigate(`/book/${id}?isFavorite=${isFavorite ? true : false}&favoriteId=${favoriteId}`)
             }}>
             {images && (
                 <div className="image" onClick={(e) => e.stopPropagation()}>
@@ -57,7 +33,7 @@ export const BookCard = ({ id, favoriteId, title, category, year, images, isFavo
                 </div>
             </div>
 
-            <div className="favorite">{isFavorite ? <HeartFilled onClick={onClickFavorite} className="icon active" /> : <HeartOutlined onClick={onClickFavorite} className="icon" />}</div>
+            <LikeAndDislike favoriteId={favoriteId} onClickFavorite={onFavorite} announcementId={id} isFavorite={isFavorite ? true : false} />
         </div>
     )
 }

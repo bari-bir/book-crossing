@@ -1,0 +1,19 @@
+.favorite-icon {
+    position: absolute;
+    top: 13px;
+    right: 11px;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    background-color: rgba(200, 200, 200, 0.8);
+    display: grid;
+    place-content: center;
+
+    .icon {
+        font-size: 15px;
+
+        &.active {
+            color: red;
+        }
+    }
+}

@@ -30,7 +30,7 @@ export const Home = () => {
                 setDataList((dataList) =>
                     dataList.map((item) => {
                         const favoriteData = favoriteList.find((favorite) => favorite.announcement === item.id)
-                        if (item.id && favoriteData) {
+                        if (favoriteData && favoriteData.id) {
                             return {
                                 ...item,
                                 favoriteId: favoriteData.id,
@@ -48,7 +48,15 @@ export const Home = () => {
         <div className="home container">
             <CustomSearch />
 
-            <div className="book-list">{dataList.length ? dataList.map((item) => <BookCard key={item.id} {...item} onFavorite={() => setIsFavorite(favorite => favorite = !favorite)} />) : <Empty />}</div>
+            <div className="book-list">
+                {dataList.length ? (
+                    dataList.map((item) => (
+                        <BookCard key={item.id} {...item} onFavorite={() => setIsFavorite((favorite) => (favorite = !favorite))} />
+                    ))
+                ) : (
+                    <Empty />
+                )}
+            </div>
         </div>
     )
 }
