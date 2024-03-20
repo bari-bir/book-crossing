@@ -30,10 +30,9 @@ export const BookDetail = () => {
     const loadData = async () => {
         await fetchGetAnnoucementData(null).then((res) => {
             if (res.result_code === 0) {
-                console.log(location);
                 const isFavorite = new URLSearchParams(location.search).get("isFavorite")
                 const favoriteId = new URLSearchParams(location.search).get("favoriteId")
-                const annoucementData: announcementInfo = JSON.parse(JSON.stringify(res.data));
+                const annoucementData: announcementInfo = JSON.parse(JSON.stringify(res.data))
 
                 if (isFavorite === "true" && typeof favoriteId === "string") {
                     setInfo({ ...annoucementData, isFavorite: isFavorite === "true", favoriteId: favoriteId })
@@ -79,7 +78,10 @@ export const BookDetail = () => {
                     />
                 </div>
 
-                <Button type="primary" className="btn-exchange">
+                <Button
+                    type="primary"
+                    className="btn-exchange"
+                    onClick={() => navigate(`/book-exchange/${info.id}?isFavorite=${info.isFavorite}&favoriteId=${info.favoriteId}`)}>
                     Exchange
                 </Button>
             </div>

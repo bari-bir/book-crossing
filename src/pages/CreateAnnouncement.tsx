@@ -1,4 +1,4 @@
-import { AppstoreOutlined, CloudUploadOutlined, FormOutlined } from "@ant-design/icons"
+import { AppstoreOutlined, CloseOutlined, CloudUploadOutlined, FormOutlined } from "@ant-design/icons"
 import { Header } from "../components/Header"
 import { Input, Upload, UploadProps, DatePicker, Select, Button, App, Carousel, GetProp } from "antd"
 import "../assets/styles/pages/createAnnoucement.scss"
@@ -34,7 +34,8 @@ export const CreateAnnouncement = () => {
     const draggerProps: UploadProps = {
         name: "file",
         accept: "image/*",
-        multiple: true,
+        multiple: false,
+        maxCount: 1,
         showUploadList: false,
         customRequest: (e) => uploadFile(e),
         beforeUpload: (e) => beforeUpload(e),
@@ -112,6 +113,12 @@ export const CreateAnnouncement = () => {
         })
     }
 
+    const onDeleteImage = (e: KonvaMouseEvent, image: string) => {
+        e.stopPropagation()
+        
+        setInfo({ ...info, images: info.images.filter(item => item !== image) })
+    }
+
     useEffect(() => {
         fetchGenreData({}).then((res) => {
             if (res.result_code === 0) {
@@ -131,7 +138,10 @@ export const CreateAnnouncement = () => {
             <div className="dragger">
                 <Carousel>
                     {info.images.map((item, i) => (
-                        <CloudImage src={item} key={i} height={258} width="100%" />
+                        <div key={i} className="image-block">
+                            <CloudImage src={item} height={258} width="100%" />
+                            <CloseOutlined className="close-icon" onClick={(e) => onDeleteImage(e, item)} />
+                        </div>
                     ))}
                     <div className="dragger-wrapper">
                         <Dragger {...draggerProps}>

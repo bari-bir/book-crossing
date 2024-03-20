@@ -38,7 +38,7 @@ export const RequestAnnoucement = () => {
                 method: "DELETE",
             })
                 .then(() => {
-                    setIsAnnouncementDelete(true)
+                    setIsAnnouncementDelete((isAnnouncementDelete) => (isAnnouncementDelete = !isAnnouncementDelete))
                     message.success("Succesfully deleted announcement")
                 })
                 .catch((err) => {
@@ -51,7 +51,13 @@ export const RequestAnnoucement = () => {
         <div className="request container">
             <Header title={headerTitle} />
 
-            <Tabs className="tabs" centered defaultActiveKey="1" items={items} onChange={(e) => (e === "1" ? setHeaderTitle("Request") : setHeaderTitle("My annoucement"))} />
+            <Tabs
+                className="tabs"
+                centered
+                defaultActiveKey="1"
+                items={items}
+                onChange={(e) => (e === "1" ? setHeaderTitle("Request") : setHeaderTitle("My annoucement"))}
+            />
 
             <Drawer
                 open={showDrawer}
@@ -73,7 +79,13 @@ export const RequestAnnoucement = () => {
 
                     <div className="drawer-content">
                         <div className="imgs">
-                            <Carousel style={{ width: "100%" }}>{requestInfo?.images.length ? requestInfo.images.map((image, i) => <CloudImage key={i} src={image} width="100%" height={88} />) : <Empty />}</Carousel>
+                            <Carousel style={{ width: "100%" }}>
+                                {requestInfo?.images.length ? (
+                                    requestInfo.images.map((image, i) => <CloudImage key={i} src={image} width="100%" height={88} />)
+                                ) : (
+                                    <Empty />
+                                )}
+                            </Carousel>
                         </div>
 
                         <p className="descr">{requestInfo?.description}</p>
@@ -84,7 +96,15 @@ export const RequestAnnoucement = () => {
     )
 }
 
-const TabChild = ({ isRequest = false, openDrawerOrRemoveAnnoucement, isAnnoucementDelete = false }: { isRequest?: boolean; isAnnoucementDelete?: boolean; openDrawerOrRemoveAnnoucement: (annoucementInfo: announcementInfo, isRequest: boolean) => void }) => {
+const TabChild = ({
+    isRequest = false,
+    openDrawerOrRemoveAnnoucement,
+    isAnnoucementDelete = false,
+}: {
+    isRequest?: boolean
+    isAnnoucementDelete?: boolean
+    openDrawerOrRemoveAnnoucement: (annoucementInfo: announcementInfo, isRequest: boolean) => void
+}) => {
     interface IAnnouncementRequestFilter extends announcementInfo {
         requestId?: string
     }
@@ -141,7 +161,9 @@ const TabChild = ({ isRequest = false, openDrawerOrRemoveAnnoucement, isAnnoucem
                             <p className="desc">{description}</p>
 
                             <div className="book-btn">
-                                <Button onClick={() => openDrawerOrRemoveAnnoucement(dataList[index], isRequest)}>{isRequest ? "Review" : "Remove"}</Button>
+                                <Button onClick={() => openDrawerOrRemoveAnnoucement(dataList[index], isRequest)}>
+                                    {isRequest ? "Review" : "Remove"}
+                                </Button>
                                 <Button type="primary">{isRequest ? "Accept" : "Edit"}</Button>
                             </div>
                         </div>

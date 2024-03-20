@@ -27,7 +27,7 @@ const useApi = <T>(url: string, method: string = "POST"): UseApiResult<T> => {
                 dispatch(setError(null))
                 if(res.data.result_code < 0) {
                     console.log('error');
-                    message.error(JSON.stringify(res.data.data).slice(0, 20));
+                    message.error(res.data.result_msg);
                 }
                 return res.data
             })

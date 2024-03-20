@@ -1,11 +1,12 @@
 import { BookOutlined, HeartOutlined, HomeOutlined, PlusCircleOutlined } from "@ant-design/icons"
 import "../assets/styles/components/tabbarMenu.scss"
-import { NavLink } from "react-router-dom"
+import { NavLink, useLocation } from "react-router-dom"
 
 export const TabbarMenu = () => {
+    const location = useLocation()
     return (
         <div className="tabbar">
-            <NavLink to="/" className={({ isActive }) => (isActive ? "active-link" : "")}>
+            <NavLink to="/" className={({ isActive }) => (isActive || location.pathname.indexOf("book-exchange") !== -1 ? "active-link" : "")}>
                 <HomeOutlined className="menu-icon" />
             </NavLink>
             <NavLink to="/favorute" className={({ isActive }) => (isActive ? "active-link" : "")}>

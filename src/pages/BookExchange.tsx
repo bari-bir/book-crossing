@@ -1,0 +1,127 @@
+import { ArrowLeftOutlined, CloseOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons"
+import { App, Button, Carousel } from "antd"
+import { CarouselRef } from "antd/es/carousel"
+import { useEffect, useState } from "react"
+import { AnnouncementAPI, announcementInfo } from "../api/announcementApi"
+import { LikeAndDislike } from "../components/LikeAndDislike"
+import UserProfile from "../assets/images/userProfile.png"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
+import TextArea from "antd/es/input/TextArea"
+import "../assets/styles/pages/bookExchange.scss"
+import { RequestAPI } from "../api/requestApi"
+
+export const BookExchange = () => {
+    const navigate = useNavigate()
+    const { id } = useParams()
+    const { fetchData: fetchGetAnnoucementData } = AnnouncementAPI(`get?id=${id}`, "GET")
+    const { fetchData: fetchCreateRequestData } = RequestAPI("create")
+    const location = useLocation()
+    let carouselRef: CarouselRef | null = null
+    const [info, setInfo] = useState<announcementInfo>({
+        title: "",
+        description: "",
+        category: "",
+        isFavorite: false,
+        images: [],
+        year: 0,
+        location: "",
+    })
+    const { message: messageToast } = App.useApp()
+    const [message, setMessage] = useState<string>("")
+
+    const onClickFavorite = (isFavoriteValue: boolean) => {
+        setInfo({ ...info, isFavorite: isFavoriteValue })
+    }
+
+    const loadData = async () => {
+        await fetchGetAnnoucementData(null).then((res) => {
+            if (res.result_code === 0) {
+                const isFavorite = new URLSearchParams(location.search).get("isFavorite")
+                const favoriteId = new URLSearchParams(location.search).get("favoriteId")
+                const annoucementData: announcementInfo = JSON.parse(JSON.stringify(res.data))
+
+                if (isFavorite === "true" && typeof favoriteId === "string") {
+                    setInfo({ ...annoucementData, isFavorite: isFavorite === "true", favoriteId: favoriteId })
+                } else {
+                    setInfo({ ...annoucementData, isFavorite: false })
+                }
+            }
+        })
+    }
+
+    const onSend = () => {
+        fetchCreateRequestData({
+            announcement: info.id,
+            message,
+        }).then((res) => {
+            if (res.result_code === 0) {
+                messageToast.success("Successfully passed request")
+                navigate("/request-annoucement")
+            }
+        })
+    }
+
+    useEffect(() => {
+        loadData()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    return (
+        <div className="book-exchange">
+            <ArrowLeftOutlined className="icon-bg  back" onClick={() => navigate(-1)} />
+            <CloseOutlined className="icon-bg  close" onClick={() => navigate(-2)} />
+
+            <div className="book-carousel">
+                <RightOutlined className="carousel-arrow right icon-bg" onClick={() => carouselRef?.next()} />
+                <LeftOutlined className="carousel-arrow left icon-bg" onClick={() => carouselRef?.prev()} />
+                <Carousel ref={(ref) => (carouselRef = ref)}>
+                    {info.images.map((image, i) => (
+                        <img key={i} src={image} className="img" alt="img" />
+                    ))}
+                </Carousel>
+            </div>
+
+            <div className="book-info container">
+                <h1 className="book-title">
+                    {info.title} <span>{info.year}</span>
+                </h1>
+                <p className="book-category">{info.category}</p>
+
+                <div className="book-subInfo">
+                    <p className="book-descr">{info.description}</p>
+
+                    <LikeAndDislike
+                        isFavorite={info.isFavorite}
+                        onClickFavorite={onClickFavorite}
+                        announcementId={info.id}
+                        favoriteId={info.favoriteId}
+                    />
+                </div>
+
+                <div className="book-request">
+                    <img src={UserProfile} alt={"userProfile"} className="user-img" />
+
+                    <div className="book-textArea">
+                        <TextArea
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            placeholder="Type  a  message here ..."
+                            className="input-textArea"></TextArea>
+                        <div className="book-btns">
+                            <p onClick={() => setMessage("")} className="delete-text">
+                                Delete draft
+                            </p>
+
+                            <div className="send-block">
+                                <p className="time-text">Draft saves at 7:00 PM</p>
+                                <Button type="primary" onClick={onSend}>
+                                    Send
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}

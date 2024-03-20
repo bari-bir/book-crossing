@@ -2,9 +2,26 @@
     .dragger {
         width: 100%;
 
+        .image-block {
+            position: relative;
+            .cloud-image {
+                object-fit: contain;
+            }
+
+            .close-icon {
+                position: absolute;
+                top: 5px;
+                right: 16px;
+                color: #fff;
+                background-color: rgba(217, 217, 217, 0.9);
+                border-radius: 100%;
+                padding: 5px;
+                font-size: 25px;
+            }
+        }
         .dragger-wrapper {
-            height: 258px; 
-            
+            height: 258px;
+
             .ant-upload-drag {
                 background-color: #d9d9d9;
             }

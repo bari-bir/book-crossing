@@ -12,11 +12,6 @@ export const Home = () => {
     const { fetchData: fetchFavoriteData } = FavoriteApi("list")
     const [isFavorite, setIsFavorite] = useState<boolean>(false)
 
-    useEffect(() => {
-        loadData()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isFavorite])
-
     const loadData = async () => {
         await fetchAnnouncementData({}).then((res) => {
             if (res.result_code === 0) {
@@ -43,6 +38,11 @@ export const Home = () => {
             }
         })
     }
+
+    useEffect(() => {
+        loadData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isFavorite])
 
     return (
         <div className="home container">
