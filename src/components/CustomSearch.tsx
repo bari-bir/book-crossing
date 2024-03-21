@@ -4,7 +4,7 @@ import "../assets/styles/components/search.scss"
 
 type propsInfo = {
     placeholder?: string
-    onSearch: (value: string) => void
+    onSearch: (value: string, isPressEnter?: boolean) => void
 }
 
 const { Search } = Input
@@ -27,7 +27,13 @@ export const CustomSearch = ({ placeholder = "Поиск в Алматы", onSea
                         },
                     },
                 }}>
-                <Search placeholder={placeholder} allowClear value={search} onChange={(e) => onChangeSearch(e.target.value)} />
+                <Search
+                    placeholder={placeholder}
+                    allowClear
+                    value={search}
+                    onChange={(e) => onChangeSearch(e.target.value)}
+                    onPressEnter={() => onSearch(search, true)}
+                />
             </ConfigProvider>
         </div>
     )

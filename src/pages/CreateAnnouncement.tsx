@@ -10,6 +10,8 @@ import { RcFile } from "antd/es/upload"
 import { CloudImage } from "../components/CloudImage"
 import { useParams } from "react-router-dom"
 import dayjs, { Dayjs } from "dayjs"
+import { useAppDispatch } from "../hooks/useStore"
+import { setLoading } from "../redux/features/mainSlice"
 
 type FileType = Parameters<GetProp<UploadProps, "customRequest">>[0]
 
@@ -27,6 +29,7 @@ const _infoTemp = {
 }
 
 export const CreateAnnouncement = () => {
+    const dispatch = useAppDispatch()
     const { id } = useParams()
     const { fetchData: fetchGenreData } = GenreAPI()
     const { fetchData: fetchGetAnnouncementData } = AnnouncementAPI(`/get?id=${id}`, "GET")
@@ -62,6 +65,8 @@ export const CreateAnnouncement = () => {
 
         const param = new FormData()
         param.append("file", (currentFile || file) as Blob)
+
+        dispatch(setLoading(true))
         const res = await http({
             url: "/bookcrossing/announcement/upload",
             method: "POST",
@@ -72,16 +77,13 @@ export const CreateAnnouncement = () => {
         })
 
         if (res.data.result_code === 0) {
-            /**
-             * @TODO add progress file
-             * file.onProgress = 100;
-             *
-             */
+            dispatch(setLoading(false))
             const urlImage = `${import.meta.env.VITE_API_URL}/public/get_resource?name=${res.data.data.path}`
             setInfo({ ...info, images: [...info.images, urlImage] })
 
             return true
         } else {
+            dispatch(setLoading(false))
             message.error(res.data.data.slice(0, 20))
             return false
         }

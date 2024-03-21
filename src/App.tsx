@@ -9,22 +9,25 @@ import { RequestAnnoucement } from "./pages/RequestAnnoucement.tsx"
 import { App as AntApp } from "antd"
 import { BookDetail } from "./pages/BookDetail.tsx"
 import { BookExchange } from "./pages/BookExchange.tsx"
+import { Fuse } from "./components/Fuse.tsx"
 
 function App() {
     return (
         <AntApp message={{ top: 30 }}>
-            <div style={{ width: "100%", marginTop: 10 }}>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/favorute" element={<Favorite />} />
-                    <Route path="/create-announcement/:id" element={<CreateAnnouncement />} />
-                    <Route path="/message" element={<Message />} />
-                    <Route path="/request-annoucement/" element={<RequestAnnoucement />} />
-                    <Route path="/book/:id" element={<BookDetail />} />
-                    <Route path="/book-exchange/:id" element={<BookExchange />} />
-                </Routes>
-                <div style={{ height: 73 }} />
-                <TabbarMenu />
+            <div style={{ width: "100%" }}>
+                <Fuse>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/favorute" element={<Favorite />} />
+                        <Route path="/create-announcement/:id" element={<CreateAnnouncement />} />
+                        <Route path="/message" element={<Message />} />
+                        <Route path="/request-annoucement/" element={<RequestAnnoucement />} />
+                        <Route path="/book/:id" element={<BookDetail />} />
+                        <Route path="/book-exchange/:id" element={<BookExchange />} />
+                    </Routes>
+                    <div style={{ height: 73 }} />
+                    <TabbarMenu />
+                </Fuse>
             </div>
         </AntApp>
     )

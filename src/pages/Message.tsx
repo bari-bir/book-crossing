@@ -8,7 +8,11 @@ export const Message = () => {
         <div className="message container">
             <Header title="Message" />
 
-            <CustomSearch />
+            <CustomSearch
+                onSearch={function (value: string, isPressEnter?: boolean | undefined): void {
+                    console.log(value, isPressEnter)
+                }}
+            />
 
             <div className="message-wrapper">
                 <div className="message-block">

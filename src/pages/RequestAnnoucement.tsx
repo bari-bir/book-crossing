@@ -14,6 +14,8 @@ export const RequestAnnoucement = () => {
     const [showDrawer, setShowDrawer] = useState<boolean>(false)
     const [requestInfo, setRequestInfo] = useState<announcementInfo>()
     const [isAnnouncementDelete, setIsAnnouncementDelete] = useState<boolean>(false)
+    const [startX, setStartX] = useState<number>(0)
+    const [activeKeyTab, setActiveTab] = useState<string>("1")
     const { message } = App.useApp()
 
     const items: TabsProps["items"] = [
@@ -48,6 +50,43 @@ export const RequestAnnoucement = () => {
         }
     }
 
+    const onChagneTabs = (e: string) => {
+        if (e === "1") {
+            setHeaderTitle("Request")
+        } else {
+            setHeaderTitle("My annoucement")
+        }
+
+        setActiveTab(e)
+    }
+
+    const onTouchMove = (e: React.TouchEvent) => {
+        console.log(startX);
+        if (startX === 0) return
+        const currentX = e.touches[0].clientX
+        const diffX = currentX - startX
+        const sensitivity = 50
+        if (diffX > sensitivity) {
+            switchTab("prev")
+            setStartX(0)
+        } else if (diffX < -sensitivity) {
+            switchTab("next")
+            setStartX(0)
+        }
+    }
+
+    const switchTab = (direction: string) => {
+        const currentTabIndex = parseInt(activeKeyTab) - 1
+        let newTabIndex = 0
+        if (direction === "prev") {
+            newTabIndex = currentTabIndex === 0 ? 2 : currentTabIndex - 1
+        } else if (direction === "next") {
+            newTabIndex = currentTabIndex === 2 ? 0 : currentTabIndex + 1
+        }
+        console.log(newTabIndex)
+        setActiveTab((newTabIndex + 1).toString())
+    }
+
     return (
         <div className="request container">
             <Header title={headerTitle} />
@@ -56,8 +95,11 @@ export const RequestAnnoucement = () => {
                 className="tabs"
                 centered
                 defaultActiveKey="1"
+                activeKey={activeKeyTab}
                 items={items}
-                onChange={(e) => (e === "1" ? setHeaderTitle("Request") : setHeaderTitle("My annoucement"))}
+                onTouchStart={(e) => setStartX(e.touches[0].clientX)}
+                onTouchMove={onTouchMove}
+                onChange={onChagneTabs}
             />
 
             <Drawer
@@ -97,8 +139,6 @@ export const RequestAnnoucement = () => {
     )
 }
 
-
-
 interface IAnnouncementRequestFilter extends announcementInfo {
     requestId?: string
 }
@@ -112,14 +152,14 @@ const TabChild = ({
     isAnnoucementDelete?: boolean
     openDrawerOrRemoveAnnoucement: (annoucementInfo: announcementInfo, isRequest: boolean) => void
 }) => {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
     const [myAnnoucementList, setMyAnnoucementList] = useState<announcementInfo[]>([])
     const [announcementFilterRequestList, setAnnouncementFilterRequestList] = useState<IAnnouncementRequestFilter[]>([])
     const { fetchData: fetchMyAnnoucementData } = AnnouncementAPI("my/list")
     const { fetchData: fetchAnnoucementData } = AnnouncementAPI("list")
     const { fetchData: fetchRequestData } = RequestAPI("me/list")
     const dataList = [isRequest ? announcementFilterRequestList : myAnnoucementList][0]
-    
+
     const loadData = async () => {
         if (!isRequest) {
             fetchMyAnnoucementData({}).then((res) => {
@@ -150,7 +190,7 @@ const TabChild = ({
     }
 
     const onLink = (announcementIndex: number) => {
-        if(!isRequest) {
+        if (!isRequest) {
             navigate(`/create-announcement/${dataList[announcementIndex].id}`)
         }
     }
@@ -159,7 +199,6 @@ const TabChild = ({
         loadData()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAnnoucementDelete])
-
 
     return (
         <div className="book-wrapper">
@@ -175,7 +214,9 @@ const TabChild = ({
                                 <Button onClick={() => openDrawerOrRemoveAnnoucement(dataList[index], isRequest)}>
                                     {isRequest ? "Review" : "Remove"}
                                 </Button>
-                                <Button type="primary" onClick={() => onLink(index)}>{isRequest ? "Accept" : "Edit"}</Button>
+                                <Button type="primary" onClick={() => onLink(index)}>
+                                    {isRequest ? "Accept" : "Edit"}
+                                </Button>
                             </div>
                         </div>
                     </div>

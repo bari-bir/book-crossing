@@ -2,16 +2,16 @@ import { ArrowLeftOutlined } from "@ant-design/icons"
 
 export const Header = ({ title, isBack = true }: { title: string; isBack?: boolean }) => {
     return (
-        <div style={{ ...styles.header }}>
-            {isBack ? <ArrowLeftOutlined style={{ ...styles.iconBack }} /> : null}
-            <h1 style={{ ...styles.title }}>{title}</h1>
+        <div style={styles.header}>
+            {isBack ? <ArrowLeftOutlined style={styles.iconBack} /> : null}
+            <h1 style={styles.title}>{title}</h1>
         </div>
     )
 }
 
-const styles: { header: React.CSSProperties; iconBack: React.CSSProperties; title: React.CSSProperties } = {
+const styles: { [key: string]: React.CSSProperties} = {
     header: {
-        margin: "20px 0",
+        marginBottom: 20,
         position: "relative",
     },
     iconBack: {

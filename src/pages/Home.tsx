@@ -4,13 +4,11 @@ import { BookCard } from "../components/BookCard"
 import { CustomSearch } from "../components/CustomSearch"
 import { AnnouncementAPI, announcementInfo } from "../api/announcementApi"
 import { Empty } from "antd"
-import { FavoriteApi } from "../api/favoriteApi"
 
 export const Home = () => {
     const [dataList, setDataList] = useState<announcementInfo[]>([])
     const [searchValue, setSearchValue] = useState<string>("")
     const { fetchData: fetchAnnouncementData } = AnnouncementAPI("list")
-    const { fetchData: fetchFavoriteData } = FavoriteApi("list")
     const [isFavorite, setIsFavorite] = useState<boolean>(false)
 
     const loadData = async () => {
@@ -19,28 +17,12 @@ export const Home = () => {
                 setDataList(res.data)
             }
         })
-
-        fetchFavoriteData({}).then((res) => {
-            if (res.result_code === 0) {
-                const favoriteList = res.data
-                setDataList((dataList) =>
-                    dataList.map((item) => {
-                        const favoriteData = favoriteList.find((favorite) => favorite.announcement === item.id)
-                        if (favoriteData && favoriteData.id) {
-                            return {
-                                ...item,
-                                favoriteId: favoriteData.id,
-                                isFavorite: true,
-                            }
-                        }
-                        return item
-                    }),
-                )
-            }
-        })
     }
 
     const onSearch = (searchValue: string) => {
+        /**
+         * @TODO add isPressButton for search value and search
+         */
         setSearchValue(searchValue)
     }
 

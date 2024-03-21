@@ -3,12 +3,10 @@ import { BookCard } from "../components/BookCard"
 import { Header } from "../components/Header"
 import "../assets/styles/pages/favorite.scss"
 import { AnnouncementAPI, announcementInfo } from "../api/announcementApi"
-import { FavoriteApi, favoriteInfo } from "../api/favoriteApi"
 import { Empty } from "antd"
 
 export const Favorite = () => {
-    const { fetchData: fetchAnnouncementData } = AnnouncementAPI("list")
-    const { fetchData: fetchFavoriteData } = FavoriteApi("list")
+    const { fetchData: fetchAnnouncementData } = AnnouncementAPI("favorites")
     const [dataList, setDataList] = useState<announcementInfo[]>([])
     const [isFavorite, setIsFavorite] = useState<boolean>(true)
 
@@ -18,27 +16,9 @@ export const Favorite = () => {
     }, [isFavorite])
 
     const loadData = async () => {
-        await fetchFavoriteData({}).then((res) => {
+        await fetchAnnouncementData({}).then((res) => {
             if (res.result_code === 0) {
-                setAnnoucement(res.data)
-            }
-        })
-    }
-
-    const setAnnoucement = (favoriteRes: favoriteInfo[]) => {
-        fetchAnnouncementData({}).then((res) => {
-            if (res.result_code === 0) {
-                const announcementList: announcementInfo[] = []
-                res.data.forEach((item) => {
-                    const favoriteData = favoriteRes.find((favorite) => favorite.announcement === item.id)
-                    if (favoriteData && favoriteData.id) {
-                        announcementList.push({
-                            ...item,
-                            favoriteId: favoriteData.id,
-                        })
-                    }
-                })
-                setDataList(announcementList)
+                setDataList(res.data);
             }
         })
     }
