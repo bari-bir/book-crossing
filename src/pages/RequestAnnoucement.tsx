@@ -5,63 +5,54 @@ import UserProfile from "../assets/images/userProfile.png"
 import "../assets/styles/pages/requestAnnoucement.scss"
 import { AnnouncementAPI, announcementInfo } from "../api/announcementApi"
 import { CloudImage } from "../components/CloudImage"
-import { RequestAPI } from "../api/requestApi"
+import { RequestAPI, requestInfo } from "../api/requestApi"
 import http from "../utils/axios"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
-export const RequestAnnoucement = () => {
+interface IRequestData extends requestInfo {
+    announcement: announcementInfo
+    userInfo: {
+        fullName: string
+    }
+}
+
+export const RequestAnnouncement = () => {
     const [headerTitle, setHeaderTitle] = useState<string>("Request")
     const [showDrawer, setShowDrawer] = useState<boolean>(false)
-    const [requestInfo, setRequestInfo] = useState<announcementInfo>()
-    const [isAnnouncementDelete, setIsAnnouncementDelete] = useState<boolean>(false)
+    const [requestInfo, setRequestInfo] = useState<IRequestData>()
     const [startX, setStartX] = useState<number>(0)
     const [activeKeyTab, setActiveTab] = useState<string>("1")
-    const { message } = App.useApp()
+    const location = useLocation();
 
     const items: TabsProps["items"] = [
         {
             key: "1",
             label: "Request",
-            children: <TabChild isRequest openDrawerOrRemoveAnnoucement={openDrawerOrRemoveAnnoucement} />,
+            children: <TabChild isRequest openDrawer={openDrawer} />,
         },
         {
             key: "2",
-            label: "My annoucement",
-            children: <TabChild openDrawerOrRemoveAnnoucement={openDrawerOrRemoveAnnoucement} isAnnoucementDelete={isAnnouncementDelete} />,
+            label: "My announcement",
+            children: <TabChild openDrawer={openDrawer} />,
         },
     ]
 
-    async function openDrawerOrRemoveAnnoucement(announcementInfo: announcementInfo, isRequest: boolean) {
-        if (isRequest) {
-            setRequestInfo(announcementInfo)
-            setShowDrawer(true)
-        } else {
-            http({
-                url: `/bookcrossing/announcement/delete?id=${announcementInfo.id}`,
-                method: "DELETE",
-            })
-                .then(() => {
-                    setIsAnnouncementDelete((isAnnouncementDelete) => (isAnnouncementDelete = !isAnnouncementDelete))
-                    message.success("Succesfully deleted announcement")
-                })
-                .catch((err) => {
-                    message.error(err.message.slice(0, 20))
-                })
-        }
+    async function openDrawer(requestInfo: IRequestData) {
+        setRequestInfo(requestInfo)
+        setShowDrawer(true)
     }
 
     const onChagneTabs = (e: string) => {
         if (e === "1") {
             setHeaderTitle("Request")
         } else {
-            setHeaderTitle("My annoucement")
+            setHeaderTitle("My announcement")
         }
 
         setActiveTab(e)
     }
 
     const onTouchMove = (e: React.TouchEvent) => {
-        console.log(startX);
         if (startX === 0) return
         const currentX = e.touches[0].clientX
         const diffX = currentX - startX
@@ -79,13 +70,22 @@ export const RequestAnnoucement = () => {
         const currentTabIndex = parseInt(activeKeyTab) - 1
         let newTabIndex = 0
         if (direction === "prev") {
-            newTabIndex = currentTabIndex === 0 ? 2 : currentTabIndex - 1
+            newTabIndex = currentTabIndex === 0 ? 1 : currentTabIndex - 1
         } else if (direction === "next") {
-            newTabIndex = currentTabIndex === 2 ? 0 : currentTabIndex + 1
+            newTabIndex = currentTabIndex === 1 ? 0 : currentTabIndex + 1
         }
-        console.log(newTabIndex)
-        setActiveTab((newTabIndex + 1).toString())
+
+        onChagneTabs((newTabIndex + 1).toString())
     }
+
+    useEffect(()=> {
+        const isAnnoucementUpdated = new URLSearchParams(location.search).get("isAnnoucement")
+
+        if(isAnnoucementUpdated) {
+            setActiveTab('2');
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div className="request container">
@@ -114,24 +114,20 @@ export const RequestAnnoucement = () => {
                     </Space>
                 }>
                 <div className="drawer-wrapper">
-                    <h1 className="user-name">{requestInfo?.title}</h1>
-                    <div className="btns">
-                        <Button>Share</Button>
-                        <Button type="primary">Accept</Button>
-                    </div>
+                    <h1 className="user-name">{requestInfo?.userInfo.fullName}</h1>
 
                     <div className="drawer-content">
                         <div className="imgs">
                             <Carousel style={{ width: "100%" }}>
-                                {requestInfo?.images.length ? (
-                                    requestInfo.images.map((image, i) => <CloudImage key={i} src={image} width="100%" height={88} />)
+                                {requestInfo?.announcement.images.length ? (
+                                    requestInfo?.announcement.images.map((image, i) => <CloudImage key={i} src={image} width="100%" height={150} />)
                                 ) : (
                                     <Empty />
                                 )}
                             </Carousel>
                         </div>
 
-                        <p className="descr">{requestInfo?.description}</p>
+                        <p className="descr">{requestInfo?.message}</p>
                     </div>
                 </div>
             </Drawer>
@@ -139,26 +135,13 @@ export const RequestAnnoucement = () => {
     )
 }
 
-interface IAnnouncementRequestFilter extends announcementInfo {
-    requestId?: string
-}
-
-const TabChild = ({
-    isRequest = false,
-    openDrawerOrRemoveAnnoucement,
-    isAnnoucementDelete = false,
-}: {
-    isRequest?: boolean
-    isAnnoucementDelete?: boolean
-    openDrawerOrRemoveAnnoucement: (annoucementInfo: announcementInfo, isRequest: boolean) => void
-}) => {
+const TabChild = ({ isRequest = false, openDrawer }: { isRequest?: boolean; openDrawer: (requestInfo: IRequestData) => void }) => {
     const navigate = useNavigate()
+    const { message } = App.useApp()
     const [myAnnoucementList, setMyAnnoucementList] = useState<announcementInfo[]>([])
-    const [announcementFilterRequestList, setAnnouncementFilterRequestList] = useState<IAnnouncementRequestFilter[]>([])
+    const [requestList, setRequestList] = useState<IRequestData[]>([])
     const { fetchData: fetchMyAnnoucementData } = AnnouncementAPI("my/list")
-    const { fetchData: fetchAnnoucementData } = AnnouncementAPI("list")
     const { fetchData: fetchRequestData } = RequestAPI("me/list")
-    const dataList = [isRequest ? announcementFilterRequestList : myAnnoucementList][0]
 
     const loadData = async () => {
         if (!isRequest) {
@@ -168,22 +151,9 @@ const TabChild = ({
                 }
             })
         } else {
-            let annoucementList: announcementInfo[] = []
-            await fetchAnnoucementData({}).then((res) => {
-                if (res.result_code === 0) {
-                    annoucementList = res.data
-                }
-            })
             fetchRequestData({}).then((res) => {
                 if (res.result_code === 0) {
-                    const requestList: announcementInfo[] = []
-                    annoucementList.forEach((item) => {
-                        const request = res.data.find((request) => request.announcement === item.id)
-                        if (request && request.id) {
-                            requestList.push(item)
-                        }
-                    })
-                    setAnnouncementFilterRequestList(requestList)
+                    setRequestList(JSON.parse(JSON.stringify(res.data)))
                 }
             })
         }
@@ -191,36 +161,66 @@ const TabChild = ({
 
     const onLink = (announcementIndex: number) => {
         if (!isRequest) {
-            navigate(`/create-announcement/${dataList[announcementIndex].id}`)
+            navigate(`/create-announcement/${myAnnoucementList[announcementIndex].id}`)
         }
+    }
+
+    const removeAnnouncement = (e: number) => {
+        const annoucementId = myAnnoucementList[e].id
+        http({
+            url: `/bookcrossing/announcement/delete?id=${annoucementId}`,
+            method: "DELETE",
+        })
+            .then(() => {
+                setMyAnnoucementList(myAnnoucementList.filter((item) => item.id !== annoucementId))
+                message.success("Succesfully deleted announcement")
+            })
+            .catch((err) => {
+                message.error(err.message.slice(0, 20))
+            })
     }
 
     useEffect(() => {
         loadData()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isAnnoucementDelete])
+    }, [])
 
     return (
         <div className="book-wrapper">
-            {myAnnoucementList.length || announcementFilterRequestList.length ? (
-                dataList.map(({ id, images, title, description }, index) => (
-                    <div key={id} className="book">
-                        <CloudImage src={images[0]} width={85} height={85} />
-                        <div className="book-info">
-                            <h3 className="title">{title}</h3>
-                            <p className="desc">{description}</p>
+            {myAnnoucementList.length || requestList.length ? (
+                !isRequest ? (
+                    myAnnoucementList.map(({ id, images, title, description }, index) => (
+                        <div key={id} className="book">
+                            <CloudImage src={images[0]} width={85} height={85} />
+                            <div className="book-info">
+                                <h3 className="title">{title}</h3>
+                                <p className="desc">{description}</p>
 
-                            <div className="book-btn">
-                                <Button onClick={() => openDrawerOrRemoveAnnoucement(dataList[index], isRequest)}>
-                                    {isRequest ? "Review" : "Remove"}
-                                </Button>
-                                <Button type="primary" onClick={() => onLink(index)}>
-                                    {isRequest ? "Accept" : "Edit"}
-                                </Button>
+                                <div className="book-btn">
+                                    <Button onClick={() => removeAnnouncement(index)}>Remove</Button>
+                                    <Button type="primary" onClick={() => onLink(index)}>
+                                        Edit
+                                    </Button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))
+                    ))
+                ) : (
+                    requestList.map((request) => (
+                        <div key={request.id} className="book">
+                            <CloudImage src={request.announcement.images[0]} width={85} height={85} />
+                            <div className="book-info">
+                                <h3 className="title">{request.userInfo.fullName}</h3>
+                                <p className="desc">{request.message}</p>
+
+                                <div className="book-btn">
+                                    <Button onClick={() => openDrawer(request)}>Review</Button>
+                                    <Button type="primary">{"Accept"}</Button>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                )
             ) : (
                 <Empty />
             )}

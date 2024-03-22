@@ -2,7 +2,7 @@ import useApi from "../hooks/useApi"
 
 export type announcementInfo = {
     id?: string
-    isFavorite?: boolean
+    favorite?: boolean
     favoriteId?: string
     title: string
     category: string | null

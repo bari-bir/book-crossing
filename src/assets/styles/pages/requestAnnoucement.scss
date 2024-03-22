@@ -56,10 +56,24 @@
                     justify-content: flex-end;
                     flex-direction: row;
                     gap: 5px;
+
+                    .ant-btn-primary {
+                        background-color: #005479;
+                    }
+
+                    .ant-btn-default {
+                        border-color: #005479;
+                    }
                 }
             }
         }
     }
+
+}
+
+
+.ant-drawer-content {
+    border-radius: 60px 60px 0 0;
 }
 
 .header-user {
@@ -71,7 +85,7 @@
     img {
         width: 80px;
         height: 80px;
-        border: 5px solid #ebeaea;
+        border: 5px solid #005479;
         border-radius: 100%;
         object-fit: contain;
     }
@@ -80,16 +94,8 @@
 .drawer-wrapper {
     .user-name {
         text-align: center;
-        font-size: 16px;
-        font-weight: 500;
-    }
-    .btns {
-        margin-top: 20px;
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        gap: 5px;
-        justify-content: center;
+        font-size: 17px;
+        font-weight: 600;
     }
 
     .drawer-content {
@@ -112,6 +118,7 @@
         }
 
         .descr {
+            margin-top: 31px;
             font-size: 13px;
             font-weight: 300;
         }

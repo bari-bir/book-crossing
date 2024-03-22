@@ -5,7 +5,7 @@ import { useState } from "react"
 
 type propsInfo = {
     isFavorite?: boolean
-    onClickFavorite: (e: boolean) => void
+    onClickFavorite: (e: boolean, annoucementId?: string) => void
     announcementId?: string
     favoriteId?: string
 }
@@ -28,7 +28,7 @@ export const LikeAndDislike = ({ isFavorite, onClickFavorite, announcementId, fa
                 if (res.result_code === 0) {
                     const info: favoriteInfo = JSON.parse(JSON.stringify(res.data))
                     setFavoriteInfo(info)
-                    onClickFavorite(true)
+                    onClickFavorite(true, announcementId)
                 }
             })
         } else {
@@ -36,7 +36,7 @@ export const LikeAndDislike = ({ isFavorite, onClickFavorite, announcementId, fa
                 favoriteId: favoriteInfo.id.length ? favoriteInfo.id : favoriteId,
             }).then((res) => {
                 if (res.result_code === 0) {
-                    onClickFavorite(false)
+                    onClickFavorite(false, announcementId)
                 }
             })
         }

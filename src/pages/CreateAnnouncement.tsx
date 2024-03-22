@@ -1,21 +1,14 @@
 import { AppstoreOutlined, CloseOutlined, CloudUploadOutlined, FormOutlined } from "@ant-design/icons"
 import { Header } from "../components/Header"
-import { Input, Upload, UploadProps, DatePicker, Select, Button, App, Carousel, GetProp } from "antd"
+import { Input, DatePicker, Select, Button, App, Carousel } from "antd"
 import "../assets/styles/pages/createAnnoucement.scss"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { AnnouncementAPI, announcementInfo } from "../api/announcementApi"
 import { GenreAPI, genre } from "../api/genreApi"
-import http from "../utils/axios"
-import { RcFile } from "antd/es/upload"
 import { CloudImage } from "../components/CloudImage"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import dayjs, { Dayjs } from "dayjs"
-import { useAppDispatch } from "../hooks/useStore"
-import { setLoading } from "../redux/features/mainSlice"
 
-type FileType = Parameters<GetProp<UploadProps, "customRequest">>[0]
-
-const { Dragger } = Upload
 const { Option } = Select
 const { TextArea } = Input
 
@@ -25,85 +18,24 @@ const _infoTemp = {
     year: 0,
     images: [],
     description: "",
-    location: null,
+    location: "Almaty",
 }
 
 export const CreateAnnouncement = () => {
-    const dispatch = useAppDispatch()
     const { id } = useParams()
+    const navigate = useNavigate()
     const { fetchData: fetchGenreData } = GenreAPI()
     const { fetchData: fetchGetAnnouncementData } = AnnouncementAPI(`/get?id=${id}`, "GET")
     const { fetchData: fetchAnnoucementData } = AnnouncementAPI("create")
+    const { fetchData: fetchUpdateAnnouncementData } = AnnouncementAPI("update")
     const { message } = App.useApp()
     const [genreList, setGenreList] = useState<genre[]>([])
     const [info, setInfo] = useState<announcementInfo>(_infoTemp)
     const [time, setTime] = useState<Dayjs | null>(null)
 
-    const draggerProps: UploadProps = {
-        name: "file",
-        accept: "image/*",
-        multiple: false,
-        maxCount: 1,
-        showUploadList: false,
-        customRequest: (e) => uploadFile(e),
-        beforeUpload: (e) => beforeUpload(e),
-    }
-
-    const uploadFile = async (file: FileType) => {
-        const currentFile = file.file as RcFile
-        if (!currentFile) {
-            console.log("file is empty")
-            return
-        }
-
-        const isLt10M: boolean = currentFile.size / 1024 / 1024 < 1
-
-        if (!isLt10M) {
-            message.error("File size small than 1mb")
-            return false
-        }
-
-        const param = new FormData()
-        param.append("file", (currentFile || file) as Blob)
-
-        dispatch(setLoading(true))
-        const res = await http({
-            url: "/bookcrossing/announcement/upload",
-            method: "POST",
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-            data: param,
-        })
-
-        if (res.data.result_code === 0) {
-            dispatch(setLoading(false))
-            const urlImage = `${import.meta.env.VITE_API_URL}/public/get_resource?name=${res.data.data.path}`
-            setInfo({ ...info, images: [...info.images, urlImage] })
-
-            return true
-        } else {
-            dispatch(setLoading(false))
-            message.error(res.data.data.slice(0, 20))
-            return false
-        }
-    }
-
-    const beforeUpload = async (file: RcFile) => {
-        const isImg = await checkImgType(file)
-        if (!isImg) {
-            message.error("Image format error")
-            return false
-        }
-
-        return true
-    }
-
-    const checkImgType = async (file: RcFile) => {
-        if (!/\.(jpg|jpeg|png|GIF|JPG|PNG)$/.test(file.name)) {
-            return false
-        } else {
-            return true
+    const onUploadImg = () => {
+        if (window.ReactNativeWebView) {
+            window.ReactNativeWebView.postMessage(JSON.stringify({ key: "uploadImg" }))
         }
     }
 
@@ -112,12 +44,24 @@ export const CreateAnnouncement = () => {
             ...info,
             year: dayjs(time).get("year"),
         }
-        fetchAnnoucementData(data).then((res) => {
-            if (res.result_code === 0) {
-                message.success("Successfuly created annoucement")
-                setInfo(_infoTemp)
-            }
-        })
+
+        if (id && id !== "add") {
+            fetchUpdateAnnouncementData(data).then(res => {
+                if(res.result_code === 0) {
+                    message.success("Successfuly updated annoucement")
+                    setInfo(_infoTemp)
+                    navigate("/request-annoucement?isAnnoucement=true")
+                }
+            })
+        } else {
+            fetchAnnoucementData(data).then((res) => {
+                if (res.result_code === 0) {
+                    message.success("Successfuly created annoucement")
+                    setInfo(_infoTemp)
+                    navigate("/request-annoucement?isAnnoucement=true")
+                }
+            })
+        }
     }
 
     const onDeleteImage = (e: KonvaMouseEvent, image: string) => {
@@ -150,11 +94,21 @@ export const CreateAnnouncement = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    const handlePostMessageListener = useCallback((message: MessageEvent) => {
+        const image = message.data.url
+        setInfo((info) => ({ ...info, images: [...info.images, image] }))
+    }, [])
+
+    useEffect(() => {
+        window.addEventListener("message", handlePostMessageListener)
+        return () => {
+            window.removeEventListener("message", handlePostMessageListener)
+        }
+    }, [handlePostMessageListener])
+
     return (
-        <div className="create-announcement">
-            <div className="container">
-                <Header title="Create Announcement" />
-            </div>
+        <div className="create-announcement container">
+            <Header title="Create Announcement" />
 
             <div className="dragger">
                 <Carousel>
@@ -164,19 +118,19 @@ export const CreateAnnouncement = () => {
                             <CloseOutlined className="close-icon" onClick={(e) => onDeleteImage(e, item)} />
                         </div>
                     ))}
-                    <div className="dragger-wrapper">
-                        <Dragger {...draggerProps}>
+                    <div className="dragger-wrapper" onClick={onUploadImg}>
+                        <div className="upload-icon">
                             <CloudUploadOutlined className="upload-icon" />
-                            <p className="upload-text">Upload the photo</p>
-                        </Dragger>
+                            <p className="upload-text">Click here to upload</p>
+                        </div>
                     </div>
                 </Carousel>
             </div>
 
-            <div className="info container">
+            <div className="info">
                 <div className="info-wrapper">
                     <Input
-                        style={{ flex: 4 }}
+                        style={{ flex: 2 }}
                         name="title"
                         type="text"
                         placeholder="Title"
@@ -185,10 +139,9 @@ export const CreateAnnouncement = () => {
                         suffix={<FormOutlined style={{ color: "#BFBFBF" }} />}
                     />
                     <DatePicker style={{ flex: 1 }} picker="year" placeholder="year" format="YYYY" value={time} onChange={(e) => setTime(e)} />
-                </div>
-                <div className="info-wrapper">
+
                     <Select
-                        style={{ flex: 1 }}
+                        style={{ flex: 2 }}
                         placeholder="Category"
                         value={info.category}
                         onChange={(e) => setInfo({ ...info, category: e })}
@@ -199,10 +152,10 @@ export const CreateAnnouncement = () => {
                             </Option>
                         ))}
                     </Select>
-                    <Select style={{ flex: 1 }} placeholder="City" value={info.location} onChange={(e) => setInfo({ ...info, location: e })}>
-                        <Option value="Almaty">Almaty</Option>
-                        <Option value="Astana">Astana</Option>
-                        <Option value="Shymkent">Shymkent</Option>
+                    <Select style={{ flex: 1 }} placeholder="City" disabled  value={info.location} onChange={(e) => setInfo({ ...info, location: e })}>
+                        {/* <Option value="Almaty">Almaty</Option> */}
+                        {/* <Option value="Astana">Astana</Option> */}
+                        {/* <Option value="Shymkent">Shymkent</Option> */}
                     </Select>
                 </div>
 

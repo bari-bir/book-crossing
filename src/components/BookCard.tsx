@@ -5,17 +5,17 @@ import { announcementInfo } from "../api/announcementApi"
 import { useNavigate } from "react-router-dom"
 
 interface IBook extends announcementInfo {
-    onFavorite: () => void
+    onFavorite: (e: boolean, annoucementId?: string) => void
 }
 
-export const BookCard = ({ id, favoriteId, title, category, year, images, isFavorite, onFavorite }: IBook) => {
+export const BookCard = ({ id, favoriteId, title, category, year, images, favorite, onFavorite }: IBook) => {
     const navigate = useNavigate()
 
     return (
         <div
             className="book"
             onClick={() => {
-                navigate(`/book/${id}?isFavorite=${isFavorite ? true : false}&favoriteId=${favoriteId}`)
+                navigate(`/book/${id}`)
             }}>
             {images && (
                 <div className="image" onClick={(e) => e.stopPropagation()}>
@@ -33,7 +33,7 @@ export const BookCard = ({ id, favoriteId, title, category, year, images, isFavo
                 </div>
             </div>
 
-            <LikeAndDislike favoriteId={favoriteId} onClickFavorite={onFavorite} announcementId={id} isFavorite={isFavorite ? true : false} />
+            <LikeAndDislike favoriteId={favoriteId} onClickFavorite={onFavorite} announcementId={id} isFavorite={favorite ? true : false} />
         </div>
     )
 }

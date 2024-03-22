@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import { AnnouncementAPI, announcementInfo } from "../api/announcementApi"
 import { LikeAndDislike } from "../components/LikeAndDislike"
 import UserProfile from "../assets/images/userProfile.png"
-import { useLocation, useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import TextArea from "antd/es/input/TextArea"
 import "../assets/styles/pages/bookExchange.scss"
 import { RequestAPI } from "../api/requestApi"
@@ -15,13 +15,12 @@ export const BookExchange = () => {
     const { id } = useParams()
     const { fetchData: fetchGetAnnoucementData } = AnnouncementAPI(`get?id=${id}`, "GET")
     const { fetchData: fetchCreateRequestData } = RequestAPI("create")
-    const location = useLocation()
     let carouselRef: CarouselRef | null = null
     const [info, setInfo] = useState<announcementInfo>({
         title: "",
         description: "",
         category: "",
-        isFavorite: false,
+        favorite: false,
         images: [],
         year: 0,
         location: "",
@@ -30,21 +29,13 @@ export const BookExchange = () => {
     const [message, setMessage] = useState<string>("")
 
     const onClickFavorite = (isFavoriteValue: boolean) => {
-        setInfo({ ...info, isFavorite: isFavoriteValue })
+        setInfo({ ...info, favorite: isFavoriteValue })
     }
 
     const loadData = async () => {
         await fetchGetAnnoucementData(null).then((res) => {
             if (res.result_code === 0) {
-                const isFavorite = new URLSearchParams(location.search).get("isFavorite")
-                const favoriteId = new URLSearchParams(location.search).get("favoriteId")
-                const annoucementData: announcementInfo = JSON.parse(JSON.stringify(res.data))
-
-                if (isFavorite === "true" && typeof favoriteId === "string") {
-                    setInfo({ ...annoucementData, isFavorite: isFavorite === "true", favoriteId: favoriteId })
-                } else {
-                    setInfo({ ...annoucementData, isFavorite: false })
-                }
+                setInfo(JSON.parse(JSON.stringify(res.data)))
             }
         })
     }
@@ -72,8 +63,12 @@ export const BookExchange = () => {
             <CloseOutlined className="icon-bg  close" onClick={() => navigate(-2)} />
 
             <div className="book-carousel">
-                <RightOutlined className="carousel-arrow right icon-bg" onClick={() => carouselRef?.next()} />
-                <LeftOutlined className="carousel-arrow left icon-bg" onClick={() => carouselRef?.prev()} />
+                {info.images.length !== 1 && (
+                    <>
+                        <RightOutlined className="carousel-arrow right icon-bg" onClick={() => carouselRef?.next()} />
+                        <LeftOutlined className="carousel-arrow left icon-bg" onClick={() => carouselRef?.prev()} />
+                    </>
+                )}
                 <Carousel ref={(ref) => (carouselRef = ref)}>
                     {info.images.map((image, i) => (
                         <img key={i} src={image} className="img" alt="img" />
@@ -82,16 +77,14 @@ export const BookExchange = () => {
             </div>
 
             <div className="book-info container">
-                <h1 className="book-title">
-                    {info.title} <span>{info.year}</span>
-                </h1>
+                <h1 className="book-title">{info.title}</h1>
                 <p className="book-category">{info.category}</p>
 
                 <div className="book-subInfo">
                     <p className="book-descr">{info.description}</p>
 
                     <LikeAndDislike
-                        isFavorite={info.isFavorite}
+                        isFavorite={info.favorite}
                         onClickFavorite={onClickFavorite}
                         announcementId={info.id}
                         favoriteId={info.favoriteId}
@@ -114,7 +107,7 @@ export const BookExchange = () => {
 
                             <div className="send-block">
                                 <p className="time-text">Draft saves at 7:00 PM</p>
-                                <Button type="primary" onClick={onSend}>
+                                <Button className="btn-send" type="primary" onClick={onSend}>
                                     Send
                                 </Button>
                             </div>

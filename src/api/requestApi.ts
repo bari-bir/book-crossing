@@ -6,7 +6,7 @@ export type requestInfo = {
     message: string
     attachments: null
     createtime: number
-    announcement: string
+    announcementId: string    
     announcementCreator: string
     status: string
 }

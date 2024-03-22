@@ -9,8 +9,6 @@ export const Home = () => {
     const [dataList, setDataList] = useState<announcementInfo[]>([])
     const [searchValue, setSearchValue] = useState<string>("")
     const { fetchData: fetchAnnouncementData } = AnnouncementAPI("list")
-    const [isFavorite, setIsFavorite] = useState<boolean>(false)
-
     const loadData = async () => {
         await fetchAnnouncementData({}).then((res) => {
             if (res.result_code === 0) {
@@ -21,9 +19,23 @@ export const Home = () => {
 
     const onSearch = (searchValue: string) => {
         /**
-         * @TODO add isPressButton for search value and search
+         * @TODO add isPressButton for search value with api
          */
         setSearchValue(searchValue)
+    }
+
+    const onFavorite = (isFavorite: boolean, announcementId?: string) => {
+        setDataList((dataList) =>
+            dataList.map((item) => {
+                if (item.id === announcementId) {
+                    return {
+                        ...item,
+                        favorite: isFavorite,
+                    }
+                }
+                return item
+            }),
+        )
     }
 
     const searchList = (): announcementInfo[] => {
@@ -37,7 +49,7 @@ export const Home = () => {
     useEffect(() => {
         loadData()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isFavorite])
+    }, [])
 
     return (
         <div className="home container">
@@ -46,10 +58,10 @@ export const Home = () => {
             <div className="book-list">
                 {searchList().length ? (
                     searchList().map((item) => (
-                        <BookCard key={item.id} {...item} onFavorite={() => setIsFavorite((favorite) => (favorite = !favorite))} />
+                        <BookCard key={item.id} {...item} onFavorite={onFavorite} />
                     ))
                 ) : (
-                    <Empty />
+                    <Empty className="empty-icon"/>
                 )}
             </div>
         </div>

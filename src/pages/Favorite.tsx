@@ -8,20 +8,23 @@ import { Empty } from "antd"
 export const Favorite = () => {
     const { fetchData: fetchAnnouncementData } = AnnouncementAPI("favorites")
     const [dataList, setDataList] = useState<announcementInfo[]>([])
-    const [isFavorite, setIsFavorite] = useState<boolean>(true)
 
-    useEffect(() => {
-        loadData()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isFavorite])
+    const onFavorite = (_: boolean, announcementId?: string) => {
+        setDataList((dataList) => dataList.filter((item) => item.id !== announcementId))
+    }
 
     const loadData = async () => {
         await fetchAnnouncementData({}).then((res) => {
             if (res.result_code === 0) {
-                setDataList(res.data);
+                setDataList(res.data)
             }
         })
     }
+
+    useEffect(() => {
+        loadData()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
         <div className="favorite container">
@@ -29,11 +32,9 @@ export const Favorite = () => {
 
             <div className="book-list">
                 {dataList.length ? (
-                    dataList.map((item) => (
-                        <BookCard key={item.id} {...item} isFavorite={true} onFavorite={() => setIsFavorite((favorite) => (favorite = !favorite))} />
-                    ))
+                    dataList.map((item) => <BookCard key={item.id} {...item} onFavorite={onFavorite} />)
                 ) : (
-                    <Empty />
+                    <Empty className="empty-icon" />
                 )}
             </div>
         </div>

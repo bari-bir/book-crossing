@@ -1,10 +1,18 @@
 .favorite {
-  .book-list {
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
+    position: relative;
+
+    .book-list {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .empty-icon {
+        position: absolute;
+        top: 80px;
+        left: 50%;
+        margin-left: -1px;
+        transform: translateX(-50%);
+    }
 }

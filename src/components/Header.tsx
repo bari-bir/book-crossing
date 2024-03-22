@@ -1,6 +1,6 @@
 import { ArrowLeftOutlined } from "@ant-design/icons"
 
-export const Header = ({ title, isBack = true }: { title: string; isBack?: boolean }) => {
+export const Header = ({ title, isBack = false }: { title: string; isBack?: boolean }) => {
     return (
         <div style={styles.header}>
             {isBack ? <ArrowLeftOutlined style={styles.iconBack} /> : null}

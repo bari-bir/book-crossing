@@ -1,13 +1,12 @@
 import { ConfigProvider, Input } from "antd"
 import { useState } from "react"
 import "../assets/styles/components/search.scss"
+import { SearchOutlined } from "@ant-design/icons"
 
 type propsInfo = {
     placeholder?: string
     onSearch: (value: string, isPressEnter?: boolean) => void
 }
-
-const { Search } = Input
 
 export const CustomSearch = ({ placeholder = "Поиск в Алматы", onSearch }: propsInfo) => {
     const [search, setSearch] = useState<string>("")
@@ -27,12 +26,13 @@ export const CustomSearch = ({ placeholder = "Поиск в Алматы", onSea
                         },
                     },
                 }}>
-                <Search
+                <Input
                     placeholder={placeholder}
                     allowClear
                     value={search}
                     onChange={(e) => onChangeSearch(e.target.value)}
                     onPressEnter={() => onSearch(search, true)}
+                    addonBefore={<SearchOutlined className="search-icon after" />}
                 />
             </ConfigProvider>
         </div>
@@ -41,10 +41,11 @@ export const CustomSearch = ({ placeholder = "Поиск в Алматы", onSea
 
 const styles = {
     searchInput: {
-        colorBgContainer: "#D9D9D9",
-        activeBorderColor: "#00000066",
-        addonBg: "#D9D9D9",
-        paddingBlock: 11,
+        colorBgContainer: "#f2f2ee",
+        activeBorderColor: "transparent",
+        addonBg: "#f2f2ee",
+        paddingBlock: 9,
+        paddingInline: 10,
         hoverBorderColor: "transparent",
         activeShadow: "transparent",
     },
