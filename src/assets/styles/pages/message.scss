@@ -3,66 +3,72 @@
         margin-top: 15px;
         display: flex;
         flex-direction: column;
-        gap: 5px;
+
+        .message-time {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 20px;
+        }
 
         .message-block {
-            padding: 16px 5px 16px 12px;
-            background-color: #d2d2d2;
-            border-radius: 5px;
             display: flex;
-            align-items: center;
-            flex-direction: row;
+            align-items: flex-start;
             justify-content: space-between;
+            gap: 5px;
+            padding: 20px 0;
+            border-bottom: 0.1px solid #000;
 
-            .user-info {
+            .info {
                 display: flex;
                 align-items: center;
-                gap: 11px;
+                flex-direction: row;
+                flex: 1;
 
-                .user-profile {
-                    width: 65px;
-                    height: 65px;
+                .expand-icon {
+                    display: block;
+                    width: 6px;
+                    height: 6px;
+                    background-color: #c92323;
                     border-radius: 100%;
-                    object-fit: contain;
+                    margin-right: 24px;
                 }
 
-                .user-name {
-                    color: #0045ca;
-                    font-size: 16px;
-                    font-weight: 600;
-                    line-height: 14px;
-                    margin-bottom: 5px;
-                }
+                .user-info {
+                    flex: 1;
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 12px;
 
-                .user-descr {
-                    color: #0045ca;
-                    font-size: 10px;
-                    font-weight: 500;
-                    line-height: 15px;
+                    .user-img {
+                        width: 32px;
+                        height: 32px;
+                        object-fit: contain;
+                        object-position: center center;
+                    }
+
+                    .user-name {
+                        color: #60b4d9;
+                        font-size: 12px;
+                        font-weight: 500;
+                        line-height: 15px;
+                    }
+
+                    .user-ans {
+                        height: auto;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 1;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        white-space: pre-wrap;
+                        font-size: 12px;
+                        font-weight: 500;
+                        line-height: 15px;
+                    }
                 }
             }
 
-            .book-info {
-                position: relative;
-                .time {
-                    color: #0045ca;
-                    font-size: 10px;
-                    font-weight: 500;
-                    line-height: 12px;
-                }
-
-                .circle {
-                    margin-top: 12px;
-                    background-color: #5461f4;
-                    width: 20px;
-                    height: 20px;
-                    border-radius: 100%;
-                    display: grid;
-                    place-content: center;
-                    color: #fff;
-                    font-weight: 700;
-                    font-size: 10px;
-                }
+            &:first-child {
+                padding-top: 0;
             }
         }
     }

@@ -33,52 +33,10 @@ export const CreateAnnouncement = () => {
     const [info, setInfo] = useState<announcementInfo>(_infoTemp)
     const [time, setTime] = useState<Dayjs | null>(null)
 
-    const onUploadImg = () => {
-        if (window.ReactNativeWebView) {
-            window.ReactNativeWebView.postMessage(JSON.stringify({ key: "uploadImg" }))
-        }
-    }
-
-    const onSubmit = () => {
-        const data = {
-            ...info,
-            year: dayjs(time).get("year"),
-        }
-
-        if (id && id !== "add") {
-            fetchUpdateAnnouncementData(data).then(res => {
-                if(res.result_code === 0) {
-                    message.success("Successfuly updated annoucement")
-                    setInfo(_infoTemp)
-                    navigate("/request-annoucement?isAnnoucement=true")
-                }
-            })
-        } else {
-            fetchAnnoucementData(data).then((res) => {
-                if (res.result_code === 0) {
-                    message.success("Successfuly created annoucement")
-                    setInfo(_infoTemp)
-                    navigate("/request-annoucement?isAnnoucement=true")
-                }
-            })
-        }
-    }
-
-    const onDeleteImage = (e: KonvaMouseEvent, image: string) => {
-        e.stopPropagation()
-
-        setInfo({ ...info, images: info.images.filter((item) => item !== image) })
-    }
-
-    const loadData = () => {
-        fetchGetAnnouncementData(null).then((res) => {
-            if (res.result_code === 0) {
-                const annoucementInfo: announcementInfo = JSON.parse(JSON.stringify(res.data))
-                setTime(dayjs(new Date(annoucementInfo.year, 0, 1)))
-                setInfo(annoucementInfo)
-            }
-        })
-    }
+    const handlePostMessageListener = useCallback((message: MessageEvent) => {
+        const image = message.data.url
+        setInfo((info) => ({ ...info, images: [...info.images, image] }))
+    }, [])
 
     useEffect(() => {
         fetchGenreData({}).then((res) => {
@@ -94,17 +52,59 @@ export const CreateAnnouncement = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const handlePostMessageListener = useCallback((message: MessageEvent) => {
-        const image = message.data.url
-        setInfo((info) => ({ ...info, images: [...info.images, image] }))
-    }, [])
-
     useEffect(() => {
         window.addEventListener("message", handlePostMessageListener)
         return () => {
             window.removeEventListener("message", handlePostMessageListener)
         }
     }, [handlePostMessageListener])
+
+    const loadData = () => {
+        fetchGetAnnouncementData(null).then((res) => {
+            if (res.result_code === 0) {
+                const annoucementInfo: announcementInfo = JSON.parse(JSON.stringify(res.data))
+                setTime(dayjs(new Date(annoucementInfo.year, 0, 1)))
+                setInfo(annoucementInfo)
+            }
+        })
+    }
+
+    const onUploadImg = () => {
+        if (window.ReactNativeWebView) {
+            window.ReactNativeWebView.postMessage(JSON.stringify({ key: "uploadImg" }))
+        }
+    }
+
+    const onDeleteImage = (e: KonvaMouseEvent, image: string) => {
+        e.stopPropagation()
+
+        setInfo({ ...info, images: info.images.filter((item) => item !== image) })
+    }
+
+    const onSubmit = () => {
+        const data = {
+            ...info,
+            year: dayjs(time).get("year"),
+        }
+
+        if (id && id !== "add") {
+            fetchUpdateAnnouncementData(data).then((res) => {
+                if (res.result_code === 0) {
+                    message.success("Successfuly updated annoucement")
+                    setInfo(_infoTemp)
+                    navigate("/request-annoucement?isAnnoucement=true")
+                }
+            })
+        } else {
+            fetchAnnoucementData(data).then((res) => {
+                if (res.result_code === 0) {
+                    message.success("Successfuly created annoucement")
+                    setInfo(_infoTemp)
+                    navigate("/request-annoucement?isAnnoucement=true")
+                }
+            })
+        }
+    }
 
     return (
         <div className="create-announcement container">
@@ -152,7 +152,7 @@ export const CreateAnnouncement = () => {
                             </Option>
                         ))}
                     </Select>
-                    <Select style={{ flex: 1 }} placeholder="City" disabled  value={info.location} onChange={(e) => setInfo({ ...info, location: e })}>
+                    <Select style={{ flex: 1 }} placeholder="City" disabled value={info.location} onChange={(e) => setInfo({ ...info, location: e })}>
                         {/* <Option value="Almaty">Almaty</Option> */}
                         {/* <Option value="Astana">Astana</Option> */}
                         {/* <Option value="Shymkent">Shymkent</Option> */}

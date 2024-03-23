@@ -4,6 +4,7 @@ export type announcementInfo = {
     id?: string
     favorite?: boolean
     favoriteId?: string
+    createtime?: number
     title: string
     category: string | null
     location: string | null

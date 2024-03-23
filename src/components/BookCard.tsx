@@ -3,12 +3,13 @@ import { CloudImage } from "./CloudImage"
 import { LikeAndDislike } from "./LikeAndDislike"
 import { announcementInfo } from "../api/announcementApi"
 import { useNavigate } from "react-router-dom"
+import dayjs from "dayjs"
 
 interface IBook extends announcementInfo {
     onFavorite: (e: boolean, annoucementId?: string) => void
 }
 
-export const BookCard = ({ id, favoriteId, title, category, year, images, favorite, onFavorite }: IBook) => {
+export const BookCard = ({ id, favoriteId, title, category, year, images, favorite, createtime, onFavorite }: IBook) => {
     const navigate = useNavigate()
 
     return (
@@ -28,8 +29,10 @@ export const BookCard = ({ id, favoriteId, title, category, year, images, favori
                 </p>
                 <p className="category">{category}</p>
                 <div className="book-createTime">
-                    <p>13.01.2024</p>
-                    <p>17:05</p>
+                    <p>{dayjs(createtime).format("DD.MM.YYYY")}</p>
+                    <p>
+                        {dayjs(createtime).get("hour")}:{dayjs(createtime).get("minute")}
+                    </p>
                 </div>
             </div>
 

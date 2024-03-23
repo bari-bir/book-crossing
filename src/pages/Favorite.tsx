@@ -9,9 +9,10 @@ export const Favorite = () => {
     const { fetchData: fetchAnnouncementData } = AnnouncementAPI("favorites")
     const [dataList, setDataList] = useState<announcementInfo[]>([])
 
-    const onFavorite = (_: boolean, announcementId?: string) => {
-        setDataList((dataList) => dataList.filter((item) => item.id !== announcementId))
-    }
+    useEffect(() => {
+        loadData()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const loadData = async () => {
         await fetchAnnouncementData({}).then((res) => {
@@ -21,10 +22,9 @@ export const Favorite = () => {
         })
     }
 
-    useEffect(() => {
-        loadData()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    const onFavorite = (_: boolean, announcementId?: string) => {
+        setDataList((dataList) => dataList.filter((item) => item.id !== announcementId))
+    }
 
     return (
         <div className="favorite container">

@@ -22,9 +22,10 @@ export const BookDetail = () => {
         location: "",
     })
 
-    const onClickFavorite = (isFavoriteValue: boolean) => {
-        setInfo({ ...info, favorite: isFavoriteValue })
-    }
+    useEffect(() => {
+        loadData()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const loadData = async () => {
         await fetchGetAnnoucementData(null).then((res) => {
@@ -34,10 +35,9 @@ export const BookDetail = () => {
         })
     }
 
-    useEffect(() => {
-        loadData()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    const onClickFavorite = (isFavoriteValue: boolean) => {
+        setInfo({ ...info, favorite: isFavoriteValue })
+    }
 
     return (
         <div className="book-detail">

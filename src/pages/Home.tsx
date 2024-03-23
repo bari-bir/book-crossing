@@ -9,6 +9,12 @@ export const Home = () => {
     const [dataList, setDataList] = useState<announcementInfo[]>([])
     const [searchValue, setSearchValue] = useState<string>("")
     const { fetchData: fetchAnnouncementData } = AnnouncementAPI("list")
+
+    useEffect(() => {
+        loadData()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     const loadData = async () => {
         await fetchAnnouncementData({}).then((res) => {
             if (res.result_code === 0) {
@@ -46,22 +52,15 @@ export const Home = () => {
         return dataList
     }
 
-    useEffect(() => {
-        loadData()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
     return (
         <div className="home container">
             <CustomSearch onSearch={onSearch} />
 
             <div className="book-list">
                 {searchList().length ? (
-                    searchList().map((item) => (
-                        <BookCard key={item.id} {...item} onFavorite={onFavorite} />
-                    ))
+                    searchList().map((item) => <BookCard key={item.id} {...item} onFavorite={onFavorite} />)
                 ) : (
-                    <Empty className="empty-icon"/>
+                    <Empty className="empty-icon" />
                 )}
             </div>
         </div>

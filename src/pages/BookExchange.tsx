@@ -28,9 +28,10 @@ export const BookExchange = () => {
     const { message: messageToast } = App.useApp()
     const [message, setMessage] = useState<string>("")
 
-    const onClickFavorite = (isFavoriteValue: boolean) => {
-        setInfo({ ...info, favorite: isFavoriteValue })
-    }
+    useEffect(() => {
+        loadData()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const loadData = async () => {
         await fetchGetAnnoucementData(null).then((res) => {
@@ -38,6 +39,10 @@ export const BookExchange = () => {
                 setInfo(JSON.parse(JSON.stringify(res.data)))
             }
         })
+    }
+
+    const onClickFavorite = (isFavoriteValue: boolean) => {
+        setInfo({ ...info, favorite: isFavoriteValue })
     }
 
     const onSend = () => {
@@ -51,11 +56,6 @@ export const BookExchange = () => {
             }
         })
     }
-
-    useEffect(() => {
-        loadData()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
     return (
         <div className="book-exchange">

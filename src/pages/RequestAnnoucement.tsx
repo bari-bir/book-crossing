@@ -1,4 +1,4 @@
-import { App, Button, Carousel, Drawer, Empty, Space, Tabs, TabsProps } from "antd"
+import { App, Button, Carousel, Drawer, Empty, Modal, Space, Tabs, TabsProps, Input } from "antd"
 import { Header } from "../components/Header"
 import { useEffect, useState } from "react"
 import UserProfile from "../assets/images/userProfile.png"
@@ -8,6 +8,7 @@ import { CloudImage } from "../components/CloudImage"
 import { RequestAPI, requestInfo } from "../api/requestApi"
 import http from "../utils/axios"
 import { useLocation, useNavigate } from "react-router-dom"
+import { NotificationApi } from "../api/notificationApi"
 
 interface IRequestData extends requestInfo {
     announcement: announcementInfo
@@ -16,30 +17,50 @@ interface IRequestData extends requestInfo {
     }
 }
 
+const { TextArea } = Input
+
 export const RequestAnnouncement = () => {
+    const { fetchData: fetchCreateNotificationData } = NotificationApi("bookcorssing/create")
     const [headerTitle, setHeaderTitle] = useState<string>("Request")
-    const [showDrawer, setShowDrawer] = useState<boolean>(false)
-    const [requestInfo, setRequestInfo] = useState<IRequestData>()
     const [startX, setStartX] = useState<number>(0)
     const [activeKeyTab, setActiveTab] = useState<string>("1")
-    const location = useLocation();
+    const location = useLocation()
+    const navigate = useNavigate()
+    const [showDrawer, setShowDrawer] = useState<boolean>(false)
+    const [showModal, setShowModal] = useState<boolean>(false)
+    const [requestInfo, setRequestInfo] = useState<IRequestData>()
+    const [messageNotification, setMessageNotification] = useState<string>("")
 
-    const items: TabsProps["items"] = [
-        {
-            key: "1",
-            label: "Request",
-            children: <TabChild isRequest openDrawer={openDrawer} />,
-        },
-        {
-            key: "2",
-            label: "My announcement",
-            children: <TabChild openDrawer={openDrawer} />,
-        },
-    ]
+    useEffect(() => {
+        const isAnnoucementUpdated = new URLSearchParams(location.search).get("isAnnoucement")
 
-    async function openDrawer(requestInfo: IRequestData) {
+        if (isAnnoucementUpdated) {
+            setActiveTab("2")
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    const onAction = (requestInfo: IRequestData, isModal: boolean) => {
         setRequestInfo(requestInfo)
-        setShowDrawer(true)
+
+        if (isModal) {
+            setShowModal(true)
+        } else {
+            setShowDrawer(true)
+        }
+    }
+
+    const onSendNotification = () => {
+        fetchCreateNotificationData({
+            content: messageNotification,
+            toUserId: requestInfo?.creator,
+        }).then((res) => {
+            if (res.result_code === 0) {
+                setShowModal(false)
+                setMessageNotification("")
+                navigate("/message")
+            }
+        })
     }
 
     const onChagneTabs = (e: string) => {
@@ -78,14 +99,18 @@ export const RequestAnnouncement = () => {
         onChagneTabs((newTabIndex + 1).toString())
     }
 
-    useEffect(()=> {
-        const isAnnoucementUpdated = new URLSearchParams(location.search).get("isAnnoucement")
-
-        if(isAnnoucementUpdated) {
-            setActiveTab('2');
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const items: TabsProps["items"] = [
+        {
+            key: "1",
+            label: "Request",
+            children: <TabChild isRequest onAction={onAction} />,
+        },
+        {
+            key: "2",
+            label: "My announcement",
+            children: <TabChild onAction={onAction} />,
+        },
+    ]
 
     return (
         <div className="request container">
@@ -103,6 +128,7 @@ export const RequestAnnouncement = () => {
             />
 
             <Drawer
+                className="drawer-wrapper"
                 open={showDrawer}
                 onClose={() => setShowDrawer(false)}
                 placement="bottom"
@@ -131,17 +157,33 @@ export const RequestAnnouncement = () => {
                     </div>
                 </div>
             </Drawer>
+            <Modal className="modal" open={showModal} footer={null} onCancel={() => setShowModal(false)}>
+                <TextArea
+                    className="text-area"
+                    placeholder="Type  a  message here ..."
+                    value={messageNotification}
+                    onChange={(e) => setMessageNotification(e.target.value)}></TextArea>
+
+                <Button type="primary" className="btn-send" onClick={onSendNotification}>
+                    Send
+                </Button>
+            </Modal>
         </div>
     )
 }
 
-const TabChild = ({ isRequest = false, openDrawer }: { isRequest?: boolean; openDrawer: (requestInfo: IRequestData) => void }) => {
+const TabChild = ({ isRequest = false, onAction }: { isRequest?: boolean; onAction: (requestInfo: IRequestData, isModal: boolean) => void }) => {
     const navigate = useNavigate()
     const { message } = App.useApp()
     const [myAnnoucementList, setMyAnnoucementList] = useState<announcementInfo[]>([])
     const [requestList, setRequestList] = useState<IRequestData[]>([])
     const { fetchData: fetchMyAnnoucementData } = AnnouncementAPI("my/list")
     const { fetchData: fetchRequestData } = RequestAPI("me/list")
+
+    useEffect(() => {
+        loadData()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const loadData = async () => {
         if (!isRequest) {
@@ -180,11 +222,6 @@ const TabChild = ({ isRequest = false, openDrawer }: { isRequest?: boolean; open
             })
     }
 
-    useEffect(() => {
-        loadData()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
     return (
         <div className="book-wrapper">
             {myAnnoucementList.length || requestList.length ? (
@@ -214,8 +251,10 @@ const TabChild = ({ isRequest = false, openDrawer }: { isRequest?: boolean; open
                                 <p className="desc">{request.message}</p>
 
                                 <div className="book-btn">
-                                    <Button onClick={() => openDrawer(request)}>Review</Button>
-                                    <Button type="primary">{"Accept"}</Button>
+                                    <Button onClick={() => onAction(request, false)}>Review</Button>
+                                    <Button type="primary" onClick={() => onAction(request, true)}>
+                                        Accept
+                                    </Button>
                                 </div>
                             </div>
                         </div>
