@@ -1,9 +1,8 @@
 import http from "../utils/axios"
 import { useState } from "react"
 import { useAppDispatch } from "./useStore"
-import {  setLoading, setError } from "../redux/features/mainSlice"
+import { setLoading, setError } from "../redux/features/mainSlice"
 import { App } from "antd"
-
 
 interface UseApiResult<T> {
     res: T | null
@@ -11,7 +10,7 @@ interface UseApiResult<T> {
 }
 
 const useApi = <T>(url: string, method: string = "POST"): UseApiResult<T> => {
-    const {message} = App.useApp();
+    const { message } = App.useApp()
     const dispatch = useAppDispatch()
     const [res, setRes] = useState<T | null>(null)
 
@@ -24,14 +23,14 @@ const useApi = <T>(url: string, method: string = "POST"): UseApiResult<T> => {
             .then((res) => {
                 setRes(res.data)
                 dispatch(setError(null))
-                if(res.data.result_code < 0) {
-                    console.log('error');
-                    message.error(res.data.result_msg);
+                if (res.data.result_code < 0) {
+                    console.log("error")
+                    message.error(res.data.result_msg)
                 }
                 return res.data
             })
             .catch((err) => {
-                console.log(err);
+                console.log(err)
                 if (err.response?.status === 401) {
                     localStorage.setItem("token", "")
                     if (window.ReactNativeWebView) {
@@ -41,6 +40,10 @@ const useApi = <T>(url: string, method: string = "POST"): UseApiResult<T> => {
                 message.error(err.message.slice(0, 20))
                 dispatch(setError(err))
                 setRes(null)
+                return {
+                    result_code: -1,
+                    result_msg: err.message,
+                }
             })
             .finally(() => {
                 dispatch(setLoading(false))
