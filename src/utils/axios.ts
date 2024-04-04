@@ -39,7 +39,6 @@ instance.interceptors.response.use(
         const { config, response } = error
         const originalRequest = config as AxiosRequestConfig & { _retry?: boolean }
         if (response?.status === 401) {
-            isRefreshing = false
             if (!isRefreshing) {
                 isRefreshing = true
                 try {
