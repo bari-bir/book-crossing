@@ -31,11 +31,12 @@ const useApi = <T>(url: string, method: string = "POST"): UseApiResult<T> => {
             })
             .catch((err) => {
                 console.log(err)
-                if (err.response?.status === 401) {
+                if (err.message === "refresh token faild") {
                     localStorage.setItem("token", "")
                     if (window.ReactNativeWebView) {
-                        window.ReactNativeWebView.postMessage(JSON.stringify({ key: "401" }))
+                        window.ReactNativeWebView.postMessage(JSON.stringify({ key: "500" }))
                     }
+                    return
                 }
                 message.error(err.message.slice(0, 20))
                 dispatch(setError(err))
