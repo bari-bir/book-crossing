@@ -2,23 +2,56 @@
     position: fixed;
     bottom: -10px;
     left: 0;
-    padding: 20px;
-    background-color: #005479;
-    // border-radius: 50px 50px 0 0;
+    background-color: #fff;
     display: flex;
     align-items: center;
     gap: 20px;
-    justify-content: space-between;
+    // justify-content: space-between;
+    width: 100%;
     width: -webkit-fill-available;
+    height: 74;
 
-    .active-link .menu-icon {
-        opacity: 1;
-        color: #ffffff;
+    .tabbar-animation {
+        width: 64px;
+        height: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 4px 20px;
+        border-radius: 20px;
+        background-color: rgba(23, 126, 221, 0.2);
+        position: absolute;
+        bottom: 30px;
+        left: 0;
+        transform: translateX(8px);
+        z-index: 1;
     }
 
-    .menu-icon {
-        font-size: 30px;
-        color: #f8f8f8;
-        opacity: 0.5;
+    .tabbar-block {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 12px 0;
+        gap: 5px;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        z-index: 100;
+
+        .menu-icon {
+            height: 24px;
+            width: 24px;
+            vertical-align: middle;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+        }
+
+        .tabbar-text {
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 14px;
+        }
     }
 }
