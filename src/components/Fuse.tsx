@@ -18,6 +18,7 @@ const styles: { [key: string]: React.CSSProperties } = {
         top: "50%",
         left: "50%",
         marginLeft: -20,
+        color: "#0a78d6",
         zIndex: 100,
         transform: "translate(-50%, -50%)",
         fontSize: 40,

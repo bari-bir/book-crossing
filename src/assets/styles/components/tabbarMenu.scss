@@ -5,25 +5,38 @@
     background-color: #fff;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 20px;
-    // justify-content: space-between;
-    width: 100%;
-    width: -webkit-fill-available;
-    height: 74;
+    width: calc(100% - 16px);
+    height: 74px;
+    padding: 0 8px;
+
+    a {
+        flex: 1;
+    }
+
+    .active-link {
+        .menu-icon {
+            color: #0a78d6 !important;
+        }
+
+        .tabbar-text {
+            color: #0a78d6 !important;
+        }
+    }
 
     .tabbar-animation {
-        width: 64px;
+        width: 67px;
         height: 32px;
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 4px 20px;
         border-radius: 20px;
         background-color: rgba(23, 126, 221, 0.2);
         position: absolute;
         bottom: 30px;
         left: 0;
-        transform: translateX(8px);
+        transition: all 0.5s ease;
         z-index: 1;
     }
 
@@ -46,12 +59,14 @@
             justify-content: center;
             align-items: center;
             font-size: 24px;
+            color: #212121;
         }
 
         .tabbar-text {
             font-size: 12px;
             font-weight: 700;
             line-height: 14px;
+            color: #212121;
         }
     }
 }

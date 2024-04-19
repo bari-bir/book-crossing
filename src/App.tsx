@@ -14,7 +14,7 @@ import { Fuse } from "./components/Fuse.tsx"
 function App() {
     return (
         <AntApp message={{ top: 30 }}>
-            <div style={{ width: "100%" }}>
+            <div style={{ width: "100%", marginTop: 10 }}>
                 <Fuse>
                     <Routes>
                         <Route path="/" element={<Home />} />
