@@ -1,4 +1,4 @@
-import { BookOutlined, HeartOutlined, MessageOutlined, PlusCircleOutlined, ReadOutlined } from "@ant-design/icons"
+import { BookOutlined, HeartOutlined, MessageOutlined, PlusOutlined, ReadOutlined } from "@ant-design/icons"
 import "../assets/styles/components/tabbarMenu.scss"
 import { NavLink, useLocation } from "react-router-dom"
 import { useRef } from "react"
@@ -23,7 +23,7 @@ export const TabbarMenu = () => {
                     <p className="tabbar-text">Books</p>
                 </div>
             </NavLink>
-            <NavLink to="/favorute" onClick={() => onChangeNavLink(1)} className={({ isActive }) => (isActive ? "active-link" : "")}>
+            <NavLink to="/favorite" onClick={() => onChangeNavLink(1)} className={({ isActive }) => (isActive ? "active-link" : "")}>
                 <div className="tabbar-block">
                     <HeartOutlined className="menu-icon" />
                     <p className="tabbar-text">Likes</p>
@@ -31,7 +31,7 @@ export const TabbarMenu = () => {
             </NavLink>
             <NavLink to="/create-announcement/add" onClick={() => onChangeNavLink(2)} className={({ isActive }) => (isActive ? "active-link" : "")}>
                 <div className="tabbar-block">
-                    <PlusCircleOutlined className="menu-icon" />
+                    <PlusOutlined className="menu-icon" />
                     <p className="tabbar-text">Create</p>
                 </div>
             </NavLink>

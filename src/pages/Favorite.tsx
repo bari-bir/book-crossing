@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { BookCard } from "../components/BookCard"
-import { Header } from "../components/Header"
 import "../assets/styles/pages/favorite.scss"
 import { AnnouncementAPI, announcementInfo } from "../api/announcementApi"
 import { Empty } from "antd"
@@ -28,8 +27,6 @@ export const Favorite = () => {
 
     return (
         <div className="favorite container">
-            <Header title="Favorite" />
-
             <div className="book-list">
                 {dataList.length ? (
                     dataList.map((item) => <BookCard key={item.id} {...item} onFavorite={onFavorite} />)

@@ -1,5 +1,4 @@
-import { AppstoreOutlined, CloseOutlined, CloudUploadOutlined, FormOutlined } from "@ant-design/icons"
-import { Header } from "../components/Header"
+import { AppstoreOutlined, CloseOutlined, UploadOutlined, FormOutlined } from "@ant-design/icons"
 import { Input, DatePicker, Select, Button, App, Carousel } from "antd"
 import "../assets/styles/pages/createAnnoucement.scss"
 import { useCallback, useEffect, useState } from "react"
@@ -108,8 +107,6 @@ export const CreateAnnouncement = () => {
 
     return (
         <div className="create-announcement container">
-            <Header title="Create Announcement" />
-
             <div className="dragger">
                 <Carousel>
                     {info.images.map((item, i) => (
@@ -120,8 +117,8 @@ export const CreateAnnouncement = () => {
                     ))}
                     <div className="dragger-wrapper" onClick={onUploadImg}>
                         <div className="upload-icon">
-                            <CloudUploadOutlined className="upload-icon" />
-                            <p className="upload-text">Click here to upload</p>
+                            <UploadOutlined className="upload-icon" />
+                            <p className="upload-text">File size must to be 5MB❗</p>
                         </div>
                     </div>
                 </Carousel>

@@ -18,7 +18,7 @@ function App() {
                 <Fuse>
                     <Routes>
                         <Route path="/" element={<Home />} />
-                        <Route path="/favorute" element={<Favorite />} />
+                        <Route path="/favorite" element={<Favorite />} />
                         <Route path="/create-announcement/:id" element={<CreateAnnouncement />} />
                         <Route path="/message" element={<Message />} />
                         <Route path="/request-annoucement/" element={<RequestAnnouncement />} />

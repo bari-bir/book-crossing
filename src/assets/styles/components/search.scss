@@ -1,5 +1,6 @@
 .search {
-    .ant-input-group-addon, .ant-input-outlined {
+    .ant-input-group-addon,
+    .ant-input-outlined {
         border: none;
         height: 50px;
     }
@@ -15,6 +16,6 @@
 
     .search-icon {
         font-size: 20px;
-        color: #000;
+        color: #212121;
     }
 }

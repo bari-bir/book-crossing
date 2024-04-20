@@ -26,7 +26,7 @@
     }
 
     .tabbar-animation {
-        width: 67px;
+        width: calc(100% / 5 - 20px);
         height: 32px;
         display: flex;
         justify-content: center;

@@ -41,12 +41,12 @@ export const CustomSearch = ({ placeholder = "Поиск в Алматы", onSea
 
 const styles = {
     searchInput: {
-        colorBgContainer: "#f2f2ee",
+        colorBgContainer: "#fff",
         activeBorderColor: "transparent",
-        addonBg: "#f2f2ee",
+        addonBg: "#fff",
         paddingBlock: 9,
         paddingInline: 10,
         hoverBorderColor: "transparent",
-        activeShadow: "transparent",
+        activeShadow: "box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.03), 0px 0px 2px 0px rgba(0, 0, 0, 0.06);",
     },
 }
