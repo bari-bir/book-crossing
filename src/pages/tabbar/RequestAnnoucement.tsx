@@ -1,4 +1,4 @@
-import { App, Button, Carousel, Drawer, Empty, Modal, Space, Input } from "antd"
+import { App, Button, Carousel, Drawer, Empty, Modal, Space, Input, Popconfirm } from "antd"
 import { useEffect, useState } from "react"
 import "../../assets/styles/pages/requestAnnoucement.scss"
 import { AnnouncementAPI, announcementInfo } from "../../api/announcementApi"
@@ -19,16 +19,17 @@ const { TextArea } = Input
 
 export const RequestAnnouncement = () => {
     const { fetchData: fetchCreateNotificationData } = NotificationApi("bookcorssing/create")
-    const [activeKeyTab, setActiveTab] = useState<string>("message")
+    const [activeKeyTab, setActiveTab] = useState<string>("1")
     const location = useLocation()
     const navigate = useNavigate()
+    const [startX, setStartX] = useState<number>(0)
     const [showDrawer, setShowDrawer] = useState<boolean>(false)
     const [showModal, setShowModal] = useState<boolean>(false)
     const [requestInfo, setRequestInfo] = useState<IRequestData>()
     const [messageNotification, setMessageNotification] = useState<string>("")
     const tabs = [
-        { value: "message", label: "Request" },
-        { value: "annoucement", label: "My announcement" },
+        { value: "1", label: "Request" },
+        { value: "2", label: "My announcement" },
     ]
 
     useEffect(() => {
@@ -67,12 +68,38 @@ export const RequestAnnouncement = () => {
         setActiveTab(e)
     }
 
+    const onTouchMove = (e: React.TouchEvent) => {
+        if (startX === 0) return
+        const currentX = e.touches[0].clientX
+        const diffX = currentX - startX
+        const sensitivity = 50
+        if (diffX > sensitivity) {
+            switchTab("prev")
+            setStartX(0)
+        } else if (diffX < -sensitivity) {
+            switchTab("next")
+            setStartX(0)
+        }
+    }
+
+    const switchTab = (direction: string) => {
+        const currentTabIndex = parseInt(activeKeyTab) - 1
+        let newTabIndex = 0
+        if (direction === "prev") {
+            newTabIndex = currentTabIndex === 0 ? 1 : currentTabIndex - 1
+        } else if (direction === "next") {
+            newTabIndex = currentTabIndex === 1 ? 0 : currentTabIndex + 1
+        }
+
+        onChagneTabs((newTabIndex + 1).toString())
+    }
+
     return (
         <div className="request container">
-            <CustomTabs valueList={tabs} onClickTab={onChagneTabs} />
+            <CustomTabs activeValue={activeKeyTab} valueList={tabs} onClickTab={onChagneTabs} />
 
-            <div style={{ marginTop: 20 }}>
-                {activeKeyTab === "message" ? <TabChild isRequest onAction={onAction} /> : <TabChild onAction={onAction} />}
+            <div style={{ marginTop: 20 }} onTouchStart={(e) => setStartX(e.touches[0].clientX)} onTouchMove={onTouchMove}>
+                {activeKeyTab === "1" ? <TabChild isRequest onAction={onAction} /> : <TabChild onAction={onAction} />}
             </div>
 
             <Drawer
@@ -83,7 +110,7 @@ export const RequestAnnouncement = () => {
                 extra={
                     <Space>
                         <div className="header-user">
-                            <CloudImage src={requestInfo?.userInfo.avatar || ""} className="user-img" width={80} height={80} isPreview={false}/>
+                            <CloudImage src={requestInfo?.userInfo.avatar || ""} className="user-img" width={80} height={80} isPreview={false} />
                         </div>
                     </Space>
                 }>
@@ -181,7 +208,14 @@ const TabChild = ({ isRequest = false, onAction }: { isRequest?: boolean; onActi
                             <p className="desc">{description}</p>
 
                             <div className="book-btn">
-                                <Button onClick={() => removeAnnouncement(index)}>Remove</Button>
+                                <Popconfirm
+                                    title=""
+                                    description="Are you sure to delete this announcement ?"
+                                    onConfirm={() => removeAnnouncement(index)}
+                                    okText="Yes"
+                                    cancelText="No">
+                                    <Button>Remove</Button>
+                                </Popconfirm>
                                 <Button type="primary" onClick={() => onLink(index)}>
                                     Edit
                                 </Button>
