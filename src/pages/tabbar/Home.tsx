@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import "../assets/styles/pages/home.scss"
-import { BookCard } from "../components/BookCard"
-import { CustomSearch } from "../components/CustomSearch"
-import { AnnouncementAPI, announcementInfo } from "../api/announcementApi"
+import "../../assets/styles/pages/home.scss"
+import { BookCard } from "../../components/BookCard"
+import { CustomSearch } from "../../components/CustomSearch"
+import { AnnouncementAPI, announcementInfo } from "../../api/announcementApi"
 import { Empty } from "antd"
 
 export const Home = () => {

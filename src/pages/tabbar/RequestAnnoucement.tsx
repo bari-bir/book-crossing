@@ -1,35 +1,35 @@
-import { App, Button, Carousel, Drawer, Empty, Modal, Space, Tabs, TabsProps, Input } from "antd"
-import { Header } from "../components/Header"
+import { App, Button, Carousel, Drawer, Empty, Modal, Space, Input } from "antd"
 import { useEffect, useState } from "react"
-import UserProfile from "../assets/images/userProfile.png"
-import "../assets/styles/pages/requestAnnoucement.scss"
-import { AnnouncementAPI, announcementInfo } from "../api/announcementApi"
-import { CloudImage } from "../components/CloudImage"
-import { RequestAPI, requestInfo } from "../api/requestApi"
-import http from "../utils/axios"
+import "../../assets/styles/pages/requestAnnoucement.scss"
+import { AnnouncementAPI, announcementInfo } from "../../api/announcementApi"
+import { CloudImage } from "../../components/CloudImage"
+import { RequestAPI, requestInfo } from "../../api/requestApi"
+import http from "../../utils/axios"
 import { useLocation, useNavigate } from "react-router-dom"
-import { NotificationApi } from "../api/notificationApi"
+import { NotificationApi } from "../../api/notificationApi"
+import { CustomTabs } from "../../components/CustomTabs"
+import { userInfo } from "../../api/userApi"
 
 interface IRequestData extends requestInfo {
     announcement: announcementInfo
-    userInfo: {
-        fullName: string
-    }
+    userInfo: userInfo
 }
 
 const { TextArea } = Input
 
 export const RequestAnnouncement = () => {
     const { fetchData: fetchCreateNotificationData } = NotificationApi("bookcorssing/create")
-    const [headerTitle, setHeaderTitle] = useState<string>("Request")
-    const [startX, setStartX] = useState<number>(0)
-    const [activeKeyTab, setActiveTab] = useState<string>("1")
+    const [activeKeyTab, setActiveTab] = useState<string>("message")
     const location = useLocation()
     const navigate = useNavigate()
     const [showDrawer, setShowDrawer] = useState<boolean>(false)
     const [showModal, setShowModal] = useState<boolean>(false)
     const [requestInfo, setRequestInfo] = useState<IRequestData>()
     const [messageNotification, setMessageNotification] = useState<string>("")
+    const tabs = [
+        { value: "message", label: "Request" },
+        { value: "annoucement", label: "My announcement" },
+    ]
 
     useEffect(() => {
         const isAnnoucementUpdated = new URLSearchParams(location.search).get("isAnnoucement")
@@ -64,68 +64,16 @@ export const RequestAnnouncement = () => {
     }
 
     const onChagneTabs = (e: string) => {
-        if (e === "1") {
-            setHeaderTitle("Request")
-        } else {
-            setHeaderTitle("My announcement")
-        }
-
         setActiveTab(e)
     }
 
-    const onTouchMove = (e: React.TouchEvent) => {
-        if (startX === 0) return
-        const currentX = e.touches[0].clientX
-        const diffX = currentX - startX
-        const sensitivity = 50
-        if (diffX > sensitivity) {
-            switchTab("prev")
-            setStartX(0)
-        } else if (diffX < -sensitivity) {
-            switchTab("next")
-            setStartX(0)
-        }
-    }
-
-    const switchTab = (direction: string) => {
-        const currentTabIndex = parseInt(activeKeyTab) - 1
-        let newTabIndex = 0
-        if (direction === "prev") {
-            newTabIndex = currentTabIndex === 0 ? 1 : currentTabIndex - 1
-        } else if (direction === "next") {
-            newTabIndex = currentTabIndex === 1 ? 0 : currentTabIndex + 1
-        }
-
-        onChagneTabs((newTabIndex + 1).toString())
-    }
-
-    const items: TabsProps["items"] = [
-        {
-            key: "1",
-            label: "Request",
-            children: <TabChild isRequest onAction={onAction} />,
-        },
-        {
-            key: "2",
-            label: "My announcement",
-            children: <TabChild onAction={onAction} />,
-        },
-    ]
-
     return (
         <div className="request container">
-            <Header title={headerTitle} />
+            <CustomTabs valueList={tabs} onClickTab={onChagneTabs} />
 
-            <Tabs
-                className="tabs"
-                centered
-                defaultActiveKey="1"
-                activeKey={activeKeyTab}
-                items={items}
-                onTouchStart={(e) => setStartX(e.touches[0].clientX)}
-                onTouchMove={onTouchMove}
-                onChange={onChagneTabs}
-            />
+            <div style={{ marginTop: 20 }}>
+                {activeKeyTab === "message" ? <TabChild isRequest onAction={onAction} /> : <TabChild onAction={onAction} />}
+            </div>
 
             <Drawer
                 className="drawer-wrapper"
@@ -135,7 +83,7 @@ export const RequestAnnouncement = () => {
                 extra={
                     <Space>
                         <div className="header-user">
-                            <img src={UserProfile} alt={"userProfile"} className="user-img" />
+                            <CloudImage src={requestInfo?.userInfo.avatar || ""} className="user-img" width={80} height={80} isPreview={false}/>
                         </div>
                     </Space>
                 }>
@@ -183,7 +131,7 @@ const TabChild = ({ isRequest = false, onAction }: { isRequest?: boolean; onActi
     useEffect(() => {
         loadData()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [isRequest])
 
     const loadData = async () => {
         if (!isRequest) {
@@ -224,42 +172,40 @@ const TabChild = ({ isRequest = false, onAction }: { isRequest?: boolean; onActi
 
     return (
         <div className="book-wrapper">
-            {myAnnoucementList.length || requestList.length ? (
-                !isRequest ? (
-                    myAnnoucementList.map(({ id, images, title, description }, index) => (
-                        <div key={id} className="book">
-                            <CloudImage src={images[0]} width={85} height={85} />
-                            <div className="book-info">
-                                <h3 className="title">{title}</h3>
-                                <p className="desc">{description}</p>
+            {!isRequest && myAnnoucementList.length ? (
+                myAnnoucementList.map(({ id, images, title, description }, index) => (
+                    <div key={id} className="book">
+                        <CloudImage src={images[0]} width={85} height={85} />
+                        <div className="book-info">
+                            <h3 className="title">{title}</h3>
+                            <p className="desc">{description}</p>
 
-                                <div className="book-btn">
-                                    <Button onClick={() => removeAnnouncement(index)}>Remove</Button>
-                                    <Button type="primary" onClick={() => onLink(index)}>
-                                        Edit
-                                    </Button>
-                                </div>
+                            <div className="book-btn">
+                                <Button onClick={() => removeAnnouncement(index)}>Remove</Button>
+                                <Button type="primary" onClick={() => onLink(index)}>
+                                    Edit
+                                </Button>
                             </div>
                         </div>
-                    ))
-                ) : (
-                    requestList.map((request) => (
-                        <div key={request.id} className="book">
-                            <CloudImage src={request.announcement.images[0]} width={85} height={85} />
-                            <div className="book-info">
-                                <h3 className="title">{request.userInfo.fullName}</h3>
-                                <p className="desc">{request.message}</p>
+                    </div>
+                ))
+            ) : requestList.length ? (
+                requestList.map((request) => (
+                    <div key={request.id} className="book">
+                        <CloudImage src={request.announcement.images[0]} width={85} height={85} />
+                        <div className="book-info">
+                            <h3 className="title">{request.userInfo.fullName}</h3>
+                            <p className="desc">{request.message}</p>
 
-                                <div className="book-btn">
-                                    <Button onClick={() => onAction(request, false)}>Review</Button>
-                                    <Button type="primary" onClick={() => onAction(request, true)}>
-                                        Accept
-                                    </Button>
-                                </div>
+                            <div className="book-btn">
+                                <Button onClick={() => onAction(request, false)}>Review</Button>
+                                <Button type="primary" onClick={() => onAction(request, true)}>
+                                    Accept
+                                </Button>
                             </div>
                         </div>
-                    ))
-                )
+                    </div>
+                ))
             ) : (
                 <Empty />
             )}

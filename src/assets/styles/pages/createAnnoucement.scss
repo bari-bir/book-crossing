@@ -1,4 +1,6 @@
 .create-announcement {
+    padding-top: 10px;
+
     .dragger {
         width: 100%;
 
@@ -21,11 +23,12 @@
         }
         .dragger-wrapper {
             box-sizing: border-box;
-            height: 258px;
-            border: 1px solid #000000;
-            border-radius: 20px;
+            height: 140px;
+            border: 0.5px solid #212121;
+            border-radius: 10px;
             display: grid;
             place-content: center;
+            background-color: #fff;
 
             .upload-icon {
                 font-size: 47px;
@@ -43,20 +46,32 @@
         }
     }
 
-    .info {
+    .input-wrapper {
         margin-top: 32px;
-        padding: 27px 20px 21px 20px;
-        background-color: rgba(226, 221, 221, 0.5);
-        border-radius: 10px;
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 10px;
 
-        .info-wrapper {
-            display: grid;
-            align-items: center;
-            grid-template: repeat(2, auto) / 1fr 0.5fr;
-            gap: 12px;
+        .input,
+        .ant-select {
+            width: 100% !important;
+            border: 0.5px solid #212121;
+            border-radius: 10px;
+            height: 50px;
+            background-color: #fff;
+
+            .ant-select-selector {
+                border: none;
+                background: none;
+            }
+
+            .ant-picker-suffix, .ant-select-arrow {
+                color: #212121;
+            }
+        }
+
+        .ant-select-selector {
+            border-radius: 19px;
         }
     }
 

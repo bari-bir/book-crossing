@@ -11,10 +11,12 @@
 
         .icon-bg {
             z-index: 101;
-            color:#fff;
-            background-color: rgba(168, 169, 169, .5);
-            border-radius: 13.13px;
-            border: 0.5px solid rgba(255, 255, 255, 0.5);
+            color: rgba(10, 120, 214);
+            background-color: rgba(255, 255, 255, .5);
+            box-shadow:
+            0px 0px 2px 0px rgba(0, 0, 0, 0.03),
+            0px 0px 2px 0px rgba(0, 0, 0, 0.06);
+            border-radius: 5px;
         }
         .back-icon {
             padding: 9px 12px;
@@ -22,7 +24,7 @@
             position: absolute;
             top: 15px;
             right: 16px;
-            background-color: #000;
+            background-color: #fff;
         }
 
         .arrow {
@@ -56,8 +58,8 @@
         z-index: 101;
         margin: 0 16px;
         padding: 20px 25px 29px 25px;
-        background-color: #f2f2ee;
-        border-radius: 60px;
+        background-color: #ffff;
+        border-radius: 12px;
         box-sizing: border-box;
         width: calc(100% - 32px);
         display: flex;
@@ -111,7 +113,7 @@
     }
     .btn-exchange {
         height: 40px;
-        background-color: #ffed4a;
+        background-color: #0a78d6;
         border-radius: 12px;
         border: none;
         box-shadow: none;
@@ -119,6 +121,6 @@
         font-size: 16px;
         font-weight: 700;
         line-height: 20px;
-        color: #000000;
+        color: #fff;
     }
 }

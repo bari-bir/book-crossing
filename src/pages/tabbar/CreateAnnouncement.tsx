@@ -1,12 +1,13 @@
 import { AppstoreOutlined, CloseOutlined, UploadOutlined, FormOutlined } from "@ant-design/icons"
 import { Input, DatePicker, Select, Button, App, Carousel } from "antd"
-import "../assets/styles/pages/createAnnoucement.scss"
+import "../../assets/styles/pages/createAnnoucement.scss"
 import { useCallback, useEffect, useState } from "react"
-import { AnnouncementAPI, announcementInfo } from "../api/announcementApi"
-import { GenreAPI, genre } from "../api/genreApi"
-import { CloudImage } from "../components/CloudImage"
+import { AnnouncementAPI, announcementInfo } from "../../api/announcementApi"
+import { GenreAPI, genre } from "../../api/genreApi"
+import { CloudImage } from "../../components/CloudImage"
 import { useNavigate, useParams } from "react-router-dom"
 import dayjs, { Dayjs } from "dayjs"
+import { InputStyle } from "../../components/InputStyle"
 
 const { Option } = Select
 const { TextArea } = Input
@@ -111,7 +112,7 @@ export const CreateAnnouncement = () => {
                 <Carousel>
                     {info.images.map((item, i) => (
                         <div key={i} className="image-block">
-                            <CloudImage src={item} height={258} width="100%" />
+                            <CloudImage src={item} height={140} width="100%" />
                             <CloseOutlined className="close-icon" onClick={(e) => onDeleteImage(e, item)} />
                         </div>
                     ))}
@@ -125,42 +126,58 @@ export const CreateAnnouncement = () => {
             </div>
 
             <div className="info">
-                <div className="info-wrapper">
-                    <Input
-                        style={{ flex: 2 }}
-                        name="title"
-                        type="text"
-                        placeholder="Title"
-                        value={info.title}
-                        onChange={(e) => setInfo({ ...info, title: e.target.value })}
-                        suffix={<FormOutlined style={{ color: "#BFBFBF" }} />}
-                    />
-                    <DatePicker style={{ flex: 1 }} picker="year" placeholder="year" format="YYYY" value={time} onChange={(e) => setTime(e)} />
+                <div className="input-wrapper">
+                    <InputStyle labelText="Title">
+                        <Input
+                            name="title"
+                            className="input"
+                            type="text"
+                            placeholder="Title"
+                            value={info.title}
+                            onChange={(e) => setInfo({ ...info, title: e.target.value })}
+                            suffix={<FormOutlined style={{ color: "#212121" }} />}
+                        />
+                    </InputStyle>
 
-                    <Select
-                        style={{ flex: 2 }}
-                        placeholder="Category"
-                        value={info.category}
-                        onChange={(e) => setInfo({ ...info, category: e })}
-                        suffixIcon={<AppstoreOutlined style={{ color: "#BFBFBF" }} />}>
-                        {genreList.map((genre) => (
-                            <Option key={genre.id} value={genre.title}>
-                                {genre.title}
-                            </Option>
-                        ))}
-                    </Select>
-                    <Select style={{ flex: 1 }} placeholder="City" disabled value={info.location} onChange={(e) => setInfo({ ...info, location: e })}>
-                        {/* <Option value="Almaty">Almaty</Option> */}
-                        {/* <Option value="Astana">Astana</Option> */}
-                        {/* <Option value="Shymkent">Shymkent</Option> */}
-                    </Select>
+                    <InputStyle labelText="Year">
+                        <DatePicker className="input" picker="year" placeholder="Year" format="YYYY" value={time} onChange={(e) => setTime(e)} />
+                    </InputStyle>
+
+                    <InputStyle labelText="Category">
+                        <Select
+                            className="input"
+                            placeholder="Category"
+                            value={info.category}
+                            onChange={(e) => setInfo({ ...info, category: e })}
+                            suffixIcon={<AppstoreOutlined style={{ color: "#212121" }} />}>
+                            {genreList.map((genre) => (
+                                <Option key={genre.id} value={genre.title}>
+                                    {genre.title}
+                                </Option>
+                            ))}
+                        </Select>
+                    </InputStyle>
+                    <InputStyle labelText="City">
+                        <Select
+                            className="input"
+                            placeholder="City"
+                            disabled
+                            value={info.location}
+                            onChange={(e) => setInfo({ ...info, location: e })}>
+                            {/* <Option value="Almaty">Almaty</Option> */}
+                            {/* <Option value="Astana">Astana</Option> */}
+                            {/* <Option value="Shymkent">Shymkent</Option> */}
+                        </Select>
+                    </InputStyle>
+                    <InputStyle labelText="Message">
+                        <TextArea
+                            className="input"
+                            placeholder="Type  a  message here ..."
+                            style={{ height: 136, }}
+                            value={info.description}
+                            onChange={(e) => setInfo({ ...info, description: e.target.value })}></TextArea>
+                    </InputStyle>
                 </div>
-
-                <TextArea
-                    placeholder="Type  a  message here ..."
-                    style={{ height: 136 }}
-                    value={info.description}
-                    onChange={(e) => setInfo({ ...info, description: e.target.value })}></TextArea>
             </div>
             <Button className="btn-send" type="primary" onClick={onSubmit}>
                 Send

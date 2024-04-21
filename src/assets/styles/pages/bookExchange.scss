@@ -2,12 +2,14 @@
     position: relative;
 
     .icon-bg {
-        color: #fff;
-        background-color: rgba(168, 169, 169, 0.5);
-        border: 0.5px solid rgba(255, 255, 255, 0.5);
+        color: #0a78d6;
+        background-color: rgba(255, 255, 255, .5);
         border-radius: 100%;
         padding: 5px;
         font-size: 25px;
+        box-shadow:
+        0px 0px 2px 0px rgba(0, 0, 0, 0.03),
+        0px 0px 2px 0px rgba(0, 0, 0, 0.06);
     }
 
     .back {
@@ -15,7 +17,8 @@
         top: 15px;
         left: 16px;
         z-index: 100;
-        background-color: #000;
+        border-radius: 5px;
+        background-color: #fff;
     }
 
     .close {
@@ -23,7 +26,8 @@
         top: 15px;
         right: 16px;
         z-index: 100;
-        background-color: #000;
+        border-radius: 5px;
+        background-color: #fff;
     }
 
     .book-carousel {
@@ -54,6 +58,12 @@
 
     .book-info {
         margin-top: 24px;
+        background-color: #fff;
+        padding: 20px 10px 0 10px;
+        border-radius: 12px;
+        box-shadow:
+        0px 0px 2px 0px rgba(0, 0, 0, 0.03),
+        0px 0px 2px 0px rgba(0, 0, 0, 0.06);
 
         .book-title {
             font-size: 20px;
@@ -72,7 +82,7 @@
             margin-top: 7px;
             font-size: 14px;
             line-height: 20px;
-            color: #808080;
+            color: #6d7885;
         }
 
         .book-subInfo {
@@ -115,7 +125,7 @@
 
                 .input-textArea {
                     height: 136px;
-                    border-radius: 20px;
+                    border-radius: 12px;
                     padding-top: 13px;
                     padding-left: 11px;
                 }
@@ -128,7 +138,7 @@
                     gap: 10px;
 
                     .delete-text {
-                        font-size: 14px;
+                        font-size: 13px;
                         line-height: 13px;
                         color: #0a78d6;
                     }
@@ -142,15 +152,15 @@
                         flex-direction: row;
 
                         .time-text {
-                            font-size: 12px;
+                            font-size: 11px;
                             line-height: 13px;
-                            color: rgba(0, 0, 0, 0.5);
+                            color: #6d7885;
                         }
                         .btn-send {
-                            background-color: #ffed4a;
+                            background-color: #0a78d6;
                             width: 78px;
                             border-radius: 4px;
-                            color: #000000;
+                            color: #fff;
                             font-weight: 700;
                         }
                     }

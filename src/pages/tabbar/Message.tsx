@@ -1,11 +1,10 @@
-import { Header } from "../components/Header"
-import "../assets/styles/pages/message.scss"
-import ProfileImg from "../assets/images/userProfile1.png"
+import "../../assets/styles/pages/message.scss"
 import { useEffect, useState } from "react"
-import { NotificationApi, notificationInfo } from "../api/notificationApi"
+import { NotificationApi, notificationInfo } from "../../api/notificationApi"
 import { Empty } from "antd"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
+import { CloudImage } from "../../components/CloudImage"
 dayjs.extend(relativeTime)
 
 export const Message = () => {
@@ -62,7 +61,6 @@ export const Message = () => {
 
     return (
         <div className="message container">
-            <Header title="Accept messages" />
 
             <div className="message-wrapper">
                 {Object.keys(groupData()).length ? (
@@ -78,7 +76,7 @@ export const Message = () => {
                                         <span className="expand-icon" />
 
                                         <div className="user-info">
-                                            <img className="user-img" src={ProfileImg} alt="profile" />
+                                            <CloudImage className="user-img" src={message.fromUser.avatar} isPreview={false}/> 
 
                                             <div>
                                                 <p className="user-name">{message.fromUser.fullName}</p>

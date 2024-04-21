@@ -3,15 +3,16 @@
     .ant-input-outlined {
         border: none;
         height: 50px;
+        box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.03), 0px 0px 2px 0px rgba(0, 0, 0, 0.06);
     }
 
     .ant-input-group-addon {
-        border-radius: 20px 0 0 20px;
+        border-radius: 10px 0 0 10px;
         padding-left: 16px;
     }
 
     .ant-input-outlined {
-        border-radius: 0 20px 20px 0;
+        border-radius: 0 10px 10px 0;
     }
 
     .search-icon {

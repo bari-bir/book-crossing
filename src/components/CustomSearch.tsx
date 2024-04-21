@@ -47,6 +47,5 @@ const styles = {
         paddingBlock: 9,
         paddingInline: 10,
         hoverBorderColor: "transparent",
-        activeShadow: "box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.03), 0px 0px 2px 0px rgba(0, 0, 0, 0.06);",
     },
 }

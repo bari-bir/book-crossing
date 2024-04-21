@@ -1,17 +1,5 @@
 import useApi from "../hooks/useApi"
-import { genre } from "./genreApi"
-
-export type userInfo = {
-    email: string
-    phone: string
-    fullName: string
-    birth: number
-    gender: string
-    genres: genre[]
-    createtime: number
-    refreshToken: string
-    lastLogin: number
-}
+import { userInfo } from "./userApi"
 
 export type notificationInfo = {
     id: string

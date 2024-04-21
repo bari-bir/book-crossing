@@ -12,6 +12,20 @@ interface IBook extends announcementInfo {
 export const BookCard = ({ id, favoriteId, title, category, year, images, favorite, createtime, onFavorite }: IBook) => {
     const navigate = useNavigate()
 
+    const timeText = (time: number) => {
+        if (time < 10) {
+            return `0${time}`
+        } else {
+            return time
+        }
+    }
+
+    const createTimeText = (createTime?: number) => {
+        const hour = dayjs(createTime).get("hour")
+        const minnute = dayjs(createTime).get("minute")
+        return `${timeText(hour)}:${timeText(minnute)}`
+    }
+
     return (
         <div
             className="book"
@@ -30,9 +44,7 @@ export const BookCard = ({ id, favoriteId, title, category, year, images, favori
                 <p className="category">{category}</p>
                 <div className="book-createTime">
                     <p>{dayjs(createtime).format("DD.MM.YYYY")}</p>
-                    <p>
-                        {dayjs(createtime).get("hour")}:{dayjs(createtime).get("minute")}
-                    </p>
+                    <p>{createTimeText(createtime)}</p>
                 </div>
             </div>
 

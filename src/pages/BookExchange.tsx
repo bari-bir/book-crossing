@@ -4,15 +4,17 @@ import { CarouselRef } from "antd/es/carousel"
 import { useEffect, useState } from "react"
 import { AnnouncementAPI, announcementInfo } from "../api/announcementApi"
 import { LikeAndDislike } from "../components/LikeAndDislike"
-import UserProfile from "../assets/images/userProfile.png"
 import { useNavigate, useParams } from "react-router-dom"
 import TextArea from "antd/es/input/TextArea"
 import "../assets/styles/pages/bookExchange.scss"
 import { RequestAPI } from "../api/requestApi"
+import { UserApi } from "../api/userApi"
+import { CloudImage } from "../components/CloudImage"
 
 export const BookExchange = () => {
     const navigate = useNavigate()
     const { id } = useParams()
+    const { fetchData: fetchUserInfo } = UserApi("info")
     const { fetchData: fetchGetAnnoucementData } = AnnouncementAPI(`get?id=${id}`, "GET")
     const { fetchData: fetchCreateRequestData } = RequestAPI("create")
     let carouselRef: CarouselRef | null = null
@@ -25,6 +27,7 @@ export const BookExchange = () => {
         year: 0,
         location: "",
     })
+    const [userAvatar, setUserAvatar] = useState<string>("")
     const { message: messageToast } = App.useApp()
     const [message, setMessage] = useState<string>("")
 
@@ -37,6 +40,12 @@ export const BookExchange = () => {
         await fetchGetAnnoucementData(null).then((res) => {
             if (res.result_code === 0) {
                 setInfo(JSON.parse(JSON.stringify(res.data)))
+            }
+        })
+
+        fetchUserInfo({}).then((res) => {
+            if (res.result_code === 0) {
+                setUserAvatar(res.data.avatar)
             }
         })
     }
@@ -92,7 +101,7 @@ export const BookExchange = () => {
                 </div>
 
                 <div className="book-request">
-                    <img src={UserProfile} alt={"userProfile"} className="user-img" />
+                    <CloudImage src={userAvatar} className="user-img" isPreview={false} width={50} height={50} />
 
                     <div className="book-textArea">
                         <TextArea

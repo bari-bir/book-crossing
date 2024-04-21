@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import { BookCard } from "../components/BookCard"
-import "../assets/styles/pages/favorite.scss"
-import { AnnouncementAPI, announcementInfo } from "../api/announcementApi"
+import { BookCard } from "../../components/BookCard"
+import "../../assets/styles/pages/favorite.scss"
+import { AnnouncementAPI, announcementInfo } from "../../api/announcementApi"
 import { Empty } from "antd"
 
 export const Favorite = () => {
