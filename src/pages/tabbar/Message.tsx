@@ -61,39 +61,43 @@ export const Message = () => {
 
     return (
         <div className="message container">
-
             <div className="message-wrapper">
                 {Object.keys(groupData()).length ? (
-                    Object.keys(groupData()).map((messageTime, i) => (
-                        <div key={i}>
-                            <h3 className="message-time">{messageTime}</h3>
-                            {groupData()[messageTime].map((message) => (
-                                <div
-                                    key={message.id}
-                                    className="message-block"
-                                    onClick={() => setShowMore((showMore) => ({ [message.id]: !showMore[message.id] }))}>
-                                    <div className="info">
-                                        <span className="expand-icon" />
+                    Object.keys(groupData())
+                        .reverse()
+                        .map((messageTime, i) => (
+                            <div key={i}>
+                                <h3 className="message-time">{messageTime}</h3>
+                                {groupData()[messageTime].map((message) => (
+                                    <div
+                                        key={message.id}
+                                        className="message-block"
+                                        onClick={() => setShowMore((showMore) => ({ [message.id]: !showMore[message.id] }))}>
+                                        <div className="info">
+                                            <span className="expand-icon" />
 
-                                        <div className="user-info">
-                                            <CloudImage className="user-img" src={message.fromUser.avatar} isPreview={false}/> 
+                                            <div className="user-info">
+                                                <CloudImage className="user-img" src={message.fromUser.avatar} isPreview={false} />
 
-                                            <div>
-                                                <p className="user-name">{message.fromUser.fullName}</p>
-                                                {showMore[message.id] && <p className="user-and">{message.fromUser.phone}</p>}
-                                                <p
-                                                    className="user-ans"
-                                                    style={{ overflow: showMore[message.id] ? "auto" : "hidden", display: showMore[message.id] ? "block" : "-webkit-box" }}>
-                                                    {message.content}
-                                                </p>
+                                                <div>
+                                                    <p className="user-name">{message.fromUser.fullName}</p>
+                                                    {showMore[message.id] && <p className="user-and">{message.fromUser.phone}</p>}
+                                                    <p
+                                                        className="user-ans"
+                                                        style={{
+                                                            overflow: showMore[message.id] ? "auto" : "hidden",
+                                                            display: showMore[message.id] ? "block" : "-webkit-box",
+                                                        }}>
+                                                        {message.content}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div className="time">{dayjs(message.createtime).fromNow()}</div>
                                     </div>
-                                    <div className="time">{dayjs(message.createtime).fromNow()}</div>
-                                </div>
-                            ))}
-                        </div>
-                    ))
+                                ))}
+                            </div>
+                        ))
                 ) : (
                     <Empty />
                 )}
