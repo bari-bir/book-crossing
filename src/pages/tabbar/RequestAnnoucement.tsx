@@ -55,6 +55,7 @@ export const RequestAnnouncement = () => {
         fetchCreateNotificationData({
             content: messageNotification,
             toUserId: requestInfo?.creator,
+            requestId: requestInfo?.id,
         }).then((res) => {
             if (res.result_code === 0) {
                 setShowModal(false)
@@ -72,7 +73,7 @@ export const RequestAnnouncement = () => {
         if (startX === 0) return
         const currentX = e.touches[0].clientX
         const diffX = currentX - startX
-        const sensitivity = 50
+        const sensitivity = 100
         if (diffX > sensitivity) {
             switchTab("prev")
             setStartX(0)
@@ -233,8 +234,12 @@ const TabChild = ({ isRequest = false, onAction }: { isRequest?: boolean; onActi
 
                             <div className="book-btn">
                                 <Button onClick={() => onAction(request, false)}>Review</Button>
-                                <Button type="primary" onClick={() => onAction(request, true)}>
-                                    Accept
+                                <Button
+                                    type="primary"
+                                    disabled={request.status === "accepted"}
+                                    style={{ backgroundColor: request.status === "accepted" ? "#6d7885" : "#0a78d6", color: "#fff" }}
+                                    onClick={() => onAction(request, true)}>
+                                    {request.status === "created" ? "Accept" : "Accepted"}
                                 </Button>
                             </div>
                         </div>

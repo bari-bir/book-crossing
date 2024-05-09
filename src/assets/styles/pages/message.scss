@@ -12,10 +12,6 @@
         }
 
         .message-block {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 5px;
             padding: 20px 10px;
             margin-top: 20px;
             background-color: #fff;
@@ -24,55 +20,62 @@
                 0px 0px 2px 0px rgba(0, 0, 0, 0.03),
                 0px 0px 2px 0px rgba(0, 0, 0, 0.06);
 
-            .info {
+            .message-block-info {
                 display: flex;
-                align-items: center;
-                flex-direction: row;
-                flex: 1;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 5px;
 
-                .expand-icon {
-                    display: block;
-                    width: 6px;
-                    height: 6px;
-                    background-color: #c92323;
-                    border-radius: 100%;
-                    margin-right: 24px;
-                }
-
-                .user-info {
-                    flex: 1;
+                .info {
                     display: flex;
-                    align-items: flex-start;
-                    gap: 12px;
+                    align-items: center;
+                    flex-direction: row;
+                    flex: 1;
 
-
-                    .user-img {
-                        width: 42px;
-                        height: 42px;
-                        object-fit: contain;
-                        object-position: center center;
+                    .expand-icon {
+                        display: block;
+                        width: 6px;
+                        height: 6px;
+                        background-color: #c92323;
+                        border-radius: 100%;
+                        margin-right: 24px;
                     }
 
-                    .user-name {
-                        color: #1677ff;
-                        font-size: 14px;
-                        font-weight: 500;
-                        line-height: 18px;
-                    }
+                    .user-info {
+                        flex: 1;
+                        display: flex;
+                        align-items: flex-start;
+                        gap: 12px;
 
-                    .user-ans {
-                        height: auto;
-                        display: -webkit-box;
-                        -webkit-line-clamp: 1;
-                        -webkit-box-orient: vertical;
-                        overflow: hidden;
-                        white-space: pre-wrap;
-                        font-size: 11px;
-                        font-weight: 500;
-                        color: #6d7885;
-                        line-height: 15px;
+                        .user-img {
+                            width: 42px;
+                            height: 42px;
+                            object-fit: contain;
+                            object-position: center center;
+                        }
+
+                        .user-name {
+                            color: #1677ff;
+                            font-size: 14px;
+                            font-weight: 500;
+                            line-height: 18px;
+                        }
                     }
                 }
+            }
+
+            .user-ans {
+                height: auto;
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                white-space: pre-wrap;
+                font-size: 12px;
+                padding-top: 10px;
+                font-weight: 500;
+                color: #6d7885;
+                line-height: 18px;
             }
 
             &:first-child {
@@ -80,7 +83,7 @@
             }
 
             .time {
-                font-size: 13px; 
+                font-size: 13px;
                 line-height: 15px;
                 color: #6d7885;
                 font-weight: 400;
