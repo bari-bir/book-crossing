@@ -12,10 +12,10 @@
         .icon-bg {
             z-index: 101;
             color: rgba(10, 120, 214);
-            background-color: rgba(255, 255, 255, .5);
+            background-color: rgba(255, 255, 255, 0.5);
             box-shadow:
-            0px 0px 2px 0px rgba(0, 0, 0, 0.03),
-            0px 0px 2px 0px rgba(0, 0, 0, 0.06);
+                0px 0px 2px 0px rgba(0, 0, 0, 0.03),
+                0px 0px 2px 0px rgba(0, 0, 0, 0.06);
             border-radius: 5px;
         }
         .back-icon {
@@ -48,6 +48,7 @@
             height: 100vh;
             object-fit: cover;
             object-position: center;
+            filter: blur(4px);
         }
     }
 

@@ -17,7 +17,7 @@ export const TabbarMenu = () => {
     }
 
     return (
-        <div className="tabbar">
+        <div className="tabbar" style={{ display: location.pathname.indexOf("book") === -1 ? "flex" : "none" }}>
             <div className="tabbar-animation" style={{ transform: `translateX(${getTransform(routeIndexInfo[location.pathname])}px)` }}></div>
             <NavLink to="/" className={({ isActive }) => (isActive || location.pathname.indexOf("book-exchange") !== -1 ? "active-link" : "")}>
                 <div className="tabbar-block">

@@ -78,6 +78,7 @@ export const BookExchange = () => {
                         <LeftOutlined className="carousel-arrow left icon-bg" onClick={() => carouselRef?.prev()} />
                     </>
                 )}
+
                 <Carousel ref={(ref) => (carouselRef = ref)}>
                     {info.images.map((image, i) => (
                         <img key={i} src={image} className="img" alt="img" />
@@ -110,12 +111,12 @@ export const BookExchange = () => {
                             placeholder="Type  a  message here ..."
                             className="input-textArea"></TextArea>
                         <div className="book-btns">
-                            <p onClick={() => setMessage("")} className="delete-text">
+                            {/* <p onClick={() => setMessage("")} className="delete-text">
                                 Delete draft
-                            </p>
+                            </p> */}
 
                             <div className="send-block">
-                                <p className="time-text">Draft saves at 7:00 PM</p>
+                                {/* <p className="time-text">Draft saves at 7:00 PM</p> */}
                                 <Button className="btn-send" type="primary" onClick={onSend}>
                                     Send
                                 </Button>
