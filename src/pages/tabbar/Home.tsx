@@ -62,10 +62,10 @@ export const Home = () => {
     return (
         <div className="home container">
             <div className="home-header">
-                <div style={{ flex: 6 }} onClick={() => onCloseWin()}>
+                <div style={{ flex: 6 }}>
                     <CustomSearch onSearch={onSearch} />
                 </div>
-                <div className="home-exit-btn">
+                <div className="home-exit-btn" onClick={() => onCloseWin()}>
                     <CloseOutlined className="close-icon" />
                 </div>
             </div>
