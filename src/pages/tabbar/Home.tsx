@@ -4,6 +4,7 @@ import { BookCard } from "../../components/BookCard"
 import { CustomSearch } from "../../components/CustomSearch"
 import { AnnouncementAPI, announcementInfo } from "../../api/announcementApi"
 import { Empty } from "antd"
+import { CloseOutlined } from "@ant-design/icons"
 
 export const Home = () => {
     const [dataList, setDataList] = useState<announcementInfo[]>([])
@@ -52,9 +53,22 @@ export const Home = () => {
         return dataList
     }
 
+    const onCloseWin = () => {
+        if (window.ReactNativeWebView) {
+            window.ReactNativeWebView.postMessage(JSON.stringify({ key: "closeWin" }))
+        }
+    }
+
     return (
         <div className="home container">
-            <CustomSearch onSearch={onSearch} />
+            <div className="home-header">
+                <div style={{ flex: 6 }} onClick={() => onCloseWin()}>
+                    <CustomSearch onSearch={onSearch} />
+                </div>
+                <div className="home-exit-btn">
+                    <CloseOutlined className="close-icon" />
+                </div>
+            </div>
 
             <div className="book-list">
                 {searchList().length ? (

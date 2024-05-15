@@ -1,5 +1,5 @@
 .book {
-    padding: 10px 11px;
+    padding: 10px 0;
     border-radius: 12px;
     background-color: #fff;
     box-shadow:
@@ -22,17 +22,19 @@
 
     .book-Info {
         margin-top: 10px;
-
+        border-top: 0.5px solid rgba(0, 0, 0, 0.12);
+        padding: 0 11px;
         .book-title {
+            padding-top: 15px;
             height: auto;
             display: -webkit-box;
-            -webkit-line-clamp: 1;
+            -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
             white-space: pre-wrap;
             font-size: 15px;
             font-weight: 500;
-            line-height: 14px;
+            line-height: 18px;
             margin-right: 5px;
 
             .book-year {
@@ -41,12 +43,13 @@
             }
         }
         .category {
-            margin-top: 5px;
             font-size: 12px;
+            line-height: 15px;
             color: #6d7885;
         }
 
         .book-createTime {
+            margin-top: 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;

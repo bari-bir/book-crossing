@@ -34,7 +34,7 @@ export const BookCard = ({ id, favoriteId, title, category, year, images, favori
             }}>
             {images && (
                 <div className="image" onClick={(e) => e.stopPropagation()}>
-                    <CloudImage src={images[0]} height={111} width={"100%"} />
+                    <CloudImage src={images[0]} height={141} width={"100%"} />
                 </div>
             )}
             <div className="book-Info">
