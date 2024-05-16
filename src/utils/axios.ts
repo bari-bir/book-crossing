@@ -69,7 +69,6 @@ instance.interceptors.response.use(
 async function refreshAccessToken(): Promise<string> {
     const authToken = localStorage.getItem("token")
     const refreshToken = authToken ? JSON.parse(authToken).refreshToken : null
-    // alert(refreshToken)
     return axios
         .post(`${import.meta.env.VITE_API_URL}auth/refresh/token`, {
             refreshToken,
@@ -79,7 +78,7 @@ async function refreshAccessToken(): Promise<string> {
                 localStorage.setItem("token", JSON.stringify(res.data.data))
                 return res.data.data.token
             } else {
-                // console.error("Somethinh went wrong")
+                console.error("Somethinh went wrong")
                 throw Error("refresh token faild")
             }
         })
