@@ -104,6 +104,7 @@ export const RequestAnnouncement = () => {
             </div>
 
             <Drawer
+                style={{ borderRadius: "18px 18px 0 0", boxShadow: "none" }}
                 className="drawer-wrapper"
                 open={showDrawer}
                 onClose={() => setShowDrawer(false)}

@@ -68,7 +68,7 @@
 
                     .ant-btn-default {
                         width: 85px;
-                        border-width:  0.5px;
+                        border-width: 0.5px;
                         border-color: #212121;
                     }
                 }
@@ -107,7 +107,7 @@
         }
 
         .drawer-content {
-            margin: 31px 16px 0 16px;
+            margin: 31px 0 0 0;
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -169,5 +169,15 @@
         margin-top: 13px;
         width: 100%;
         background-color: #0a78d6;
+    }
+}
+
+.ant-drawer-content-wrapper {
+    box-shadow: none !important;
+    height: auto !important;
+
+    .ant-drawer-title {
+        color: #212121;
+        text-align: center;
     }
 }
